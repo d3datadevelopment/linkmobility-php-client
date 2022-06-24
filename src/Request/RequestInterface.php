@@ -17,7 +17,8 @@ declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\Request;
 
-use D3\LinkmobilityClient\Response\ResponseInterface;
+use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
+use D3\LinkmobilityClient\Response\ResponseInterface as LMResponseInterface;
 
 interface RequestInterface
 {
@@ -71,11 +72,11 @@ interface RequestInterface
     public function getResponseClass() : string;
 
     /**
-     * @param \Psr\Http\Message\ResponseInterface $rawResponse
+     * @param PsrResponseInterface $rawResponse
      *
-     * @return ResponseInterface
+     * @return LMResponseInterface
      */
-    public function getResponseInstance(\Psr\Http\Message\ResponseInterface $rawResponse): ResponseInterface;
+    public function getResponseInstance(PsrResponseInterface $rawResponse): LMResponseInterface;
 
     /**
      * Must return the options for this request. If there are none, return [] (empty array)
@@ -89,5 +90,5 @@ interface RequestInterface
      * This is called before sending the request
      * Must throw an exception if the validation fails
      */
-    public function validate() : void;
+    public function validate();
 }

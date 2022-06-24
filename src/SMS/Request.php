@@ -22,7 +22,9 @@ class Request
 {
     public function __construct( Sender $sender, SmsMessage $message)
     {
-        $this = new TextRequest($sender, $message);
+        // use factory pattern
+
+        //$this = new TextRequest($sender, $message);
         /*
         if ($message->isGsm7()) {
             return new TextRequest($sender, $message);

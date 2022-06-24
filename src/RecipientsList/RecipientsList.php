@@ -17,10 +17,15 @@ declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\RecipientsList;
 
+use D3\LinkmobilityClient\Exceptions\ExceptionMessages;
+use D3\LinkmobilityClient\Exceptions\RecipientException;
 use D3\LinkmobilityClient\ValueObject\Recipient;
+use Iterator;
+use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberType;
+use libphonenumber\PhoneNumberUtil;
 
-class RecipientsList implements RecipientsListInterface, \Iterator
+class RecipientsList implements RecipientsListInterface, Iterator
 {
     /**
      * @var array
@@ -29,20 +34,28 @@ class RecipientsList implements RecipientsListInterface, \Iterator
 
     public function add(Recipient $recipient) : RecipientsListInterface
     {
-        $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        $phoneUtil = PhoneNumberUtil::getInstance();
         try {
-            $phoneNumber = $phoneUtil->parse($recipient->get(), $recipient->getCountryCode());
+            $phoneNumber = $phoneUtil->parse( $recipient->get(), $recipient->getCountryCode() );
 
-            if (false === $phoneUtil->isValidNumber($phoneNumber)) {
-                throw new \D3\LinkmobilityClient\Exceptions\RecipientException('invalid recipient phone number');
-            } elseif (false === in_array($phoneUtil->getNumberType($phoneNumber), [PhoneNumberType::MOBILE, PhoneNumberType::FIXED_LINE_OR_MOBILE])) {
-                throw new \D3\LinkmobilityClient\Exceptions\RecipientException('not a mobile number');
+            if ( false === $phoneUtil->isValidNumber( $phoneNumber ) ) {
+                throw new RecipientException( ExceptionMessages::INVALID_RECIPIENT_PHONE );
+            } elseif (
+                false === in_array(
+                    $phoneUtil->getNumberType( $phoneNumber ),
+                    [
+                        PhoneNumberType::MOBILE,
+                        PhoneNumberType::FIXED_LINE_OR_MOBILE
+                    ]
+                )
+            ) {
+                throw new RecipientException( ExceptionMessages::NOT_A_MOBILE_NUMBER );
             }
 
-            $this->recipients[md5(serialize($recipient))] = $recipient;
-        } catch (\libphonenumber\NumberParseException $e) {
+            $this->recipients[ md5( serialize( $recipient ) ) ] = $recipient;
+        } catch (NumberParseException $e) {
 //            var_dump($e);
-        } catch (\D3\LinkmobilityClient\Exceptions\RecipientException $e) {
+        } catch (RecipientException $e) {
 //            var_dump($e);
         }
         
@@ -68,16 +81,25 @@ class RecipientsList implements RecipientsListInterface, \Iterator
         );
     }
 
+    /**
+     * @return array
+     */
     public function getRecipientsList() : array
     {
         return $this->recipients;
     }
 
+    /**
+     * @return false|mixed
+     */
     public function current()
     {
         return current($this->recipients);
     }
 
+    /**
+     * @return false|mixed|void
+     */
     public function next()
     {
         return next($this->recipients);
@@ -93,10 +115,8 @@ class RecipientsList implements RecipientsListInterface, \Iterator
         return reset($this->recipients);
     }
 
-    public function valid()
+    public function valid(): bool
     {
-        return (false !== current($this->recipients) && current($this->recipients) instanceof Recipient);
+        return current($this->recipients) instanceof Recipient;
     }
-
-    //stract methods and must therefore be declared abstract or implement the remaining methods (Iterator::current, Iterator::next, Iterator::key, ...) in
 }

@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace D3\LinkmobilityClient\ValueObject;
 
 use Assert\Assert;
-use libphonenumber\PhoneNumberType;
+use libphonenumber\NumberParseException;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberUtil;
 
 class Recipient extends StringValueObject
 {
@@ -18,11 +20,11 @@ class Recipient extends StringValueObject
     {
         Assert::that($iso2CountryCode)->string()->length(2);
 
-        $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        $phoneUtil = PhoneNumberUtil::getInstance();
         try {
             $phoneNumber = $phoneUtil->parse($number, strtoupper($iso2CountryCode));
-            $number = ltrim($phoneUtil->format($phoneNumber, \libphonenumber\PhoneNumberFormat::E164), '+');
-        } catch (\libphonenumber\NumberParseException $e) {
+            $number = ltrim($phoneUtil->format($phoneNumber, PhoneNumberFormat::E164), '+');
+        } catch ( NumberParseException $e) {
             var_dump($e);
         }
 

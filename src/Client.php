@@ -13,12 +13,16 @@
  * @link          http://www.oxidmodule.com
  */
 
+declare( strict_types = 1 );
+
 namespace D3\LinkmobilityClient;
 
 use D3\LinkmobilityClient\Exceptions\ApiException;
+use D3\LinkmobilityClient\Exceptions\ExceptionMessages;
 use D3\LinkmobilityClient\Request\RequestInterface;
-use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
+use RuntimeException;
 
 class Client
 {
@@ -29,7 +33,7 @@ class Client
     public function __construct(string $accessToken, $apiUrl = false, $client = false)
     {
         if ($apiUrl !== false && false === $apiUrl instanceof UrlInterface) {
-            throw new \RuntimeException('ApiUrl instance must implement UrlInterface');
+            throw new RuntimeException(ExceptionMessages::WRONG_APIURL_INTERFACE);
         }
 
         $this->accessToken = $accessToken;
@@ -37,10 +41,16 @@ class Client
         $this->requestClient = $client ?: new \GuzzleHttp\Client( [ 'base_uri' => $this->apiUrl->getBaseUri() ] );
     }
 
-    public function request(RequestInterface $request) : \D3\LinkmobilityClient\Response\ResponseInterface
+    /**
+     * @param RequestInterface $request
+     *
+     * @return Response\ResponseInterface
+     * @throws ApiException
+     * @throws GuzzleException
+     */
+    public function request(RequestInterface $request) : Response\ResponseInterface
     {
         $request->validate();
-        $responseClass = $request->getResponseClass();
 
         return $request->getResponseInstance(
             $this->rawRequest($request->getUri(), $request->getMethod(), $request->getOptions())
@@ -50,7 +60,7 @@ class Client
     /**
      * @param        $url
      * @param string $method
-     * @param array  $postArgs
+     * @param array  $options
      *
      * @return ResponseInterface
      * @throws ApiException
@@ -67,7 +77,9 @@ class Client
         );
 
         if ($response->getStatusCode() != 200) {
-            throw new ApiException('request '.$url.' returns status code '.$response->getStatusCode());
+            throw new ApiException(
+                sprintf(ExceptionMessages::NOK_REQUEST_RETURN, [$url, $response->getStatusCode()])
+            );
         }
 
         return $response;

@@ -23,10 +23,9 @@ use D3\LinkmobilityClient\RecipientsList\RecipientsListInterface;
 use D3\LinkmobilityClient\Response\ResponseInterface;
 use D3\LinkmobilityClient\ValueObject\Recipient;
 use D3\LinkmobilityClient\ValueObject\Sender;
-use D3\LinkmobilityClient\ValueObject\SmsMessage;
 use D3\LinkmobilityClient\ValueObject\StringValueObject;
 use GuzzleHttp\RequestOptions;
-use OxidEsales\Eshop\Core\Registry;
+use InvalidArgumentException;
 
 abstract class Request implements RequestInterface
 {
@@ -38,7 +37,7 @@ abstract class Request implements RequestInterface
     /**
      * @var string
      */
-    private $method = RequestInterface::METHOD_GET;
+    private $method = RequestInterface::METHOD_POST;
 
     /**
      * @var string
@@ -81,7 +80,7 @@ abstract class Request implements RequestInterface
     private $sendAsFlashSms = false;
 
     /**
-     * @var string|null
+     * @var Sender|null
      */
     private $senderAddress = null;
 
@@ -105,6 +104,9 @@ abstract class Request implements RequestInterface
      */
     private $maxSmsPerMessage = 0;
 
+    /**
+     * @param StringValueObject $message
+     */
     public function __construct(StringValueObject $message)
     {
         $this->recipientsList = new RecipientsList();
@@ -116,7 +118,7 @@ abstract class Request implements RequestInterface
     /**
      * @throws InvalidArgumentException
      */
-    public function validate(): void
+    public function validate()
     {
         Assert::that( $this->getMethod() )->choice( self::getMethods() );
         Assert::that( $this->getUri() )->string()->startsWith( '/' );
@@ -134,10 +136,10 @@ abstract class Request implements RequestInterface
         Assert::thatNullOr( $this->getContentCategory() )->choice(self::getContentCategories());
         Assert::thatNullOr( $this->getNotificationCallbackUrl() )->url();
         Assert::thatNullOr( $this->getPriority() )->integer();
-        Assert::thatNullOr( $this->getSendAsFlashSms() )->boolean();
+        Assert::thatNullOr( $this->doSendAsFlashSms() )->boolean();
         Assert::thatNullOr( $this->getSenderAddress() )->isInstanceOf(Sender::class);
         Assert::thatNullOr( $this->getSenderAddressType() )->choice(self::getSenderAddressTypes());
-        Assert::thatNullOr( $this->isTest() )->boolean();
+        Assert::thatNullOr( $this->getTestMode() )->boolean();
         Assert::thatNullOr( $this->getValidityPeriode() )->integer();
     }
 
@@ -152,10 +154,10 @@ abstract class Request implements RequestInterface
             'notificationCallbackUrl'   => $this->getNotificationCallbackUrl(),
             'priority'          => $this->getPriority(),
             'recipientAddressList'  => $this->getRecipientsList()->getRecipients(),
-            'sendAsFlashSms'    => $this->getSendAsFlashSms(),
+            'sendAsFlashSms'    => $this->doSendAsFlashSms(),
             'senderAddress'     => $this->getSenderAddress() ? $this->getSenderAddress()->get() : null,
             'senderAddressType' => $this->getSenderAddressType(),
-            'test'              => $this->isTest(),
+            'test'              => $this->getTestMode(),
             'validityPeriode'   => $this->getValidityPeriode()
         ];
     }
@@ -187,7 +189,12 @@ abstract class Request implements RequestInterface
         );
     }
 
-    public function setMessage(StringValueObject $message)
+    /**
+     * @param StringValueObject $message
+     *
+     * @return $this
+     */
+    public function setMessage(StringValueObject $message): Request
     {
         $this->message = $message;
 
@@ -199,7 +206,12 @@ abstract class Request implements RequestInterface
         return $this->message;
     }
 
-    public function setMethod(string $method)
+    /**
+     * @param string $method
+     *
+     * @return $this
+     */
+    public function setMethod(string $method): Request
     {
         $this->method = $method;
 
@@ -222,7 +234,12 @@ abstract class Request implements RequestInterface
         ];
     }
 
-    public function setContentType(string $contentType)
+    /**
+     * @param string $contentType
+     *
+     * @return $this
+     */
+    public function setContentType(string $contentType): Request
     {
         $this->contentType = $contentType;
 
@@ -234,7 +251,12 @@ abstract class Request implements RequestInterface
         return $this->contentType;
     }
 
-    public function setClientMessageId($clientMessageId)
+    /**
+     * @param $clientMessageId
+     *
+     * @return $this
+     */
+    public function setClientMessageId($clientMessageId): Request
     {
         $this->clientMessageId = $clientMessageId;
 
@@ -246,7 +268,12 @@ abstract class Request implements RequestInterface
         return $this->clientMessageId;
     }
 
-    public function setContentCategory(string $contentCategory)
+    /**
+     * @param string $contentCategory
+     *
+     * @return $this
+     */
+    public function setContentCategory(string $contentCategory): Request
     {
         $this->contentCategory = $contentCategory;
 
@@ -266,19 +293,29 @@ abstract class Request implements RequestInterface
         ];
     }
 
-    public function setTest(bool $test)
+    /**
+     * @param bool $test
+     *
+     * @return $this
+     */
+    public function setTestMode(bool $test): Request
     {
         $this->test = $test;
 
         return $this;
     }
 
-    public function isTest() : bool
+    public function getTestMode() : bool
     {
         return $this->test;
     }
 
-    public function setMaxSmsPerMessage(int $maxSmsPerMessage)
+    /**
+     * @param int $maxSmsPerMessage
+     *
+     * @return $this
+     */
+    public function setMaxSmsPerMessage(int $maxSmsPerMessage): Request
     {
         $this->maxSmsPerMessage = $maxSmsPerMessage;
 
@@ -290,7 +327,12 @@ abstract class Request implements RequestInterface
         return $this->maxSmsPerMessage;
     }
 
-    public function setMessageType(string $messageType)
+    /**
+     * @param string $messageType
+     *
+     * @return $this
+     */
+    public function setMessageType(string $messageType): Request
     {
         $this->messageType = $messageType;
 
@@ -303,11 +345,11 @@ abstract class Request implements RequestInterface
     }
 
     /**
-     * @param string|null $notificationCallbackUrl
+     * @param string $notificationCallbackUrl
      *
      * @return $this
      */
-    public function setNotificationCallbackUrl($notificationCallbackUrl)
+    public function setNotificationCallbackUrl(string $notificationCallbackUrl): Request
     {
         $this->notificationCallbackUrl = $notificationCallbackUrl;
 
@@ -323,11 +365,11 @@ abstract class Request implements RequestInterface
     }
 
     /**
-     * @param string|null $priority
+     * @param int $priority
      *
      * @return $this
      */
-    public function setPriority($priority)
+    public function setPriority(int $priority): Request
     {
         $this->priority = $priority;
 
@@ -335,7 +377,7 @@ abstract class Request implements RequestInterface
     }
 
     /**
-     * @return string|null
+     * @return int|null
      */
     public function getPriority()
     {
@@ -351,11 +393,11 @@ abstract class Request implements RequestInterface
     }
 
     /**
-     * @param array $recipientList
+     * @param bool $flashSms
      *
      * @return $this
      */
-    public function setSendAsFlashSms(bool $flashSms)
+    public function sendAsFlashSms(bool $flashSms): Request
     {
         $this->sendAsFlashSms = $flashSms;
 
@@ -363,9 +405,9 @@ abstract class Request implements RequestInterface
     }
 
     /**
-     * @return string|null
+     * @return bool|null
      */
-    public function getSendAsFlashSms() : bool
+    public function doSendAsFlashSms() : bool
     {
         return $this->sendAsFlashSms;
     }
@@ -375,7 +417,7 @@ abstract class Request implements RequestInterface
      *
      * @return $this
      */
-    public function setSenderAddress(Sender $senderAddress)
+    public function setSenderAddress(Sender $senderAddress): Request
     {
         $this->senderAddress = $senderAddress;
 
@@ -391,11 +433,11 @@ abstract class Request implements RequestInterface
     }
 
     /**
-     * @param $senderAddressType
+     * @param string $senderAddressType
      *
      * @return $this
      */
-    public function setSenderAddressType($senderAddressType)
+    public function setSenderAddressType(string $senderAddressType): Request
     {
         $this->senderAddressType = $senderAddressType;
 
@@ -410,22 +452,25 @@ abstract class Request implements RequestInterface
         return $this->senderAddressType;
     }
 
+    /**
+     * @return array
+     */
     public static function getSenderAddressTypes(): array
     {
         return [
             RequestInterface::SENDERADDRESSTYPE_ALPHANUMERIC    => RequestInterface::SENDERADDRESSTYPE_ALPHANUMERIC,
-            RequestInterface::SENDERADDRESSTYPE_INTERNATIONAL    => RequestInterface::SENDERADDRESSTYPE_INTERNATIONAL,
-            RequestInterface::SENDERADDRESSTYPE_NATIONAL    => RequestInterface::SENDERADDRESSTYPE_NATIONAL,
-            RequestInterface::SENDERADDRESSTYPE_SHORTCODE    => RequestInterface::SENDERADDRESSTYPE_SHORTCODE
+            RequestInterface::SENDERADDRESSTYPE_INTERNATIONAL   => RequestInterface::SENDERADDRESSTYPE_INTERNATIONAL,
+            RequestInterface::SENDERADDRESSTYPE_NATIONAL        => RequestInterface::SENDERADDRESSTYPE_NATIONAL,
+            RequestInterface::SENDERADDRESSTYPE_SHORTCODE       => RequestInterface::SENDERADDRESSTYPE_SHORTCODE
         ];
     }
 
     /**
-     * @param $validityPeriode
+     * @param int $validityPeriode
      *
      * @return $this
      */
-    public function setValidityPeriode($validityPeriode)
+    public function setValidityPeriode( int $validityPeriode): Request
     {
         $this->validityPeriode = $validityPeriode;
 
@@ -441,6 +486,8 @@ abstract class Request implements RequestInterface
     }
 
     /**
+     * @param \Psr\Http\Message\ResponseInterface $rawResponse
+     *
      * @return ResponseInterface
      */
     public function getResponseInstance(\Psr\Http\Message\ResponseInterface $rawResponse): ResponseInterface

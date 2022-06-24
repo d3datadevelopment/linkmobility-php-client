@@ -13,13 +13,17 @@
  * @link          http://www.oxidmodule.com
  */
 
-declare(strict_types=1);
-
 namespace D3\LinkmobilityClient\Exceptions;
 
-use Exception;
-
-class LinkmobilityException extends Exception
+class ExceptionMessages
 {
+    const INVALID_SENDER            = 'invalid sender phone number';
 
+    const WRONG_APIURL_INTERFACE    = 'ApiUrl instance must implement UrlInterface';
+
+    const NOK_REQUEST_RETURN        = 'request %1$s returns status code %2$s';
+
+    const INVALID_RECIPIENT_PHONE   = 'invalid recipient phone number';
+
+    const NOT_A_MOBILE_NUMBER       = 'not a mobile number';
 }

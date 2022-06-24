@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\ValueObject;
 
-use Assert\Assert;
 use Phlib\SmsLength\SmsLength;
 
 class SmsMessage extends StringValueObject
@@ -31,10 +30,13 @@ class SmsMessage extends StringValueObject
         return $smsLength->getMessageCount();
     }
 
+    /**
+     * @return int
+     */
     public function length() : int
     {
         $smsLength = new SmsLength($this->value);
-        $smsLength->getSize();
+        return $smsLength->getSize();
     }
 
     public function isGsm7() : bool

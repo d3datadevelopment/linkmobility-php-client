@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\Response;
 
-use Assert\Assert;
-
 abstract class Response implements ResponseInterface
 {
     const STATUSCODE        = 'statusCode';
