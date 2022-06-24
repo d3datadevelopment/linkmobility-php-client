@@ -12,9 +12,9 @@ class SmsMessage extends StringValueObject
     const GSM_7BIT = '7-bit';
     const GSM_UCS2 = 'ucs-2';
 
-    public function __construct(string $value)
+    public function __construct(string $number)
     {
-        parent::__construct($value);
+        parent::__construct( $number);
 
         $smsLength = new SmsLength($this->value);
         $smsLength->validate();

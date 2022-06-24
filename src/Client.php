@@ -15,7 +15,10 @@
 
 namespace D3\LinkmobilityClient;
 
+use D3\LinkmobilityClient\Exceptions\ApiException;
 use D3\LinkmobilityClient\Request\RequestInterface;
+use GuzzleHttp\RequestOptions;
+use Psr\Http\Message\ResponseInterface;
 
 class Client
 {
@@ -34,10 +37,11 @@ class Client
         $this->requestClient = $client ?: new \GuzzleHttp\Client( [ 'base_uri' => $this->apiUrl->getBaseUri() ] );
     }
 
-    public function request(RequestInterface $request) : ResponseInterface
+    public function request(RequestInterface $request) : \D3\LinkmobilityClient\Response\ResponseInterface
     {
         $request->validate();
         $responseClass = $request->getResponseClass();
+
         return $request->getResponseInstance(
             $this->rawRequest($request->getUri(), $request->getMethod(), $request->getOptions())
         );
@@ -48,22 +52,14 @@ class Client
      * @param string $method
      * @param array  $postArgs
      *
-     * @return string
+     * @return ResponseInterface
      * @throws ApiException
      * @throws GuzzleException
      */
-    protected function rawRequest( $url, string $method = RequestInterface::METHOD_GET, array $options = []): string
+    protected function rawRequest( $url, string $method = RequestInterface::METHOD_GET, array $options = []): ResponseInterface
     {
-        $options['headers']['Authorization'] = 'access_token '.$this->accessToken;
-        
-        if (!empty($body)) {
-            $options['json'] = $body;
-        }
-        dumpvar(__METHOD__.__LINE__.PHP_EOL);
-dumpvar($options);
-dumpVar($method);
-dumpvar($url);
-die();
+        $options['headers']['Authorization'] = 'Bearer '.$this->accessToken;
+
         $response = $this->requestClient->request(
             $method,
             $url,

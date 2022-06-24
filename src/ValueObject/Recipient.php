@@ -5,21 +5,36 @@ declare(strict_types=1);
 namespace D3\LinkmobilityClient\ValueObject;
 
 use Assert\Assert;
+use libphonenumber\PhoneNumberType;
 
 class Recipient extends StringValueObject
 {
-    public function __construct(string $value)
+    /**
+     * @var string
+     */
+    private $countryCode;
+
+    public function __construct(string $number, string $iso2CountryCode)
     {
-        // ohne +, dafür mit Ländervorwahl
-        // eine führende 0 scheint lokale Version
-        // zwei führende Nullen einfach weggeschnitten
+        Assert::that($iso2CountryCode)->string()->length(2);
 
-        //https://github.com/matmar10/msisdn-format-bundle/blob/master/Matmar10/Bundle/MsisdnFormatBundle/Resources/config/msisdn-country-formats.xml
+        $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        try {
+            $phoneNumber = $phoneUtil->parse($number, strtoupper($iso2CountryCode));
+            $number = ltrim($phoneUtil->format($phoneNumber, \libphonenumber\PhoneNumberFormat::E164), '+');
+        } catch (\libphonenumber\NumberParseException $e) {
+            var_dump($e);
+        }
 
+        parent::__construct($number);
+        $this->countryCode = $iso2CountryCode;
+    }
 
-        // valid formats can be found here: https://linkmobility.atlassian.net/wiki/spaces/COOL/pages/26017807/08.+Messages#id-08.Messages-recipients
-        Assert::that($value)->regex('/^(\+|c)?[0-9]+$/i', 'Recipient does not match valid phone number.');
-
-        parent::__construct($value);
+    /**
+     * @return string
+     */
+    public function getCountryCode() :string
+    {
+        return $this->countryCode;
     }
 }

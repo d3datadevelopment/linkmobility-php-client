@@ -13,17 +13,9 @@
  * @link          http://www.oxidmodule.com
  */
 
-declare(strict_types=1);
+namespace D3\LinkmobilityClient\Exceptions;
 
-namespace D3\LinkmobilityClient\RecipientsList;
-
-use D3\LinkmobilityClient\ValueObject\Recipient;
-
-interface RecipientsListInterface
+class ApiException extends LinkmobilityException
 {
-    public function add(Recipient $recipient) : RecipientsListInterface;
 
-    public function clearRecipents() : RecipientsListInterface;
-
-    public function getRecipients() : array;
 }

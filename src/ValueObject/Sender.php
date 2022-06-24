@@ -8,13 +8,22 @@ use Assert\Assert;
 
 class Sender extends StringValueObject
 {
-    public function __construct(string $value)
+    public function __construct(string $number, string $iso2CountryCode)
     {
-        // if the sender is alphanumeric, test the length
-        if (!preg_match('/^\+[0-9]+$/i', $value)) {
-            Assert::that($value)->maxLength(11);
+        Assert::that($iso2CountryCode)->string()->length(2);
+
+        $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        try {
+            $phoneNumber = $phoneUtil->parse( $number, strtoupper($iso2CountryCode) );
+            $number      = $phoneUtil->format( $phoneNumber, \libphonenumber\PhoneNumberFormat::E164 );
+
+            if (false === $phoneUtil->isValidNumber($phoneNumber)) {
+                throw new \D3\LinkmobilityClient\Exceptions\RecipientException( 'invalid sender phone number' );
+            }
+        } catch (\libphonenumber\NumberParseException $e) {
+            var_dump($e);
         }
 
-        parent::__construct($value);
+        parent::__construct( $number);
     }
 }

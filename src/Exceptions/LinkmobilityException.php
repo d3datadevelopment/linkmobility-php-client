@@ -15,15 +15,9 @@
 
 declare(strict_types=1);
 
-namespace D3\LinkmobilityClient\RecipientsList;
+namespace D3\LinkmobilityClient\Exceptions;
 
-use D3\LinkmobilityClient\ValueObject\Recipient;
-
-interface RecipientsListInterface
+class LinkmobilityException extends \Exception
 {
-    public function add(Recipient $recipient) : RecipientsListInterface;
 
-    public function clearRecipents() : RecipientsListInterface;
-
-    public function getRecipients() : array;
 }

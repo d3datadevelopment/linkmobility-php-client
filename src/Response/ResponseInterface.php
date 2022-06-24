@@ -6,24 +6,21 @@ namespace D3\LinkmobilityClient\Response;
 
 interface ResponseInterface
 {
-    /**
-     * Should instantiate the object from the data given
-     */
-    public function init() : void;
+    public function __construct(\Psr\Http\Message\ResponseInterface $rawResponse);
 
-    public function __construct(array $data);
+    public function getRawResponse() : \Psr\Http\Message\ResponseInterface;
 
-    /**
-     * Must return true if the request was successful
-     *
-     * @return bool
-     */
-    public function isSuccessful() : bool;
+    public function getInternalStatus() : int;
 
-    /**
-     * This must return the error, if any occurred, else it must return ''
-     *
-     * @return string
-     */
-    public function getError() : string;
+    public function getStatusMessage() : string;
+
+    public function getClientMessageId();
+
+    public function getTransferId();
+
+    public function getSmsCount() : int;
+
+    public function isSuccessful(): bool;
+
+    public function getErrorMessage(): string;
 }

@@ -19,7 +19,7 @@
     ],
     "require": {
         "php": "^7.0",
-        "beberlei/assert": "^2.7",
+        "beberlei/assert": "^2.9",
         "guzzlehttp/guzzle": "~6.2",
         "psr/http-message": "~1.0",
         "symfony/options-resolver": "^3.0|^4.0",

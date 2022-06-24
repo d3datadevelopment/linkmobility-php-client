@@ -8,11 +8,11 @@ use Assert\Assert;
 
 abstract class StringValueObject extends ValueObject
 {
-    public function __construct(string $value)
+    public function __construct(string $number)
     {
-        Assert::that($value)->notEmpty();
+        Assert::that( $number)->notEmpty();
 
-        $this->value = $value;
+        $this->value = $number;
     }
 
     public function __toString()

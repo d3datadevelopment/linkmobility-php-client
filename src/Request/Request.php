@@ -25,6 +25,7 @@ use D3\LinkmobilityClient\ValueObject\Recipient;
 use D3\LinkmobilityClient\ValueObject\Sender;
 use D3\LinkmobilityClient\ValueObject\SmsMessage;
 use D3\LinkmobilityClient\ValueObject\StringValueObject;
+use GuzzleHttp\RequestOptions;
 use OxidEsales\Eshop\Core\Registry;
 
 abstract class Request implements RequestInterface
@@ -125,7 +126,8 @@ abstract class Request implements RequestInterface
         Assert::that($this->getOptions())->isArray();
 
         Assert::that( $this->getRecipientsList() )->isInstanceOf(RecipientsList::class)->notEmpty();
-        Assert::thatAll( $this->getRecipientsList() )->isInstanceOf( Recipient::class );
+        Assert::that( $this->getRecipientsList()->getRecipients())->notEmpty();
+        Assert::thatAll( $this->getRecipientsList() )->isInstanceOf( Recipient::class )->notEmpty();
 
         // optional properties
         Assert::thatNullOr( $this->getClientMessageId() )->string();
@@ -151,10 +153,10 @@ abstract class Request implements RequestInterface
             'priority'          => $this->getPriority(),
             'recipientAddressList'  => $this->getRecipientsList()->getRecipients(),
             'sendAsFlashSms'    => $this->getSendAsFlashSms(),
-            'senderAddress'     => $this->getSenderAddress()->get(),
+            'senderAddress'     => $this->getSenderAddress() ? $this->getSenderAddress()->get() : null,
             'senderAddressType' => $this->getSenderAddressType(),
             'test'              => $this->isTest(),
-            'validityPeriode'    => $this->getValidityPeriode()
+            'validityPeriode'   => $this->getValidityPeriode()
         ];
     }
 
@@ -166,7 +168,7 @@ abstract class Request implements RequestInterface
 
         switch ($this->getContentType()) {
             case RequestInterface::CONTENTTYPE_JSON:
-                return ['json'  => json_encode($body)];
+                return [RequestOptions::JSON  => $body];
             default:
                 return $body;
         }
@@ -180,7 +182,6 @@ abstract class Request implements RequestInterface
                     'Accept'            => $this->contentType,
                     'Content-Type'      => $this->contentType,
                 ]
-
             ],
             $this->getBody()
         );
@@ -382,9 +383,9 @@ abstract class Request implements RequestInterface
     }
 
     /**
-     * @return string|null
+     * @return Sender|null
      */
-    public function getSenderAddress() : Sender
+    public function getSenderAddress()
     {
         return $this->senderAddress;
     }
@@ -444,6 +445,7 @@ abstract class Request implements RequestInterface
      */
     public function getResponseInstance(\Psr\Http\Message\ResponseInterface $rawResponse): ResponseInterface
     {
-        return new $this->getResponseClass($rawResponse);
+        $FQClassName = $this->getResponseClass();
+        return new $FQClassName($rawResponse);
     }
 }

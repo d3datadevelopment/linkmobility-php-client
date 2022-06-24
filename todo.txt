@@ -1,0 +1,2 @@
+RecipientsList als eigene Klasse
+Debug mit none, error, all log

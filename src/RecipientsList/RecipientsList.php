@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace D3\LinkmobilityClient\RecipientsList;
 
 use D3\LinkmobilityClient\ValueObject\Recipient;
+use libphonenumber\PhoneNumberType;
 
 class RecipientsList implements RecipientsListInterface, \Iterator
 {
@@ -26,14 +27,33 @@ class RecipientsList implements RecipientsListInterface, \Iterator
      */
     private $recipients = [];
 
-    public function add(Recipient $recipient)
+    public function add(Recipient $recipient) : RecipientsListInterface
     {
-        $this->recipients[md5(serialize($recipient))] = $recipient;
+        $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        try {
+            $phoneNumber = $phoneUtil->parse($recipient->get(), $recipient->getCountryCode());
+
+            if (false === $phoneUtil->isValidNumber($phoneNumber)) {
+                throw new \D3\LinkmobilityClient\Exceptions\RecipientException('invalid recipient phone number');
+            } elseif (false === in_array($phoneUtil->getNumberType($phoneNumber), [PhoneNumberType::MOBILE, PhoneNumberType::FIXED_LINE_OR_MOBILE])) {
+                throw new \D3\LinkmobilityClient\Exceptions\RecipientException('not a mobile number');
+            }
+
+            $this->recipients[md5(serialize($recipient))] = $recipient;
+        } catch (\libphonenumber\NumberParseException $e) {
+//            var_dump($e);
+        } catch (\D3\LinkmobilityClient\Exceptions\RecipientException $e) {
+//            var_dump($e);
+        }
+        
+        return $this;
     }
 
-    public function clearRecipents()
+    public function clearRecipents() : RecipientsListInterface
     {
         $this->recipients = [];
+
+        return $this;
     }
 
     public function getRecipients() : array

@@ -133,7 +133,7 @@ class TextRequest extends \D3\LinkmobilityClient\Request\Request
 
     public function getUri(): string
     {
-        return '/smsmessaging/text/';
+        return '/rest/smsmessaging/text';
     }
 
     public function validate(): void
