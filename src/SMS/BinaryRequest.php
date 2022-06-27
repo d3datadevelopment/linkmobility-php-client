@@ -19,24 +19,34 @@ namespace D3\LinkmobilityClient\SMS;
 
 use Assert\Assert;
 use D3\LinkmobilityClient\Request\Request;
-use D3\LinkmobilityClient\ValueObject\SmsMessageInterface;
-use D3\LinkmobilityClient\ValueObject\SmsTextMessage;
+use D3\LinkmobilityClient\ValueObject\SmsBinaryMessage;
+use D3\LinkmobilityClient\ValueObject\SmsMessage;
 
-class TextRequest extends Request implements SmsRequestInterface
+class BinaryRequest extends Request implements SmsRequestInterface
 {
     /**
      * @return string
      */
     public function getUri(): string
     {
-        return '/rest/smsmessaging/text';
+        return '/rest/smsmessaging/binary';
+    }
+
+    public function getRawBody() : array
+    {
+        return array_merge(
+            parent::getRawBody(),
+            [
+                'userDataHeaderPresent' => true
+            ]
+        );
     }
 
     public function validate()
     {
         parent::validate();
 
-        Assert::thatNullOr( $this->getMessage() )->isInstanceOf(SmsTextMessage::class);
+        Assert::thatNullOr( $this->getMessage() )->isInstanceOf(SmsBinaryMessage::class);
     }
 
     /**
@@ -45,16 +55,5 @@ class TextRequest extends Request implements SmsRequestInterface
     public function getResponseClass(): string
     {
         return Response::class;
-    }
-
-    public function getRawBody() : array
-    {
-        return array_merge(
-            parent::getRawBody(),
-            [
-                'maxSmsPerMessage'  => $this->getMaxSmsPerMessage(),
-                'messageType'       => $this->getMessageType(),
-            ]
-        );
     }
 }

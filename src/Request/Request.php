@@ -23,6 +23,8 @@ use D3\LinkmobilityClient\RecipientsList\RecipientsListInterface;
 use D3\LinkmobilityClient\Response\ResponseInterface;
 use D3\LinkmobilityClient\ValueObject\Recipient;
 use D3\LinkmobilityClient\ValueObject\Sender;
+use D3\LinkmobilityClient\ValueObject\SmsMessageAbstract;
+use D3\LinkmobilityClient\ValueObject\SmsMessageInterface;
 use D3\LinkmobilityClient\ValueObject\StringValueObject;
 use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
@@ -30,7 +32,7 @@ use InvalidArgumentException;
 abstract class Request implements RequestInterface
 {
     /**
-     * @var StringValueObject
+     * @var SmsMessageInterface
      */
     private $message;
 
@@ -105,9 +107,9 @@ abstract class Request implements RequestInterface
     private $maxSmsPerMessage = 0;
 
     /**
-     * @param StringValueObject $message
+     * @param SmsMessageAbstract $message
      */
-    public function __construct(StringValueObject $message)
+    public function __construct(SmsMessageInterface $message)
     {
         $this->recipientsList = new RecipientsList();
         $this->setMessage( $message );
@@ -148,9 +150,7 @@ abstract class Request implements RequestInterface
         return [
             'clientMessageId'   => $this->getClientMessageId(),
             'contentCategory'   => $this->getContentCategory(),
-            'maxSmsPerMessage'  => $this->getMaxSmsPerMessage(),
-            'messageContent'    => (string) $this->getMessage(),
-            'messageType'       => $this->getMessageType(),
+            'messageContent'    => $this->getMessage()->getMessageContent(),
             'notificationCallbackUrl'   => $this->getNotificationCallbackUrl(),
             'priority'          => $this->getPriority(),
             'recipientAddressList'  => $this->getRecipientsList()->getRecipients(),
@@ -201,7 +201,7 @@ abstract class Request implements RequestInterface
         return $this;
     }
 
-    public function getMessage(): StringValueObject
+    public function getMessage(): SmsMessageInterface
     {
         return $this->message;
     }

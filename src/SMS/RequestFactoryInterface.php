@@ -13,24 +13,15 @@
  * @link          http://www.oxidmodule.com
  */
 
+declare( strict_types = 1 );
+
 namespace D3\LinkmobilityClient\SMS;
 
-use D3\LinkmobilityClient\ValueObject\Sender;
 use D3\LinkmobilityClient\ValueObject\SmsMessage;
 
-class Request
+interface RequestFactoryInterface
 {
-    public function __construct( Sender $sender, SmsMessage $message)
-    {
-        // use factory pattern
+    public function __construct(SmsMessage $message);
 
-        //$this = new TextRequest($sender, $message);
-        /*
-        if ($message->isGsm7()) {
-            return new TextRequest($sender, $message);
-        }
-
-        return new TextRequest($sender, $message);
-        */
-    }
+    public function getRequest() : SmsRequestInterface;
 }
