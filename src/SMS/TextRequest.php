@@ -19,8 +19,8 @@ namespace D3\LinkmobilityClient\SMS;
 
 use Assert\Assert;
 use D3\LinkmobilityClient\Request\Request;
-use D3\LinkmobilityClient\ValueObject\SmsMessageInterface;
 use D3\LinkmobilityClient\ValueObject\SmsTextMessage;
+use InvalidArgumentException;
 
 class TextRequest extends Request implements SmsRequestInterface
 {
@@ -32,6 +32,9 @@ class TextRequest extends Request implements SmsRequestInterface
         return '/rest/smsmessaging/text';
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function validate()
     {
         parent::validate();

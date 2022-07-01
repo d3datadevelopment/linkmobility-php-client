@@ -16,17 +16,20 @@ class Recipient extends StringValueObject
      */
     private $countryCode;
 
+    /**
+     * @param string $number
+     * @param string $iso2CountryCode
+     *
+     * @throws NumberParseException
+     */
     public function __construct(string $number, string $iso2CountryCode)
     {
         Assert::that($iso2CountryCode)->string()->length(2);
 
         $phoneUtil = PhoneNumberUtil::getInstance();
-        try {
-            $phoneNumber = $phoneUtil->parse($number, strtoupper($iso2CountryCode));
-            $number = ltrim($phoneUtil->format($phoneNumber, PhoneNumberFormat::E164), '+');
-        } catch ( NumberParseException $e) {
-            var_dump($e);
-        }
+
+        $phoneNumber = $phoneUtil->parse($number, strtoupper($iso2CountryCode));
+        $number = ltrim($phoneUtil->format($phoneNumber, PhoneNumberFormat::E164), '+');
 
         parent::__construct($number);
         $this->countryCode = $iso2CountryCode;

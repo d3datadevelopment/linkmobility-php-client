@@ -17,7 +17,9 @@ declare( strict_types = 1 );
 
 namespace D3\LinkmobilityClient\SMS;
 
+use D3\LinkmobilityClient\Client;
 use D3\LinkmobilityClient\ValueObject\SmsBinaryMessage;
+use D3\LinkmobilityClient\ValueObject\SmsMessageInterface;
 use D3\LinkmobilityClient\ValueObject\SmsTextMessage;
 use Phlib\SmsLength\SmsLength;
 
@@ -34,24 +36,26 @@ class RequestFactory
     const GSM_UCS2 = 'ucs-2';
 
     private $message;
+    private $client;
 
-    public function __construct($message)
+    public function __construct($message, Client $client)
     {
         $this->message = $message;
+        $this->client = $client;
     }
 
     /**
      * @return SmsRequestInterface
      */
-    public function getRequest() : SmsRequestInterface
+    public function getSmsRequest() : SmsRequestInterface
     {
         $smsLength = new SmsLength($this->message);
         if ($smsLength->getEncoding() === self::GSM_7BIT) {
             $message = new SmsTextMessage($this->message);
-            return new TextRequest($message);
+            return new TextRequest($message, $this->client);
         }
 
         $message = new SmsBinaryMessage($this->message);
-        return new BinaryRequest($message);
+        return new BinaryRequest($message, $this->client);
     }
 }

@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\RecipientsList;
 
+use D3\LinkmobilityClient\Client;
 use D3\LinkmobilityClient\Exceptions\ExceptionMessages;
 use D3\LinkmobilityClient\Exceptions\RecipientException;
 use D3\LinkmobilityClient\ValueObject\Recipient;
@@ -28,9 +29,19 @@ use libphonenumber\PhoneNumberUtil;
 class RecipientsList implements RecipientsListInterface, Iterator
 {
     /**
+     * @var Client
+     */
+    private $client;
+
+    /**
      * @var array
      */
     private $recipients = [];
+
+    public function __construct( Client $client )
+    {
+        $this->setClient($client);
+    }
 
     public function add(Recipient $recipient) : RecipientsListInterface
     {
@@ -54,9 +65,13 @@ class RecipientsList implements RecipientsListInterface, Iterator
 
             $this->recipients[ md5( serialize( $recipient ) ) ] = $recipient;
         } catch (NumberParseException $e) {
-//            var_dump($e);
+            if ($this->getClient()->hasLogger()) {
+                $this->getClient()->getLogger()->info($e->getMessage());
+            }
         } catch (RecipientException $e) {
-//            var_dump($e);
+            if ($this->getClient()->hasLogger()) {
+                $this->getClient()->getLogger()->info($e->getMessage());
+            }
         }
         
         return $this;
@@ -118,5 +133,21 @@ class RecipientsList implements RecipientsListInterface, Iterator
     public function valid(): bool
     {
         return current($this->recipients) instanceof Recipient;
+    }
+
+    /**
+     * @return Client
+     */
+    public function getClient(): Client
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param Client $client
+     */
+    public function setClient( Client $client )
+    {
+        $this->client = $client;
     }
 }

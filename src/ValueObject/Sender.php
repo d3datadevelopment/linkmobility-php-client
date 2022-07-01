@@ -18,21 +18,19 @@ class Sender extends StringValueObject
      * @param string $iso2CountryCode
      *
      * @throws RecipientException
+     * @throws NumberParseException
      */
     public function __construct(string $number, string $iso2CountryCode)
     {
         Assert::that($iso2CountryCode)->string()->length(2);
 
         $phoneUtil = PhoneNumberUtil::getInstance();
-        try {
-            $phoneNumber = $phoneUtil->parse( $number, strtoupper($iso2CountryCode) );
-            $number      = $phoneUtil->format( $phoneNumber, PhoneNumberFormat::E164 );
 
-            if (false === $phoneUtil->isValidNumber($phoneNumber)) {
-                throw new RecipientException( ExceptionMessages::INVALID_SENDER );
-            }
-        } catch ( NumberParseException $e) {
-            var_dump($e);
+        $phoneNumber = $phoneUtil->parse( $number, strtoupper($iso2CountryCode) );
+        $number      = $phoneUtil->format( $phoneNumber, PhoneNumberFormat::E164 );
+
+        if (false === $phoneUtil->isValidNumber($phoneNumber)) {
+            throw new RecipientException( ExceptionMessages::INVALID_SENDER );
         }
 
         parent::__construct( $number);

@@ -20,7 +20,7 @@ namespace D3\LinkmobilityClient\SMS;
 use Assert\Assert;
 use D3\LinkmobilityClient\Request\Request;
 use D3\LinkmobilityClient\ValueObject\SmsBinaryMessage;
-use D3\LinkmobilityClient\ValueObject\SmsMessage;
+use InvalidArgumentException;
 
 class BinaryRequest extends Request implements SmsRequestInterface
 {
@@ -42,6 +42,9 @@ class BinaryRequest extends Request implements SmsRequestInterface
         );
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function validate()
     {
         parent::validate();

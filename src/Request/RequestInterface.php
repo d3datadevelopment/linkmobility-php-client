@@ -17,6 +17,9 @@ declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\Request;
 
+use D3\LinkmobilityClient\Client;
+use D3\LinkmobilityClient\ValueObject\SmsMessageInterface;
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 use D3\LinkmobilityClient\Response\ResponseInterface as LMResponseInterface;
 
@@ -40,6 +43,8 @@ interface RequestInterface
     const SENDERADDRESSTYPE_INTERNATIONAL = 'international';
     const SENDERADDRESSTYPE_ALPHANUMERIC = 'alphanumeric';
     const SENDERADDRESSTYPE_SHORTCODE = 'shortcode';
+
+    public function __construct(SmsMessageInterface $message, Client $client);
 
     public function setMethod(string $method);
 
@@ -89,6 +94,8 @@ interface RequestInterface
      * Must validate the input of the request
      * This is called before sending the request
      * Must throw an exception if the validation fails
+     *
+     * @throws InvalidArgumentException
      */
     public function validate();
 }

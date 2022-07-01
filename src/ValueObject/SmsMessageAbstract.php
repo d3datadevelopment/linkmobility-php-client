@@ -26,7 +26,7 @@ abstract class SmsMessageAbstract extends StringValueObject implements SmsMessag
         return $smsLength->getSize();
     }
 
-    public function getMessageContent()
+    public function getMessageContent() : string
     {
         return (string) $this->value;
     }

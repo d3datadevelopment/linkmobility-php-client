@@ -17,11 +17,9 @@ declare( strict_types = 1 );
 
 namespace D3\LinkmobilityClient\SMS;
 
-use D3\LinkmobilityClient\ValueObject\SmsMessage;
-
 interface RequestFactoryInterface
 {
-    public function __construct(SmsMessage $message);
+    public function __construct($message);
 
     public function getRequest() : SmsRequestInterface;
 }

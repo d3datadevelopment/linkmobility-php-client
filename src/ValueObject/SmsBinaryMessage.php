@@ -19,6 +19,9 @@ class SmsBinaryMessage extends SmsMessageAbstract
         $smsLength->validate();
     }
 
+    /**
+     * @return array|false|string
+     */
     public function getMessageContent()
     {
         return str_split(

@@ -1,6 +1,7 @@
 ```
 $client = new Client('accesstoken');
-$request = (new \D3\LinkmobilityClient\SMS\Request('me', 'message'))
-    ->addRecipient(new Recipient('recipient'));
+$client->setLogger($logger);  // optional
+$request = new D3\LinkmobilityClient\SMS\RequestFactory($message, $client)->getSmsRequest())
+    ->addRecipient(new D3\LinkmobilityClient\ValueObject\Recipient('recipient', 'DE'));
 $client->request($request)
 ```

@@ -15,9 +15,4 @@
 
 namespace D3\LinkmobilityClient\SMS;
 
-use D3\LinkmobilityClient\ValueObject\SmsMessageInterface;
-
-interface SmsRequestInterface
-{
-    public function __construct(SmsMessageInterface $message);
-}
+interface SmsRequestInterface {}

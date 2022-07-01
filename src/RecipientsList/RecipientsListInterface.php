@@ -17,10 +17,13 @@ declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\RecipientsList;
 
+use D3\LinkmobilityClient\Client;
 use D3\LinkmobilityClient\ValueObject\Recipient;
 
 interface RecipientsListInterface
 {
+    public function __construct(Client $client);
+
     public function add(Recipient $recipient) : RecipientsListInterface;
 
     public function clearRecipents() : RecipientsListInterface;

@@ -18,6 +18,7 @@ declare( strict_types = 1 );
 namespace D3\LinkmobilityClient\Request;
 
 use Assert\Assert;
+use D3\LinkmobilityClient\Client;
 use D3\LinkmobilityClient\RecipientsList\RecipientsList;
 use D3\LinkmobilityClient\RecipientsList\RecipientsListInterface;
 use D3\LinkmobilityClient\Response\ResponseInterface;
@@ -35,6 +36,11 @@ abstract class Request implements RequestInterface
      * @var SmsMessageInterface
      */
     private $message;
+
+    /**
+     * @var Client
+     */
+    private $client;
 
     /**
      * @var string
@@ -109,10 +115,11 @@ abstract class Request implements RequestInterface
     /**
      * @param SmsMessageAbstract $message
      */
-    public function __construct(SmsMessageInterface $message)
+    public function __construct(SmsMessageInterface $message, Client $client)
     {
-        $this->recipientsList = new RecipientsList();
+        $this->recipientsList = new RecipientsList($client);
         $this->setMessage( $message );
+        $this->setClient($client);
 
         return $this;
     }
@@ -494,5 +501,21 @@ abstract class Request implements RequestInterface
     {
         $FQClassName = $this->getResponseClass();
         return new $FQClassName($rawResponse);
+    }
+
+    /**
+     * @return Client
+     */
+    public function getClient(): Client
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param Client $client
+     */
+    public function setClient( Client $client )
+    {
+        $this->client = $client;
     }
 }

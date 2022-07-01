@@ -21,7 +21,9 @@ use D3\LinkmobilityClient\Exceptions\ApiException;
 use D3\LinkmobilityClient\Exceptions\ExceptionMessages;
 use D3\LinkmobilityClient\Request\RequestInterface;
 use GuzzleHttp\Exception\GuzzleException;
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 
 class Client
@@ -29,6 +31,8 @@ class Client
     private $accessToken;
     public $apiUrl;
     public $requestClient;
+
+    private $logger;
 
     public function __construct(string $accessToken, $apiUrl = false, $client = false)
     {
@@ -47,6 +51,7 @@ class Client
      * @return Response\ResponseInterface
      * @throws ApiException
      * @throws GuzzleException
+     * @throws InvalidArgumentException
      */
     public function request(RequestInterface $request) : Response\ResponseInterface
     {
@@ -70,6 +75,8 @@ class Client
     {
         $options['headers']['Authorization'] = 'Bearer '.$this->accessToken;
 
+        if ($this->hasLogger()) $this->getLogger()->debug('request '.$url, $options);
+
         $response = $this->requestClient->request(
             $method,
             $url,
@@ -77,11 +84,45 @@ class Client
         );
 
         if ($response->getStatusCode() != 200) {
-            throw new ApiException(
-                sprintf(ExceptionMessages::NOK_REQUEST_RETURN, [$url, $response->getStatusCode()])
-            );
+            $message = sprintf(ExceptionMessages::NOK_REQUEST_RETURN, [$url, $response->getStatusCode()]);
+            if ($this->hasLogger()) $this->getLogger()->error($message);
+            throw new ApiException($message);
+        }
+
+        if ($this->hasLogger()) {
+            $response->getBody()->rewind();
+            $this->getLogger()->debug('response', [$response->getBody()->getContents()]);
         }
 
         return $response;
     }
+
+    /**
+     * @param mixed $logger
+     *
+     * @return Client
+     */
+    public function setLogger(LoggerInterface $logger ) : Client
+    {
+        $this->logger = $logger;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasLogger() : bool
+    {
+        return $this->logger instanceof LoggerInterface;
+    }
+
+    /**
+     * @return LoggerInterface
+     */
+    public function getLogger(): LoggerInterface
+    {
+        return $this->logger;
+    }
+
 }

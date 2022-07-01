@@ -21,5 +21,5 @@ interface SmsMessageInterface
 
     public function length() : int;
 
-    public function getMessageContent();
+    public function getMessageContent() : string;
 }

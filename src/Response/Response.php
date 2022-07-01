@@ -27,6 +27,8 @@ abstract class Response implements ResponseInterface
     public function __construct(\Psr\Http\Message\ResponseInterface $rawResponse)
     {
         $this->rawResponse = $rawResponse;
+
+        $this->rawResponse->getBody()->rewind();
         $this->content = json_decode($this->rawResponse->getBody()->getContents(), true);
     }
     
