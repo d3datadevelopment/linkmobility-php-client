@@ -137,7 +137,7 @@ abstract class Request implements RequestInterface
         Assert::that($this->getOptions())->isArray();
 
         Assert::that( $this->getRecipientsList() )->isInstanceOf(RecipientsList::class)->notEmpty();
-        Assert::that( $this->getRecipientsList()->getRecipients())->notEmpty();
+        Assert::that( $this->getRecipientsList()->getRecipients())->notEmpty('request must contain a recipient');
         Assert::thatAll( $this->getRecipientsList() )->isInstanceOf( Recipient::class )->notEmpty();
 
         // optional properties
