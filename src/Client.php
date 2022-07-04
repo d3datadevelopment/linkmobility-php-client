@@ -20,8 +20,10 @@ namespace D3\LinkmobilityClient;
 use D3\LinkmobilityClient\Exceptions\ApiException;
 use D3\LinkmobilityClient\Exceptions\ExceptionMessages;
 use D3\LinkmobilityClient\Request\RequestInterface;
+use D3\LinkmobilityClient\ValueObject\ValueObject;
 use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
+use phpDocumentor\Reflection\Types\Mixed_;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -33,6 +35,7 @@ class Client
     public $requestClient;
 
     private $logger;
+    private $configuration = [];
 
     public function __construct(string $accessToken, $apiUrl = false, $client = false)
     {
@@ -125,4 +128,35 @@ class Client
         return $this->logger;
     }
 
+    /**
+     * @param string $name
+     * @param        $configuration
+     *
+     * @return $this
+     */
+    public function setConfiguration( string $name, $configuration ): Client
+    {
+        $this->configuration[$name] = oxNew(ValueObject::class, $configuration);
+
+        return $this;
+    }
+
+    public function hasConfiguration(string $name)
+    {
+        return isset($this->configuration[$name]);
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return mixed
+     */
+    public function getConfiguration(string $name)
+    {
+        if (false === isset($this->configuration)) {
+            throw new InvalidArgumentException('configuration '.$name.' is not set');
+        }
+
+        return $this->configuration[$name];
+    }
 }

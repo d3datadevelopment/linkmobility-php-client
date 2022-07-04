@@ -35,8 +35,8 @@ class RequestFactory
      */
     const GSM_UCS2 = 'ucs-2';
 
-    private $message;
-    private $client;
+    protected $message;
+    protected $client;
 
     public function __construct($message, Client $client)
     {
