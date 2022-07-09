@@ -28,12 +28,14 @@
         "ext-json": "*"
     },
     "require-dev": {
-        "phpunit/phpunit" : "~5.7||~6.0",
+    	"php": "^7.2",
+        "phpunit/phpunit" : "^8.0",
         "friendsofphp/php-cs-fixer": "^2.0"
     },
     "autoload": {
         "psr-4": {
-            "D3\\LinkmobilityClient\\": "src"
+            "D3\\LinkmobilityClient\\": "src",
+            "D3\\LinkmobilityClient\\Tests\\": "Tests"
         }
     },
     "scripts": {
