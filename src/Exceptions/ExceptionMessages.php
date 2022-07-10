@@ -19,8 +19,6 @@ class ExceptionMessages
 {
     const INVALID_SENDER            = 'invalid sender phone number';
 
-    const WRONG_APIURL_INTERFACE    = 'ApiUrl instance must implement UrlInterface';
-
     const NOK_REQUEST_RETURN        = 'request %1$s returns status code %2$s';
 
     const INVALID_RECIPIENT_PHONE   = 'invalid recipient phone number';
