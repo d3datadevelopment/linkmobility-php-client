@@ -1,7 +1,7 @@
 # Installation
 
 ```
-composer create-project -s dev --prefer-source d3/linkmobility-php-client .
+composer create-project -s dev --prefer-source [--repository '{"type": "vcs", "url": "gitfhfac@git.d3data.de:D3Private/linkmobility-php-client.git"}'] d3/linkmobility-php-client .
 ```
 
 # Run tests
