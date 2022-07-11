@@ -37,10 +37,9 @@ use ReflectionException;
 
 class ClientTest extends ApiTestCase
 {
-    public string $fixtureApiKey = 'fixtureApiKey';
+    public $fixtureApiKey = 'fixtureApiKey';
     /** @var Client */
-    public Client $api;
-    public string $jsonFixture = 'json_content';
+    public $api;
 
     /**
      * @return void

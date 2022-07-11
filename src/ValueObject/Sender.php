@@ -24,7 +24,7 @@ class Sender extends StringValueObject
     {
         Assert::that($iso2CountryCode)->string()->length(2);
 
-        $phoneUtil = PhoneNumberUtil::getInstance();
+        $phoneUtil = $this->getPhoneNumberUtil();
 
         $phoneNumber = $phoneUtil->parse( $number, strtoupper($iso2CountryCode) );
         $number      = $phoneUtil->format( $phoneNumber, PhoneNumberFormat::E164 );
@@ -34,5 +34,13 @@ class Sender extends StringValueObject
         }
 
         parent::__construct( $number);
+    }
+
+    /**
+     * @return PhoneNumberUtil
+     */
+    protected function getPhoneNumberUtil(): PhoneNumberUtil
+    {
+        return PhoneNumberUtil::getInstance();
     }
 }

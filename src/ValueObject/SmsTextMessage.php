@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace D3\LinkmobilityClient\ValueObject;
 
 use InvalidArgumentException;
-use Phlib\SmsLength\SmsLength;
 
 class SmsTextMessage extends SmsMessageAbstract
 {
@@ -17,7 +16,7 @@ class SmsTextMessage extends SmsMessageAbstract
     {
         parent::__construct( $message);
 
-        $smsLength = new SmsLength($this->value);
+        $smsLength = $this->getSmsLength();
         $smsLength->validate();
     }
 }

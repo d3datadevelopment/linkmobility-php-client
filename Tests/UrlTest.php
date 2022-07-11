@@ -23,7 +23,7 @@ use ReflectionException;
 class UrlTest extends ApiTestCase
 {
     /** @var Url */
-    public Url $url;
+    public $url;
 
     /**
      * @return void

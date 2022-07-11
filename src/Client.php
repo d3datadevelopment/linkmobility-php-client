@@ -114,9 +114,9 @@ class Client
     }
 
     /**
-     * @return LoggerInterface
+     * @return LoggerInterface|null
      */
-    public function getLogger(): ?LoggerInterface
+    public function getLogger()
     {
         return $this->hasLogger() ? $this->logger : null;
     }

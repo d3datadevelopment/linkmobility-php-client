@@ -19,7 +19,6 @@ namespace D3\LinkmobilityClient\SMS;
 
 use D3\LinkmobilityClient\Client;
 use D3\LinkmobilityClient\ValueObject\SmsBinaryMessage;
-use D3\LinkmobilityClient\ValueObject\SmsMessageInterface;
 use D3\LinkmobilityClient\ValueObject\SmsTextMessage;
 use Phlib\SmsLength\SmsLength;
 

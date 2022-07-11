@@ -26,13 +26,21 @@ class Recipient extends StringValueObject
     {
         Assert::that($iso2CountryCode)->string()->length(2);
 
-        $phoneUtil = PhoneNumberUtil::getInstance();
+        $phoneUtil = $this->getPhoneNumberUtil();
 
         $phoneNumber = $phoneUtil->parse($number, strtoupper($iso2CountryCode));
         $number = ltrim($phoneUtil->format($phoneNumber, PhoneNumberFormat::E164), '+');
 
         parent::__construct($number);
         $this->countryCode = $iso2CountryCode;
+    }
+
+    /**
+     * @return PhoneNumberUtil
+     */
+    protected function getPhoneNumberUtil(): PhoneNumberUtil
+    {
+        return PhoneNumberUtil::getInstance();
     }
 
     /**

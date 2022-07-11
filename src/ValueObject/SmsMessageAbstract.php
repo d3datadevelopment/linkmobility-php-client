@@ -9,12 +9,19 @@ use Phlib\SmsLength\SmsLength;
 abstract class SmsMessageAbstract extends StringValueObject implements SmsMessageInterface
 {
     /**
+     * @return SmsLength
+     */
+    public function getSmsLength(): SmsLength
+    {
+        return new SmsLength($this->get());
+    }
+
+    /**
      * @return int
      */
     public function chunkCount() : int
     {
-        $smsLength = new SmsLength($this->value);
-        return $smsLength->getMessageCount();
+        return $this->getSmsLength()->getMessageCount();
     }
 
     /**
@@ -22,12 +29,11 @@ abstract class SmsMessageAbstract extends StringValueObject implements SmsMessag
      */
     public function length() : int
     {
-        $smsLength = new SmsLength($this->value);
-        return $smsLength->getSize();
+        return $this->getSmsLength()->getSize();
     }
 
-    public function getMessageContent() : string
+    public function getMessageContent()
     {
-        return (string) $this->value;
+        return $this->get();
     }
 }

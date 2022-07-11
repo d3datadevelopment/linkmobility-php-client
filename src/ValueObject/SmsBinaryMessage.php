@@ -15,17 +15,16 @@ class SmsBinaryMessage extends SmsMessageAbstract
     {
         parent::__construct( $message);
 
-        $smsLength = new SmsLength($this->value);
-        $smsLength->validate();
+        $this->getSmsLength()->validate();
     }
 
     /**
-     * @return array|false|string
+     * @return array|false
      */
     public function getMessageContent()
     {
         return str_split(
-            base64_encode($this->value),
+            base64_encode($this->get()),
             SmsLength::MAXIMUM_CHARACTERS_UCS2_SINGLE
         );
     }

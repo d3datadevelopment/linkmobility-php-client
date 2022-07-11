@@ -20,7 +20,7 @@ abstract class StringValueObject extends ValueObject
         return $this->get();
     }
 
-    public function get() : string
+    public function get(): string
     {
         return $this->value;
     }

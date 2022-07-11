@@ -43,9 +43,22 @@ class RecipientsList implements RecipientsListInterface, Iterator
         $this->setClient($client);
     }
 
+    /**
+     * @return PhoneNumberUtil
+     */
+    protected function getPhoneNumberUtil(): PhoneNumberUtil
+    {
+        return PhoneNumberUtil::getInstance();
+    }
+
+    /**
+     * @param Recipient $recipient
+     *
+     * @return RecipientsListInterface
+     */
     public function add(Recipient $recipient) : RecipientsListInterface
     {
-        $phoneUtil = PhoneNumberUtil::getInstance();
+        $phoneUtil = $this->getPhoneNumberUtil();
         try {
             $phoneNumber = $phoneUtil->parse( $recipient->get(), $recipient->getCountryCode() );
 
@@ -64,6 +77,7 @@ class RecipientsList implements RecipientsListInterface, Iterator
             }
 
             $this->recipients[ md5( serialize( $recipient ) ) ] = $recipient;
+
         } catch (NumberParseException $e) {
             if ($this->getClient()->hasLogger()) {
                 $this->getClient()->getLogger()->info($e->getMessage());
@@ -77,6 +91,9 @@ class RecipientsList implements RecipientsListInterface, Iterator
         return $this;
     }
 
+    /**
+     * @return RecipientsListInterface
+     */
     public function clearRecipents() : RecipientsListInterface
     {
         $this->recipients = [];
@@ -127,7 +144,7 @@ class RecipientsList implements RecipientsListInterface, Iterator
 
     public function rewind()
     {
-        return reset($this->recipients);
+        reset($this->recipients);
     }
 
     public function valid(): bool
@@ -145,9 +162,13 @@ class RecipientsList implements RecipientsListInterface, Iterator
 
     /**
      * @param Client $client
+     *
+     * @return RecipientsList
      */
-    public function setClient( Client $client )
+    public function setClient( Client $client ): RecipientsList
     {
         $this->client = $client;
+
+        return $this;
     }
 }
