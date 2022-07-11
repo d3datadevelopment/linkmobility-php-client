@@ -48,13 +48,20 @@ class RequestFactory
      */
     public function getSmsRequest() : SmsRequestInterface
     {
-        $smsLength = new SmsLength($this->message);
-        if ($smsLength->getEncoding() === self::GSM_7BIT) {
+        if ($this->getSmsLength()->getEncoding() === self::GSM_7BIT) {
             $message = new SmsTextMessage($this->message);
             return new TextRequest($message, $this->client);
         }
 
         $message = new SmsBinaryMessage($this->message);
         return new BinaryRequest($message, $this->client);
+    }
+
+    /**
+     * @return SmsLength
+     */
+    protected function getSmsLength(): SmsLength
+    {
+        return new SmsLength($this->message);
     }
 }
