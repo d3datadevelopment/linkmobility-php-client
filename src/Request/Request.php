@@ -169,6 +169,9 @@ abstract class Request implements RequestInterface
         ];
     }
 
+    /**
+     * @return array
+     */
     public function getBody(): array
     {
         $body = array_filter( $this->getRawBody(), function( $elm ) {
@@ -183,6 +186,9 @@ abstract class Request implements RequestInterface
         }
     }
 
+    /**
+     * @return array
+     */
     public function getOptions(): array
     {
         return array_merge(
@@ -514,8 +520,10 @@ abstract class Request implements RequestInterface
     /**
      * @param Client $client
      */
-    public function setClient( Client $client )
+    public function setClient( Client $client ): Request
     {
         $this->client = $client;
+
+        return $this;
     }
 }
