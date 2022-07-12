@@ -13,8 +13,14 @@
  * @link          http://www.oxidmodule.com
  */
 
-namespace D3\LinkmobilityClient\SMS;
+declare( strict_types = 1 );
 
-use D3\LinkmobilityClient\Request\RequestInterface;
+namespace D3\LinkmobilityClient\Tests\SMS;
 
-interface SmsRequestInterface extends RequestInterface {}
+use D3\LinkmobilityClient\SMS\Response;
+use D3\LinkmobilityClient\Tests\Response\AbstractResponse;
+
+class ResponseTest extends AbstractResponse
+{
+    protected $testClassName = Response::class;
+}
