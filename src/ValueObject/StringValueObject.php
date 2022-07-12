@@ -24,4 +24,9 @@ abstract class StringValueObject extends ValueObject
     {
         return $this->value;
     }
+
+    public function getFormatted()
+    {
+        return $this->get();
+    }
 }

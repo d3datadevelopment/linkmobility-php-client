@@ -162,7 +162,7 @@ abstract class Request implements RequestInterface
             'priority'          => $this->getPriority(),
             'recipientAddressList'  => $this->getRecipientsList()->getRecipients(),
             'sendAsFlashSms'    => $this->doSendAsFlashSms(),
-            'senderAddress'     => $this->getSenderAddress() ? $this->getSenderAddress()->get() : null,
+            'senderAddress'     => $this->getSenderAddress() ? $this->getSenderAddress()->getFormatted() : null,
             'senderAddressType' => $this->getSenderAddressType(),
             'test'              => $this->getTestMode(),
             'validityPeriode'   => $this->getValidityPeriode()
