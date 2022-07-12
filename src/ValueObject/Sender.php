@@ -49,6 +49,6 @@ class Sender extends StringValueObject
      */
     public function getFormatted()
     {
-        return (int) parent::getFormatted();
+        return parent::getFormatted();
     }
 }
