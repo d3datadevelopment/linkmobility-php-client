@@ -1,12 +1,12 @@
 {
     "name": "d3/linkmobility-php-client",
     "type": "library",
-    "description": "PHP client for Linkmobility API (de)",
+    "description": "PHP client for LINK Mobility Austria API",
     "keywords": [
-        "linkmobility",
+        "LINK Mobility",
         "php",
         "sms",
-        "sms gateway"
+        "message gateway"
     ],
     "homepage": "https://d3data.de/",
     "authors": [
@@ -16,6 +16,9 @@
         "homepage": "https://www.d3data.de",
         "role": "Owner"
       }
+    ],
+    "license": [
+      "GPL-3.0-or-later"
     ],
     "require": {
         "php": "^7.0",
