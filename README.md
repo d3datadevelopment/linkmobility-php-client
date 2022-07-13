@@ -3,13 +3,13 @@
 
 # LINK Mobility Austria PHP API Client
 
-LINK Mobility stellt einen Service zum Versenden von mobilen Nachrichten (SMS, Whatsapp, RCS, Chatbot, ...) zur Verfügung.
+[LINK Mobility](https://www.linkmobility.de/) stellt einen Service zum Versenden von mobilen Nachrichten (SMS, Whatsapp, RCS, Chatbot, ...) zur Verfügung.
 
 Der API Client ermöglicht die einfache Einbindung des LINK Mobility Dienstes in PHP-basierende Projekte. Es können Anfragen zum Nachrichtenversand geschickt werden, der Status und die Antwort werden ausgewertet.
 
 ## Features
 
-Von der Schnittstelle wird derzeit der Versand von SMS (Text und Binär) unterstützt. Für die Integration weiterer Nachrichtenformate ist die API vorbereitet.
+Die Schnittstelle unterstützt derzeit den Versand von SMS (Text und Binär) auf Basis der [Message API in Version 1.0.0](https://docs.linkmobility.de/sms-api/rest-api). Für die Integration weiterer Nachrichtenformate ist die API vorbereitet.
 
 ## Erste Schritte
 
