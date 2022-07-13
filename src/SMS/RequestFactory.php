@@ -13,7 +13,7 @@
  * @link          http://www.oxidmodule.com
  */
 
-declare( strict_types = 1 );
+declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\SMS;
 
@@ -27,12 +27,12 @@ class RequestFactory
     /**
      * @deprecated is SmsLength constant from version 2.1
      */
-    const GSM_7BIT = '7-bit';
+    public const GSM_7BIT = '7-bit';
 
     /**
      * @deprecated is SmsLength constant from version 2.1
      */
-    const GSM_UCS2 = 'ucs-2';
+    public const GSM_UCS2 = 'ucs-2';
 
     protected $message;
     protected $client;
@@ -46,7 +46,7 @@ class RequestFactory
     /**
      * @return SmsRequestInterface
      */
-    public function getSmsRequest() : SmsRequestInterface
+    public function getSmsRequest(): SmsRequestInterface
     {
         if ($this->getSmsLength()->getEncoding() === self::GSM_7BIT) {
             $message = new SmsTextMessage($this->message);

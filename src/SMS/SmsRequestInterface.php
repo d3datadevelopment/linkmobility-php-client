@@ -17,4 +17,6 @@ namespace D3\LinkmobilityClient\SMS;
 
 use D3\LinkmobilityClient\Request\RequestInterface;
 
-interface SmsRequestInterface extends RequestInterface {}
+interface SmsRequestInterface extends RequestInterface
+{
+}

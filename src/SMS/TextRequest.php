@@ -13,7 +13,7 @@
  * @link          http://www.oxidmodule.com
  */
 
-declare( strict_types = 1 );
+declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\SMS;
 
@@ -39,7 +39,7 @@ class TextRequest extends Request implements SmsRequestInterface
     {
         parent::validate();
 
-        Assert::thatNullOr( $this->getMessage() )->isInstanceOf(SmsTextMessage::class);
+        Assert::thatNullOr($this->getMessage())->isInstanceOf(SmsTextMessage::class);
     }
 
     /**
@@ -50,7 +50,7 @@ class TextRequest extends Request implements SmsRequestInterface
         return Response::class;
     }
 
-    public function getRawBody() : array
+    public function getRawBody(): array
     {
         return array_merge(
             parent::getRawBody(),

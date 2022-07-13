@@ -24,9 +24,9 @@ interface RecipientsListInterface
 {
     public function __construct(Client $client);
 
-    public function add(Recipient $recipient) : RecipientsListInterface;
+    public function add(Recipient $recipient): RecipientsListInterface;
 
-    public function clearRecipents() : RecipientsListInterface;
+    public function clearRecipents(): RecipientsListInterface;
 
-    public function getRecipients() : array;
+    public function getRecipients(): array;
 }

@@ -19,5 +19,4 @@ namespace D3\LinkmobilityClient\Exceptions;
 
 class RecipientException extends LinkmobilityException
 {
-
 }

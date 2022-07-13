@@ -13,7 +13,7 @@
  * @link          http://www.oxidmodule.com
  */
 
-declare( strict_types = 1 );
+declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\Tests\Response;
 
@@ -72,8 +72,7 @@ abstract class AbstractResponse extends ApiTestCase
                 "contentCategory" => "informational",
                 "messageContent" => "fixture",
                 "senderAddressType" => "international",
-                ]
-            ,
+                ],
             $this->callMethod(
                 $response,
                 'getContent'

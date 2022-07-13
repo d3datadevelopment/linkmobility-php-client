@@ -8,17 +8,17 @@ interface ResponseInterface
 {
     public function __construct(\Psr\Http\Message\ResponseInterface $rawResponse);
 
-    public function getRawResponse() : \Psr\Http\Message\ResponseInterface;
+    public function getRawResponse(): \Psr\Http\Message\ResponseInterface;
 
-    public function getInternalStatus() : int;
+    public function getInternalStatus(): int;
 
-    public function getStatusMessage() : string;
+    public function getStatusMessage(): string;
 
     public function getClientMessageId();
 
     public function getTransferId();
 
-    public function getSmsCount() : int;
+    public function getSmsCount(): int;
 
     public function isSuccessful(): bool;
 

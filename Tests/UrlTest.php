@@ -13,7 +13,7 @@
  * @link          http://www.oxidmodule.com
  */
 
-declare( strict_types = 1 );
+declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\Tests;
 
@@ -28,7 +28,7 @@ class UrlTest extends ApiTestCase
     /**
      * @return void
      */
-    public function setUp():void
+    public function setUp(): void
     {
         parent::setUp();
 

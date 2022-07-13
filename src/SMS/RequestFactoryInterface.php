@@ -13,7 +13,7 @@
  * @link          http://www.oxidmodule.com
  */
 
-declare( strict_types = 1 );
+declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\SMS;
 
@@ -21,5 +21,5 @@ interface RequestFactoryInterface
 {
     public function __construct($message);
 
-    public function getRequest() : SmsRequestInterface;
+    public function getRequest(): SmsRequestInterface;
 }

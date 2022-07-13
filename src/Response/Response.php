@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 
 declare(strict_types=1);
 
@@ -6,11 +7,11 @@ namespace D3\LinkmobilityClient\Response;
 
 abstract class Response implements ResponseInterface
 {
-    const STATUSCODE        = 'statusCode';
-    const STATUSMESSAGE     = 'statusMessage';
-    const CLIENTMESSAGEID   = 'clientMessageId';
-    const TRANSFERID        = 'transferId';
-    const SMSCOUNT          = 'smsCount';
+    public const STATUSCODE        = 'statusCode';
+    public const STATUSMESSAGE     = 'statusMessage';
+    public const CLIENTMESSAGEID   = 'clientMessageId';
+    public const TRANSFERID        = 'transferId';
+    public const SMSCOUNT          = 'smsCount';
 
     /**
      * @var \Psr\Http\Message\ResponseInterface
@@ -31,8 +32,8 @@ abstract class Response implements ResponseInterface
         $this->rawResponse->getBody()->rewind();
         $this->content = json_decode($this->rawResponse->getBody()->getContents(), true);
     }
-    
-    public function getRawResponse() : \Psr\Http\Message\ResponseInterface
+
+    public function getRawResponse(): \Psr\Http\Message\ResponseInterface
     {
         return $this->rawResponse;
     }
@@ -45,7 +46,7 @@ abstract class Response implements ResponseInterface
     /**
      * @return int
      */
-    public function getInternalStatus() : int
+    public function getInternalStatus(): int
     {
         return $this->getContent()[self::STATUSCODE];
     }
@@ -53,7 +54,7 @@ abstract class Response implements ResponseInterface
     /**
      * @return string
      */
-    public function getStatusMessage() : string
+    public function getStatusMessage(): string
     {
         return $this->getContent()[self::STATUSMESSAGE];
     }
@@ -77,7 +78,7 @@ abstract class Response implements ResponseInterface
     /**
      * @return string|null
      */
-    public function getSmsCount() : int
+    public function getSmsCount(): int
     {
         return $this->getContent()[self::SMSCOUNT];
     }

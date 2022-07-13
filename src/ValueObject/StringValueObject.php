@@ -10,7 +10,7 @@ abstract class StringValueObject extends ValueObject
 {
     public function __construct(string $number)
     {
-        Assert::that( $number)->notEmpty();
+        Assert::that($number)->notEmpty();
 
         $this->value = $number;
     }

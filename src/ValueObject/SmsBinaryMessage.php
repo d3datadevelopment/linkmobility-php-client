@@ -13,7 +13,7 @@ class SmsBinaryMessage extends SmsMessageAbstract
      */
     public function __construct(string $message)
     {
-        parent::__construct( $message);
+        parent::__construct($message);
 
         $this->getSmsLength()->validate();
     }

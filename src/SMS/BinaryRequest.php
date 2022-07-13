@@ -13,7 +13,7 @@
  * @link          http://www.oxidmodule.com
  */
 
-declare( strict_types = 1 );
+declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\SMS;
 
@@ -32,7 +32,7 @@ class BinaryRequest extends Request implements SmsRequestInterface
         return '/rest/smsmessaging/binary';
     }
 
-    public function getRawBody() : array
+    public function getRawBody(): array
     {
         return array_merge(
             parent::getRawBody(),
@@ -49,7 +49,7 @@ class BinaryRequest extends Request implements SmsRequestInterface
     {
         parent::validate();
 
-        Assert::thatNullOr( $this->getMessage() )->isInstanceOf(SmsBinaryMessage::class);
+        Assert::thatNullOr($this->getMessage())->isInstanceOf(SmsBinaryMessage::class);
     }
 
     /**

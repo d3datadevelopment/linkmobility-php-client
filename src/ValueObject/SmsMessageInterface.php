@@ -17,9 +17,9 @@ namespace D3\LinkmobilityClient\ValueObject;
 
 interface SmsMessageInterface
 {
-    public function chunkCount() : int;
+    public function chunkCount(): int;
 
-    public function length() : int;
+    public function length(): int;
 
     public function getMessageContent();
 }

@@ -14,7 +14,7 @@ class SmsTextMessage extends SmsMessageAbstract
      */
     public function __construct(string $message)
     {
-        parent::__construct( $message);
+        parent::__construct($message);
 
         $smsLength = $this->getSmsLength();
         $smsLength->validate();

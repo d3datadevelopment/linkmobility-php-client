@@ -13,7 +13,7 @@
  * @link          http://www.oxidmodule.com
  */
 
-declare( strict_types = 1 );
+declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\Tests\ValueObject;
 
@@ -34,11 +34,11 @@ class SmsBinaryMessageTest extends ApiTestCase
     /**
      * @return void
      */
-    public function setUp():void
+    public function setUp(): void
     {
         parent::setUp();
 
-        $this->message = new SmsBinaryMessage( $this->messageFixture);
+        $this->message = new SmsBinaryMessage($this->messageFixture);
     }
 
     /**
@@ -100,9 +100,9 @@ class SmsBinaryMessageTest extends ApiTestCase
             ->onlyMethods(['validate'])
             ->getMock();
         if ($valid) {
-            $smsLengthMock->expects( $this->never() )->method( 'validate' )->willReturn( true );
+            $smsLengthMock->expects($this->never())->method('validate')->willReturn(true);
         } else {
-            $smsLengthMock->expects( $this->atLeastOnce() )->method( 'validate' )->willThrowException(new \Phlib\SmsLength\Exception\InvalidArgumentException());
+            $smsLengthMock->expects($this->atLeastOnce())->method('validate')->willThrowException(new \Phlib\SmsLength\Exception\InvalidArgumentException());
         }
 
         /** @var SmsBinaryMessage|MockObject $message */

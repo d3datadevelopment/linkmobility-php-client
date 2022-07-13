@@ -13,7 +13,7 @@
  * @link          http://www.oxidmodule.com
  */
 
-declare( strict_types = 1 );
+declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\Tests\RecipientsList;
 
@@ -42,7 +42,7 @@ class RecipientsListTest extends ApiTestCase
     /**
      * @return void
      */
-    public function setUp():void
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -164,11 +164,11 @@ class RecipientsListTest extends ApiTestCase
             ->getMock();
 
         if ($unparsable) {
-            $phoneNumberUtilMock->method( 'parse' )->willThrowException(new NumberParseException(0, 'message'));
+            $phoneNumberUtilMock->method('parse')->willThrowException(new NumberParseException(0, 'message'));
         } else {
-            $phoneNumberUtilMock->method( 'parse' )->willReturn( new PhoneNumber() );
+            $phoneNumberUtilMock->method('parse')->willReturn(new PhoneNumber());
         }
-        $phoneNumberUtilMock->method( 'isValidNumber' )->willReturn( !$invalidNumber );
+        $phoneNumberUtilMock->method('isValidNumber')->willReturn(!$invalidNumber);
         $phoneNumberUtilMock->method('getNumberType')->willReturn($invalidNumberType ? PhoneNumberType::FIXED_LINE : PhoneNumberType::MOBILE);
 
         /** @var Recipient|MockObject $recipientMock */
@@ -435,32 +435,32 @@ class RecipientsListTest extends ApiTestCase
     protected function addRecipientFixture(): array
     {
         /** @var Recipient|MockObject $recipientMock */
-        $recipientMock = $this->getMockBuilder( Recipient::class )
-            ->onlyMethods( [
+        $recipientMock = $this->getMockBuilder(Recipient::class)
+            ->onlyMethods([
                 'get',
                 'getCountryCode'
-            ] )
-            ->setConstructorArgs( [
+            ])
+            ->setConstructorArgs([
                 $this->phoneNumberFixture,
                 $this->phoneCountryFixture
-            ] )
+            ])
             ->getMock();
-        $recipientMock->method( 'get' )->willReturn( $this->phoneNumberFixture );
-        $recipientMock->method( 'getCountryCode' )->willReturn( $this->phoneCountryFixture );
+        $recipientMock->method('get')->willReturn($this->phoneNumberFixture);
+        $recipientMock->method('getCountryCode')->willReturn($this->phoneCountryFixture);
 
         /** @var Recipient|MockObject $recipientMock2 */
-        $recipientMock2 = $this->getMockBuilder( Recipient::class )
-            ->onlyMethods( [
+        $recipientMock2 = $this->getMockBuilder(Recipient::class)
+            ->onlyMethods([
                 'get',
                 'getCountryCode'
-            ] )
-            ->setConstructorArgs( [
+            ])
+            ->setConstructorArgs([
                 $this->phoneNumberFixture,
                 $this->phoneCountryFixture
-            ] )
+            ])
             ->getMock();
-        $recipientMock2->method( 'get' )->willReturn( $this->phoneNumberFixture );
-        $recipientMock2->method( 'getCountryCode' )->willReturn( $this->phoneCountryFixture );
+        $recipientMock2->method('get')->willReturn($this->phoneNumberFixture);
+        $recipientMock2->method('getCountryCode')->willReturn($this->phoneCountryFixture);
 
         $list = [
             'fixture' => $recipientMock,

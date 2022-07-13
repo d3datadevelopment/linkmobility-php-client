@@ -38,7 +38,7 @@ class RecipientsList implements RecipientsListInterface, Iterator
      */
     private $recipients = [];
 
-    public function __construct( Client $client )
+    public function __construct(Client $client)
     {
         $this->setClient($client);
     }
@@ -56,28 +56,27 @@ class RecipientsList implements RecipientsListInterface, Iterator
      *
      * @return RecipientsListInterface
      */
-    public function add(Recipient $recipient) : RecipientsListInterface
+    public function add(Recipient $recipient): RecipientsListInterface
     {
         $phoneUtil = $this->getPhoneNumberUtil();
         try {
-            $phoneNumber = $phoneUtil->parse( $recipient->get(), $recipient->getCountryCode() );
+            $phoneNumber = $phoneUtil->parse($recipient->get(), $recipient->getCountryCode());
 
-            if ( false === $phoneUtil->isValidNumber( $phoneNumber ) ) {
-                throw new RecipientException( ExceptionMessages::INVALID_RECIPIENT_PHONE );
+            if (false === $phoneUtil->isValidNumber($phoneNumber)) {
+                throw new RecipientException(ExceptionMessages::INVALID_RECIPIENT_PHONE);
             } elseif (
                 false === in_array(
-                    $phoneUtil->getNumberType( $phoneNumber ),
+                    $phoneUtil->getNumberType($phoneNumber),
                     [
                         PhoneNumberType::MOBILE,
                         PhoneNumberType::FIXED_LINE_OR_MOBILE
                     ]
                 )
             ) {
-                throw new RecipientException( ExceptionMessages::NOT_A_MOBILE_NUMBER );
+                throw new RecipientException(ExceptionMessages::NOT_A_MOBILE_NUMBER);
             }
 
-            $this->recipients[ md5( serialize( $recipient ) ) ] = $recipient;
-
+            $this->recipients[ md5(serialize($recipient)) ] = $recipient;
         } catch (NumberParseException $e) {
             if ($this->getClient()->hasLogger()) {
                 $this->getClient()->getLogger()->info($e->getMessage());
@@ -87,21 +86,21 @@ class RecipientsList implements RecipientsListInterface, Iterator
                 $this->getClient()->getLogger()->info($e->getMessage());
             }
         }
-        
+
         return $this;
     }
 
     /**
      * @return RecipientsListInterface
      */
-    public function clearRecipents() : RecipientsListInterface
+    public function clearRecipents(): RecipientsListInterface
     {
         $this->recipients = [];
 
         return $this;
     }
 
-    public function getRecipients() : array
+    public function getRecipients(): array
     {
         return array_values(
             array_map(
@@ -116,7 +115,7 @@ class RecipientsList implements RecipientsListInterface, Iterator
     /**
      * @return array
      */
-    public function getRecipientsList() : array
+    public function getRecipientsList(): array
     {
         return $this->recipients;
     }
@@ -165,7 +164,7 @@ class RecipientsList implements RecipientsListInterface, Iterator
      *
      * @return RecipientsList
      */
-    public function setClient( Client $client ): RecipientsList
+    public function setClient(Client $client): RecipientsList
     {
         $this->client = $client;
 

@@ -19,7 +19,7 @@ abstract class SmsMessageAbstract extends StringValueObject implements SmsMessag
     /**
      * @return int
      */
-    public function chunkCount() : int
+    public function chunkCount(): int
     {
         return $this->getSmsLength()->getMessageCount();
     }
@@ -27,7 +27,7 @@ abstract class SmsMessageAbstract extends StringValueObject implements SmsMessag
     /**
      * @return int
      */
-    public function length() : int
+    public function length(): int
     {
         return $this->getSmsLength()->getSize();
     }

@@ -25,24 +25,24 @@ use D3\LinkmobilityClient\Response\ResponseInterface as LMResponseInterface;
 
 interface RequestInterface
 {
-    const METHOD_GET = 'GET';
-    const METHOD_POST = 'POST';
-    const METHOD_PUT = 'PUT';
-    const METHOD_PATCH = 'PATCH';
-    const METHOD_DELETE = 'DELETE';
+    public const METHOD_GET = 'GET';
+    public const METHOD_POST = 'POST';
+    public const METHOD_PUT = 'PUT';
+    public const METHOD_PATCH = 'PATCH';
+    public const METHOD_DELETE = 'DELETE';
 
-    const CONTENTTYPE_JSON = 'application/json';
+    public const CONTENTTYPE_JSON = 'application/json';
 
-    const CONTENTCATEGORY_INFORMATIONAL = 'informational';
-    const CONTENTCATEGORY_ADVERTISEMENT = 'advertisement';
+    public const CONTENTCATEGORY_INFORMATIONAL = 'informational';
+    public const CONTENTCATEGORY_ADVERTISEMENT = 'advertisement';
 
-    const MESSAGETYPE_DEFAULT = 'default';
-    const MESSAGETYPE_VOICE = 'voice';
+    public const MESSAGETYPE_DEFAULT = 'default';
+    public const MESSAGETYPE_VOICE = 'voice';
 
-    const SENDERADDRESSTYPE_NATIONAL = 'national';
-    const SENDERADDRESSTYPE_INTERNATIONAL = 'international';
-    const SENDERADDRESSTYPE_ALPHANUMERIC = 'alphanumeric';
-    const SENDERADDRESSTYPE_SHORTCODE = 'shortcode';
+    public const SENDERADDRESSTYPE_NATIONAL = 'national';
+    public const SENDERADDRESSTYPE_INTERNATIONAL = 'international';
+    public const SENDERADDRESSTYPE_ALPHANUMERIC = 'alphanumeric';
+    public const SENDERADDRESSTYPE_SHORTCODE = 'shortcode';
 
     public function __construct(SmsMessageInterface $message, Client $client);
 
@@ -53,28 +53,28 @@ interface RequestInterface
      *
      * @return string
      */
-    public function getMethod() : string;
+    public function getMethod(): string;
 
     /**
      * Must return the URI for the request with a leading slash, i.e. /messages.json
      *
      * @return string
      */
-    public function getUri() : string;
+    public function getUri(): string;
 
     /**
      * Must return the body which is being sent as json
      *
      * @return array
      */
-    public function getBody() : array;
+    public function getBody(): array;
 
     /**
      * Must return the class to where the response is handed over. It must implement the ResponseInterface
      *
      * @return string
      */
-    public function getResponseClass() : string;
+    public function getResponseClass(): string;
 
     /**
      * @param PsrResponseInterface $rawResponse
@@ -88,7 +88,7 @@ interface RequestInterface
      *
      * @return array
      */
-    public function getOptions() : array;
+    public function getOptions(): array;
 
     /**
      * Must validate the input of the request

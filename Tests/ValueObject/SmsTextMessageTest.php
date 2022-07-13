@@ -13,7 +13,7 @@
  * @link          http://www.oxidmodule.com
  */
 
-declare( strict_types = 1 );
+declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\Tests\ValueObject;
 
@@ -33,11 +33,11 @@ class SmsTextMessageTest extends SmsBinaryMessageTest
     /**
      * @return void
      */
-    public function setUp():void
+    public function setUp(): void
     {
         parent::setUp();
 
-        $this->message = new SmsTextMessage( $this->messageFixture);
+        $this->message = new SmsTextMessage($this->messageFixture);
     }
 
     /**
@@ -89,9 +89,9 @@ class SmsTextMessageTest extends SmsBinaryMessageTest
             ->onlyMethods(['validate'])
             ->getMock();
         if ($valid) {
-            $smsLengthMock->expects( $this->never() )->method( 'validate' )->willReturn( true );
+            $smsLengthMock->expects($this->never())->method('validate')->willReturn(true);
         } else {
-            $smsLengthMock->expects( $this->atLeastOnce() )->method( 'validate' )->willThrowException(new InvalidArgumentException());
+            $smsLengthMock->expects($this->atLeastOnce())->method('validate')->willThrowException(new InvalidArgumentException());
         }
 
         /** @var SmsTextMessage|MockObject $message */

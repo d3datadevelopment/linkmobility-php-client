@@ -13,7 +13,7 @@
  * @link          http://www.oxidmodule.com
  */
 
-declare( strict_types = 1 );
+declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\Request;
 
@@ -118,7 +118,7 @@ abstract class Request implements RequestInterface
     public function __construct(SmsMessageInterface $message, Client $client)
     {
         $this->recipientsList = new RecipientsList($client);
-        $this->setMessage( $message );
+        $this->setMessage($message);
         $this->setClient($client);
 
         return $this;
@@ -129,30 +129,30 @@ abstract class Request implements RequestInterface
      */
     public function validate()
     {
-        Assert::that( $this->getMethod() )->choice( self::getMethods() );
-        Assert::that( $this->getUri() )->string()->startsWith( '/' );
+        Assert::that($this->getMethod())->choice(self::getMethods());
+        Assert::that($this->getUri())->string()->startsWith('/');
 
         Assert::that($this->getBody())->isArray();
         Assert::that($this->getResponseClass())->implementsInterface(ResponseInterface::class);
         Assert::that($this->getOptions())->isArray();
 
-        Assert::that( $this->getRecipientsList() )->isInstanceOf(RecipientsList::class)->notEmpty();
-        Assert::that( $this->getRecipientsList()->getRecipients())->notEmpty('request must contain a valid recipient');
-        Assert::thatAll( $this->getRecipientsList() )->isInstanceOf( Recipient::class )->notEmpty();
+        Assert::that($this->getRecipientsList())->isInstanceOf(RecipientsList::class)->notEmpty();
+        Assert::that($this->getRecipientsList()->getRecipients())->notEmpty('request must contain a valid recipient');
+        Assert::thatAll($this->getRecipientsList())->isInstanceOf(Recipient::class)->notEmpty();
 
         // optional properties
-        Assert::thatNullOr( $this->getClientMessageId() )->string();
-        Assert::thatNullOr( $this->getContentCategory() )->choice(self::getContentCategories());
-        Assert::thatNullOr( $this->getNotificationCallbackUrl() )->url();
-        Assert::thatNullOr( $this->getPriority() )->integer();
-        Assert::thatNullOr( $this->doSendAsFlashSms() )->boolean();
-        Assert::thatNullOr( $this->getSenderAddress() )->isInstanceOf(Sender::class);
-        Assert::thatNullOr( $this->getSenderAddressType() )->choice(self::getSenderAddressTypes());
-        Assert::thatNullOr( $this->getTestMode() )->boolean();
-        Assert::thatNullOr( $this->getValidityPeriode() )->integer();
+        Assert::thatNullOr($this->getClientMessageId())->string();
+        Assert::thatNullOr($this->getContentCategory())->choice(self::getContentCategories());
+        Assert::thatNullOr($this->getNotificationCallbackUrl())->url();
+        Assert::thatNullOr($this->getPriority())->integer();
+        Assert::thatNullOr($this->doSendAsFlashSms())->boolean();
+        Assert::thatNullOr($this->getSenderAddress())->isInstanceOf(Sender::class);
+        Assert::thatNullOr($this->getSenderAddressType())->choice(self::getSenderAddressTypes());
+        Assert::thatNullOr($this->getTestMode())->boolean();
+        Assert::thatNullOr($this->getValidityPeriode())->integer();
     }
 
-    public function getRawBody() : array
+    public function getRawBody(): array
     {
         return [
             'clientMessageId'   => $this->getClientMessageId(),
@@ -174,9 +174,9 @@ abstract class Request implements RequestInterface
      */
     public function getBody(): array
     {
-        $body = array_filter( $this->getRawBody(), function( $elm ) {
-            return ! is_null( $elm );
-        } );
+        $body = array_filter($this->getRawBody(), function ($elm) {
+            return ! is_null($elm);
+        });
 
         switch ($this->getContentType()) {
             case RequestInterface::CONTENTTYPE_JSON:
@@ -259,7 +259,7 @@ abstract class Request implements RequestInterface
         return $this;
     }
 
-    public function getContentType() : string
+    public function getContentType(): string
     {
         return $this->contentType;
     }
@@ -293,7 +293,7 @@ abstract class Request implements RequestInterface
         return $this;
     }
 
-    public function getContentCategory() : string
+    public function getContentCategory(): string
     {
         return $this->contentCategory;
     }
@@ -318,7 +318,7 @@ abstract class Request implements RequestInterface
         return $this;
     }
 
-    public function getTestMode() : bool
+    public function getTestMode(): bool
     {
         return $this->test;
     }
@@ -335,7 +335,7 @@ abstract class Request implements RequestInterface
         return $this;
     }
 
-    public function getMaxSmsPerMessage() : int
+    public function getMaxSmsPerMessage(): int
     {
         return $this->maxSmsPerMessage;
     }
@@ -352,7 +352,7 @@ abstract class Request implements RequestInterface
         return $this;
     }
 
-    public function getMessageType() : string
+    public function getMessageType(): string
     {
         return $this->messageType;
     }
@@ -400,7 +400,7 @@ abstract class Request implements RequestInterface
     /**
      * @return RecipientsListInterface
      */
-    public function getRecipientsList() : RecipientsListInterface
+    public function getRecipientsList(): RecipientsListInterface
     {
         return $this->recipientsList;
     }
@@ -420,7 +420,7 @@ abstract class Request implements RequestInterface
     /**
      * @return bool|null
      */
-    public function doSendAsFlashSms() : bool
+    public function doSendAsFlashSms(): bool
     {
         return $this->sendAsFlashSms;
     }
@@ -483,7 +483,7 @@ abstract class Request implements RequestInterface
      *
      * @return $this
      */
-    public function setValidityPeriode( int $validityPeriode): Request
+    public function setValidityPeriode(int $validityPeriode): Request
     {
         $this->validityPeriode = $validityPeriode;
 
@@ -520,7 +520,7 @@ abstract class Request implements RequestInterface
     /**
      * @param Client $client
      */
-    public function setClient( Client $client ): Request
+    public function setClient(Client $client): Request
     {
         $this->client = $client;
 

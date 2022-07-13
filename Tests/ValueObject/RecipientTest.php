@@ -13,7 +13,7 @@
  * @link          http://www.oxidmodule.com
  */
 
-declare( strict_types = 1 );
+declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\Tests\ValueObject;
 
@@ -38,7 +38,7 @@ class RecipientTest extends ApiTestCase
      * @return void
      * @throws NumberParseException
      */
-    public function setUp():void
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -116,9 +116,9 @@ class RecipientTest extends ApiTestCase
             ->disableOriginalConstructor()
             ->getMock();
         if ($number === 'abc') {
-            $phoneNumberUtilMock->method( 'parse' )->willThrowException(new NumberParseException(0, 'message'));
+            $phoneNumberUtilMock->method('parse')->willThrowException(new NumberParseException(0, 'message'));
         } else {
-            $phoneNumberUtilMock->method( 'parse' )->willReturn( new PhoneNumber() );
+            $phoneNumberUtilMock->method('parse')->willReturn(new PhoneNumber());
         }
         $phoneNumberUtilMock->method('format')->willReturn($number);
         $phoneNumberUtilMock->method('isValidNumber')->willReturn($validNumber);

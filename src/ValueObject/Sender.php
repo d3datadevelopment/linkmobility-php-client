@@ -26,14 +26,14 @@ class Sender extends StringValueObject
 
         $phoneUtil = $this->getPhoneNumberUtil();
 
-        $phoneNumber = $phoneUtil->parse( $number, strtoupper($iso2CountryCode) );
+        $phoneNumber = $phoneUtil->parse($number, strtoupper($iso2CountryCode));
         $number = ltrim($phoneUtil->format($phoneNumber, PhoneNumberFormat::E164), '+');
 
         if (false === $phoneUtil->isValidNumber($phoneNumber)) {
-            throw new RecipientException( ExceptionMessages::INVALID_SENDER );
+            throw new RecipientException(ExceptionMessages::INVALID_SENDER);
         }
 
-        parent::__construct( $number);
+        parent::__construct($number);
     }
 
     /**
