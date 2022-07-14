@@ -465,10 +465,55 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @dataProvider setGetSenderAddressTypeDataProvider
      */
-    public function setGetSenderAddressTypeTest()
+    public function testSetGetSenderAddressType($hasSender, $addressType, $expected)
     {
-        $this->checkGetterSetter('fixture', 'setSenderAddressType', 'getSenderAddressType');
+        /** @var Request|MockObject $request */
+        $request = $this->getMockBuilder($this->testClassName)
+            ->setConstructorArgs([$this->request->getMessage(), $this->request->getClient()])
+            ->onlyMethods(['getSenderAddress'])
+            ->getMock();
+
+        if ($hasSender) {
+            /** @var Sender|MockObject $senderMock */
+            $senderMock = $this->getMockBuilder( Sender::class )
+                ->disableOriginalConstructor()
+                ->onlyMethods(['get'])
+                ->getMock();
+            $senderMock->method('get')->willReturn('fixture');
+            $request->method('getSenderAddress')->willReturn($senderMock);
+        } else {
+            $request->method('getSenderAddress')->willReturn(null);
+        }
+
+        $this->assertInstanceOf(
+            Request::class,
+            $this->callMethod(
+                $request,
+                'setSenderAddressType',
+                [$addressType]
+            )
+        );
+
+        $this->assertSame(
+            $expected,
+            $this->callMethod(
+                $request,
+                'getSenderAddressType'
+            )
+        );
+    }
+
+    /**
+     * @return array[]
+     */
+    public function setGetSenderAddressTypeDataProvider(): array
+    {
+        return [
+            'has no sender'                 => [false, 'fixture', null],
+            'has sender and address type'   => [true, 'fixture', 'fixture'],
+        ];
     }
 
     /**

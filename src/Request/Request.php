@@ -465,7 +465,7 @@ abstract class Request implements RequestInterface
      */
     public function getSenderAddressType()
     {
-        return $this->senderAddressType;
+        return $this->getSenderAddress() && $this->getSenderAddress()->get() ? $this->senderAddressType : null;
     }
 
     /**

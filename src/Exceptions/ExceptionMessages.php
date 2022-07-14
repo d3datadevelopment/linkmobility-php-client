@@ -17,11 +17,13 @@ namespace D3\LinkmobilityClient\Exceptions;
 
 class ExceptionMessages
 {
-    public const INVALID_SENDER            = 'invalid sender phone number';
+    public const INVALID_SENDER             = 'invalid sender phone number';
 
-    public const NOK_REQUEST_RETURN        = 'request %1$s returns status code %2$s';
+    public const NOK_REQUEST_RETURN         = 'request %1$s returns status code %2$s';
 
-    public const INVALID_RECIPIENT_PHONE   = 'invalid recipient phone number';
+    public const INVALID_RECIPIENT_PHONE    = 'invalid recipient phone number';
 
-    public const NOT_A_MOBILE_NUMBER       = 'not a mobile number';
+    public const NOT_A_MOBILE_NUMBER        = 'not a mobile number';
+
+    public const DEBUG_NOSENDERORCOUNTRYCODE= 'no sender number or sender country code defined, use fallback to account default';
 }

@@ -17,7 +17,9 @@ namespace D3\LinkmobilityClient\ValueObject;
 
 use Assert\Assert;
 use D3\LinkmobilityClient\Exceptions\ExceptionMessages;
+use D3\LinkmobilityClient\Exceptions\NoSenderDefinedException;
 use D3\LinkmobilityClient\Exceptions\RecipientException;
+use D3\LinkmobilityClient\LoggerHandler;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
@@ -31,20 +33,30 @@ class Sender extends StringValueObject
      * @throws RecipientException
      * @throws NumberParseException
      */
-    public function __construct(string $number, string $iso2CountryCode)
+    public function __construct(string $number = null, string $iso2CountryCode = null)
     {
-        Assert::that($iso2CountryCode)->string()->length(2);
+        try {
+            if ( is_null( $number ) || is_null( $iso2CountryCode ) ) {
+                throw new NoSenderDefinedException();
+            }
 
-        $phoneUtil = $this->getPhoneNumberUtil();
+            Assert::that( $iso2CountryCode )->string()->length( 2 );
 
-        $phoneNumber = $phoneUtil->parse($number, strtoupper($iso2CountryCode));
-        $number = ltrim($phoneUtil->format($phoneNumber, PhoneNumberFormat::E164), '+');
+            $phoneUtil = $this->getPhoneNumberUtil();
 
-        if (false === $phoneUtil->isValidNumber($phoneNumber)) {
-            throw new RecipientException(ExceptionMessages::INVALID_SENDER);
+            $phoneNumber = $phoneUtil->parse( $number, strtoupper( $iso2CountryCode ) );
+            $number      = ltrim( $phoneUtil->format( $phoneNumber, PhoneNumberFormat::E164 ), '+' );
+
+            if ( false === $phoneUtil->isValidNumber( $phoneNumber ) ) {
+                throw new RecipientException( ExceptionMessages::INVALID_SENDER );
+            }
+
+            parent::__construct( $number );
+        } catch (NoSenderDefinedException $e) {
+            LoggerHandler::getInstance()->getLogger()->debug(
+                ExceptionMessages::DEBUG_NOSENDERORCOUNTRYCODE
+            );
         }
-
-        parent::__construct($number);
     }
 
     /**
@@ -53,13 +65,5 @@ class Sender extends StringValueObject
     protected function getPhoneNumberUtil(): PhoneNumberUtil
     {
         return PhoneNumberUtil::getInstance();
-    }
-
-    /**
-     * @return int
-     */
-    public function getFormatted()
-    {
-        return parent::getFormatted();
     }
 }
