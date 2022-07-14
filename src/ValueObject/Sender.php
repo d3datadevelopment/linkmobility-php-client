@@ -24,7 +24,7 @@ use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 
-class Sender extends StringValueObject
+class Sender extends ValueObject
 {
     /**
      * @param string $number
