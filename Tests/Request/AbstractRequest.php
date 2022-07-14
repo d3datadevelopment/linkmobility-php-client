@@ -96,6 +96,20 @@ abstract class AbstractRequest extends ApiTestCase
      * @test
      * @throws ReflectionException
      */
+    public function testGetUri()
+    {
+        $this->assertIsString(
+            $this->callMethod(
+                $this->request,
+                'getUri'
+            )
+        );
+    }
+
+    /**
+     * @test
+     * @throws ReflectionException
+     */
     public function validatePassedTest()
     {
         $recipient = new Recipient('015792300219', 'DE');
@@ -227,8 +241,6 @@ abstract class AbstractRequest extends ApiTestCase
             ]
         ];
     }
-
-
 
     /**
      * @test

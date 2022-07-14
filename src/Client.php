@@ -18,6 +18,8 @@ namespace D3\LinkmobilityClient;
 use D3\LinkmobilityClient\Exceptions\ApiException;
 use D3\LinkmobilityClient\Exceptions\ExceptionMessages;
 use D3\LinkmobilityClient\Request\RequestInterface;
+use D3\LinkmobilityClient\Url\Url;
+use D3\LinkmobilityClient\Url\UrlInterface;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;

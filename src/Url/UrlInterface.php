@@ -13,7 +13,7 @@
 
 declare(strict_types=1);
 
-namespace D3\LinkmobilityClient;
+namespace D3\LinkmobilityClient\Url;
 
 interface UrlInterface
 {

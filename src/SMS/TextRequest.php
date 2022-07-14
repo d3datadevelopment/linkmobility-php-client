@@ -17,6 +17,7 @@ namespace D3\LinkmobilityClient\SMS;
 
 use Assert\Assert;
 use D3\LinkmobilityClient\Request\Request;
+use D3\LinkmobilityClient\Url\Url;
 use D3\LinkmobilityClient\ValueObject\SmsTextMessage;
 use InvalidArgumentException;
 
@@ -27,7 +28,7 @@ class TextRequest extends Request implements SmsRequestInterface
      */
     public function getUri(): string
     {
-        return '/rest/smsmessaging/text';
+        return (new Url())->getTextSmsUri();
     }
 
     /**

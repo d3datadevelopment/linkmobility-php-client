@@ -13,9 +13,10 @@
 
 declare(strict_types=1);
 
-namespace D3\LinkmobilityClient\Tests;
+namespace D3\LinkmobilityClient\Tests\Url;
 
-use D3\LinkmobilityClient\Url;
+use D3\LinkmobilityClient\Tests\ApiTestCase;
+use D3\LinkmobilityClient\Url\Url;
 use ReflectionException;
 
 class UrlTest extends ApiTestCase
@@ -57,5 +58,35 @@ class UrlTest extends ApiTestCase
                 'getBaseUri'
             )
         );
+    }
+
+    /**
+     * @test
+     * @throws ReflectionException
+     */
+    public function testGetTextSmsUri()
+    {
+        $uri = $this->callMethod(
+            $this->url,
+            'getTextSmsUri'
+        );
+
+        $this->assertIsString($uri);
+        $this->assertStringStartsWith('/', $uri);
+    }
+
+    /**
+     * @test
+     * @throws ReflectionException
+     */
+    public function testGetBinarySmsUri()
+    {
+        $uri = $this->callMethod(
+            $this->url,
+            'getBinarySmsUri'
+        );
+
+        $this->assertIsString($uri);
+        $this->assertStringStartsWith('/', $uri);
     }
 }

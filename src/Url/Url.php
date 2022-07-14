@@ -13,7 +13,7 @@
 
 declare(strict_types=1);
 
-namespace D3\LinkmobilityClient;
+namespace D3\LinkmobilityClient\Url;
 
 class Url implements UrlInterface
 {
@@ -25,5 +25,21 @@ class Url implements UrlInterface
     public function getBaseUri(): string
     {
         return $this->baseUri;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTextSmsUri()
+    {
+        return '/rest/smsmessaging/text';
+    }
+
+    /**
+     * @return string
+     */
+    public function getBinarySmsUri()
+    {
+        return '/rest/smsmessaging/binary';
     }
 }
