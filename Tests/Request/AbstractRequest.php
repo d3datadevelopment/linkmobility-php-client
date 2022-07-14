@@ -477,7 +477,7 @@ abstract class AbstractRequest extends ApiTestCase
 
         if ($hasSender) {
             /** @var Sender|MockObject $senderMock */
-            $senderMock = $this->getMockBuilder( Sender::class )
+            $senderMock = $this->getMockBuilder(Sender::class)
                 ->disableOriginalConstructor()
                 ->onlyMethods(['get'])
                 ->getMock();

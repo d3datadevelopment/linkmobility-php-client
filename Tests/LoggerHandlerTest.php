@@ -70,10 +70,10 @@ class LoggerHandlerTest extends ApiTestCase
             ->onlyMethods(['debug', 'error', 'log'])
             ->getMock();
 
-        $this->callMethod( $this->loggerHandler, 'setLogger', [ $loggerMock]);
+        $this->callMethod($this->loggerHandler, 'setLogger', [ $loggerMock]);
         $this->assertSame(
             $loggerMock,
-            $this->callMethod( $this->loggerHandler, 'getLogger')
+            $this->callMethod($this->loggerHandler, 'getLogger')
         );
     }
 }

@@ -36,22 +36,22 @@ class Sender extends StringValueObject
     public function __construct(string $number = null, string $iso2CountryCode = null)
     {
         try {
-            if ( is_null( $number ) || is_null( $iso2CountryCode ) ) {
+            if (is_null($number) || is_null($iso2CountryCode)) {
                 throw new NoSenderDefinedException();
             }
 
-            Assert::that( $iso2CountryCode )->string()->length( 2 );
+            Assert::that($iso2CountryCode)->string()->length(2);
 
             $phoneUtil = $this->getPhoneNumberUtil();
 
-            $phoneNumber = $phoneUtil->parse( $number, strtoupper( $iso2CountryCode ) );
-            $number      = ltrim( $phoneUtil->format( $phoneNumber, PhoneNumberFormat::E164 ), '+' );
+            $phoneNumber = $phoneUtil->parse($number, strtoupper($iso2CountryCode));
+            $number      = ltrim($phoneUtil->format($phoneNumber, PhoneNumberFormat::E164), '+');
 
-            if ( false === $phoneUtil->isValidNumber( $phoneNumber ) ) {
-                throw new RecipientException( ExceptionMessages::INVALID_SENDER );
+            if (false === $phoneUtil->isValidNumber($phoneNumber)) {
+                throw new RecipientException(ExceptionMessages::INVALID_SENDER);
             }
 
-            parent::__construct( $number );
+            parent::__construct($number);
         } catch (NoSenderDefinedException $e) {
             LoggerHandler::getInstance()->getLogger()->debug(
                 ExceptionMessages::DEBUG_NOSENDERORCOUNTRYCODE

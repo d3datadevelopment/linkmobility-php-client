@@ -48,7 +48,7 @@ class LoggerHandler
     /**
      * @return LoggerInterface
      */
-    public function getLogger() : LoggerInterface
+    public function getLogger(): LoggerInterface
     {
         return $this->logger;
     }

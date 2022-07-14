@@ -17,5 +17,4 @@ namespace D3\LinkmobilityClient\Exceptions;
 
 class NoSenderDefinedException extends LinkmobilityException
 {
-
 }

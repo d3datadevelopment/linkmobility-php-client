@@ -126,7 +126,7 @@ abstract class Request implements RequestInterface
     /**
      * @return string
      */
-    public abstract function getUri(): string;
+    abstract public function getUri(): string;
 
     /**
      * @throws InvalidArgumentException
