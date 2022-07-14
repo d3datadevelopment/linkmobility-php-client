@@ -17,6 +17,7 @@ namespace D3\LinkmobilityClient\Request;
 
 use Assert\Assert;
 use D3\LinkmobilityClient\Client;
+use D3\LinkmobilityClient\Exceptions\ExceptionMessages;
 use D3\LinkmobilityClient\RecipientsList\RecipientsList;
 use D3\LinkmobilityClient\RecipientsList\RecipientsListInterface;
 use D3\LinkmobilityClient\Response\ResponseInterface;
@@ -140,7 +141,7 @@ abstract class Request implements RequestInterface
         Assert::that($this->getOptions())->isArray();
 
         Assert::that($this->getRecipientsList())->isInstanceOf(RecipientsList::class)->notEmpty();
-        Assert::that($this->getRecipientsList()->getRecipients())->notEmpty('request must contain a valid recipient');
+        Assert::that($this->getRecipientsList()->getRecipients())->notEmpty(ExceptionMessages::EMPTY_RECIPIENT_LIST);
         Assert::thatAll($this->getRecipientsList())->isInstanceOf(Recipient::class)->notEmpty();
 
         // optional properties

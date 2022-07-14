@@ -25,5 +25,7 @@ class ExceptionMessages
 
     public const NOT_A_MOBILE_NUMBER        = 'not a mobile number';
 
+    public const EMPTY_RECIPIENT_LIST       = 'request must contain a valid recipient';
+
     public const DEBUG_NOSENDERORCOUNTRYCODE= 'no sender number or sender country code defined, use fallback to account default';
 }
