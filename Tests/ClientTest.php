@@ -18,6 +18,7 @@ namespace D3\LinkmobilityClient\Tests;
 use Assert\InvalidArgumentException;
 use D3\LinkmobilityClient\Client;
 use D3\LinkmobilityClient\Exceptions\ApiException;
+use D3\LinkmobilityClient\LoggerHandler;
 use D3\LinkmobilityClient\Request\RequestInterface;
 use D3\LinkmobilityClient\Response\Response;
 use D3\LinkmobilityClient\Response\ResponseInterface;
@@ -170,13 +171,12 @@ class ClientTest extends ApiTestCase
 
     /**
      * @test
-     * @param $useLogger
      * @param $okStatus
      * @return void
      * @throws ReflectionException
      * @dataProvider rawRequestDataProvider
      */
-    public function testRawRequest($useLogger, $okStatus)
+    public function testRawRequest($okStatus)
     {
         $statusCode = $okStatus ? '200' : '301';
 
@@ -205,7 +205,7 @@ class ClientTest extends ApiTestCase
             ->disableOriginalConstructor()
             ->getMock();
         $responseMock->expects($this->atLeastOnce())->method('getStatusCode')->willReturn($statusCode);
-        $responseMock->expects($useLogger && $okStatus ? $this->atLeastOnce() : $this->never())
+        $responseMock->expects($okStatus ? $this->atLeastOnce() : $this->never())
             ->method('getBody')->willReturn($streamMock);
 
         /** @var GuzzleClient|MockObject $requestClientMock */
@@ -219,17 +219,21 @@ class ClientTest extends ApiTestCase
             ->onlyMethods(['debug', 'error', 'log'])
             ->getMock();
 
+        /** @var LoggerHandler|MockObject $loggerHandlerMock */
+        $loggerHandlerMock = $this->getMockBuilder(LoggerHandler::class)
+            ->onlyMethods(['getLogger'])
+            ->getMock();
+        $loggerHandlerMock->method('getLogger')->willReturn($loggerMock);
+
         /** @var Client|MockObject $clientMock */
         $clientMock = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
             ->onlyMethods([
-                'hasLogger',
-                'getLogger'
+                'getLoggerHandler'
             ])
             ->getMock();
-        $clientMock->method('hasLogger')->willReturn($useLogger);
-        $clientMock->expects($useLogger ? $this->atLeastOnce() : $this->never())
-            ->method('getLogger')->willReturn($loggerMock);
+        $clientMock->expects($this->atLeastOnce())
+            ->method('getLoggerHandler')->willReturn($loggerHandlerMock);
         $this->setValue($clientMock, 'requestClient', $requestClientMock);
 
         if (false === $okStatus) {
@@ -247,37 +251,8 @@ class ClientTest extends ApiTestCase
     public function rawRequestDataProvider(): array
     {
         return [
-            'has logger, OK status' => [true, true],
-            'has no logger, OK status' => [false, true],
-            'has logger, NOK status' => [true, false],
-            'has no logger, NOK status' => [false, false],
+            'OK status' => [true],
+            'NOK status' => [false],
         ];
-    }
-
-    /**
-     * @test
-     * @return void
-     * @throws ReflectionException
-     */
-    public function testLogger()
-    {
-        $this->assertFalse($this->callMethod($this->api, 'hasLogger'));
-        $this->assertNull($this->callMethod($this->api, 'getLogger'));
-
-        /** @var LoggerInterface|MockObject $loggerMock */
-        $loggerMock = $this->getMockBuilder(AbstractLogger::class)
-            ->onlyMethods(['debug', 'error', 'log'])
-            ->getMock();
-
-        $this->assertSame(
-            $this->api,
-            $this->callMethod($this->api, 'setLogger', [$loggerMock])
-        );
-
-        $this->assertTrue($this->callMethod($this->api, 'hasLogger'));
-        $this->assertSame(
-            $loggerMock,
-            $this->callMethod($this->api, 'getLogger')
-        );
     }
 }

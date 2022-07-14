@@ -18,6 +18,7 @@ namespace D3\LinkmobilityClient\RecipientsList;
 use D3\LinkmobilityClient\Client;
 use D3\LinkmobilityClient\Exceptions\ExceptionMessages;
 use D3\LinkmobilityClient\Exceptions\RecipientException;
+use D3\LinkmobilityClient\LoggerHandler;
 use D3\LinkmobilityClient\ValueObject\Recipient;
 use Iterator;
 use libphonenumber\NumberParseException;
@@ -76,13 +77,9 @@ class RecipientsList implements RecipientsListInterface, Iterator
 
             $this->recipients[ md5(serialize($recipient)) ] = $recipient;
         } catch (NumberParseException $e) {
-            if ($this->getClient()->hasLogger()) {
-                $this->getClient()->getLogger()->info($e->getMessage());
-            }
+            $this->client->getLoggerHandler()->getLogger()->info($e->getMessage());
         } catch (RecipientException $e) {
-            if ($this->getClient()->hasLogger()) {
-                $this->getClient()->getLogger()->info($e->getMessage());
-            }
+            $this->client->getLoggerHandler()->getLogger()->info($e->getMessage());
         }
 
         return $this;

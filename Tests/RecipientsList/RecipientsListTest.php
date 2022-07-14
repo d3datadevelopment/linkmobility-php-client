@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace D3\LinkmobilityClient\Tests\RecipientsList;
 
 use D3\LinkmobilityClient\Client;
+use D3\LinkmobilityClient\LoggerHandler;
 use D3\LinkmobilityClient\RecipientsList\RecipientsList;
 use D3\LinkmobilityClient\Tests\ApiTestCase;
 use D3\LinkmobilityClient\ValueObject\Recipient;
@@ -183,13 +184,18 @@ class RecipientsListTest extends ApiTestCase
                            ->getMock();
         $loggerMock->expects($this->atLeastOnce())->method('info')->willReturn(true);
 
+        /** @var LoggerHandler|MockObject $loggerHandlerMock */
+        $loggerHandlerMock = $this->getMockBuilder(LoggerHandler::class)
+            ->onlyMethods(['getLogger'])
+            ->getMock();
+        $loggerHandlerMock->method('getLogger')->willReturn($loggerMock);
+
         /** @var Client|MockObject $clientMock */
         $clientMock = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['hasLogger', 'getLogger'])
+            ->onlyMethods(['getLoggerHandler'])
             ->getMock();
-        $clientMock->method('hasLogger')->willReturn(true);
-        $clientMock->method('getLogger')->willReturn($loggerMock);
+        $clientMock->method('getLoggerHandler')->willReturn($loggerHandlerMock);
 
         /** @var RecipientsList|MockObject $recListMock */
         $recListMock = $this->getMockBuilder(RecipientsList::class)

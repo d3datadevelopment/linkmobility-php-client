@@ -30,8 +30,6 @@ class Client
     public $apiUrl;
     public $requestClient;
 
-    private $logger;
-
     public function __construct(string $accessToken, UrlInterface $apiUrl = null, ClientInterface $client = null)
     {
         $this->accessToken = $accessToken;
@@ -69,9 +67,7 @@ class Client
     {
         $options['headers']['Authorization'] = 'Bearer '.$this->accessToken;
 
-        if ($this->hasLogger()) {
-            $this->getLogger()->debug('request '.$url, $options);
-        }
+        $this->getLoggerHandler()->getLogger()->debug('request '.$url, $options);
 
         $response = $this->requestClient->request(
             $method,
@@ -81,45 +77,21 @@ class Client
 
         if ($response->getStatusCode() != 200) {
             $message = sprintf(ExceptionMessages::NOK_REQUEST_RETURN, $url, $response->getStatusCode());
-            if ($this->hasLogger()) {
-                $this->getLogger()->error($message);
-            }
+            $this->getLoggerHandler()->getLogger()->error($message);
             throw new ApiException($message);
         }
 
-        if ($this->hasLogger()) {
-            $response->getBody()->rewind();
-            $this->getLogger()->debug('response', [$response->getBody()->getContents()]);
-        }
+        $response->getBody()->rewind();
+        $this->getLoggerHandler()->getLogger()->debug('response', [$response->getBody()->getContents()]);
 
         return $response;
     }
 
     /**
-     * @param mixed $logger
-     *
-     * @return Client
+     * @return LoggerHandler
      */
-    public function setLogger(LoggerInterface $logger): Client
+    public function getLoggerHandler(): LoggerHandler
     {
-        $this->logger = $logger;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasLogger(): bool
-    {
-        return $this->logger instanceof LoggerInterface;
-    }
-
-    /**
-     * @return LoggerInterface|null
-     */
-    public function getLogger()
-    {
-        return $this->hasLogger() ? $this->logger : null;
+        return LoggerHandler::getInstance();
     }
 }
