@@ -21,6 +21,8 @@ use D3\LinkmobilityClient\Tests\ApiTestCase;
 use D3\LinkmobilityClient\ValueObject\Sender;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumber;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberType;
 use libphonenumber\PhoneNumberUtil;
 use PHPUnit\Framework\MockObject\MockObject;
 use ReflectionException;
@@ -30,7 +32,7 @@ class SenderTest extends ApiTestCase
     /** @var Sender */
     public $sender;
 
-    private $phoneNumberFixture = '015792300219';
+    private $phoneNumberFixture;
     private $phoneCountryFixture = 'DE';
 
     /**
@@ -42,7 +44,13 @@ class SenderTest extends ApiTestCase
     {
         parent::setUp();
 
+        $phoneUtil = PhoneNumberUtil::getInstance();
+        $example = $phoneUtil->getExampleNumberForType($this->phoneCountryFixture, PhoneNumberType::MOBILE);
+        $this->phoneNumberFixture = $phoneUtil->format($example,  PhoneNumberFormat::NATIONAL);
+
         $this->sender = new Sender($this->phoneNumberFixture, $this->phoneCountryFixture);
+
+
     }
 
     /**

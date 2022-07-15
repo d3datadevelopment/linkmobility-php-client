@@ -24,6 +24,9 @@ use D3\LinkmobilityClient\SMS\Response;
 use D3\LinkmobilityClient\Tests\ApiTestCase;
 use D3\LinkmobilityClient\ValueObject\Recipient;
 use D3\LinkmobilityClient\ValueObject\Sender;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberType;
+use libphonenumber\PhoneNumberUtil;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -112,7 +115,11 @@ abstract class AbstractRequest extends ApiTestCase
      */
     public function validatePassedTest()
     {
-        $recipient = new Recipient('015792300219', 'DE');
+        $phoneUtil = PhoneNumberUtil::getInstance();
+        $example = $phoneUtil->getExampleNumberForType('DE', PhoneNumberType::MOBILE);
+        $phoneNumberFixture = $phoneUtil->format($example,  PhoneNumberFormat::NATIONAL);
+
+        $recipient = new Recipient($phoneNumberFixture, 'DE');
 
         /** @var Request|MockObject $requestMock */
         $requestMock = $this->getMockBuilder($this->testClassName)
@@ -139,7 +146,11 @@ abstract class AbstractRequest extends ApiTestCase
      */
     public function validateFailedTest()
     {
-        $recipient = new Recipient('015792300219', 'DE');
+        $phoneUtil = PhoneNumberUtil::getInstance();
+        $example = $phoneUtil->getExampleNumberForType('DE', PhoneNumberType::MOBILE);
+        $phoneNumberFixture = $phoneUtil->format($example,  PhoneNumberFormat::NATIONAL);
+
+        $recipient = new Recipient($phoneNumberFixture, 'DE');
 
         /** @var Request|MockObject $requestMock */
         $requestMock = $this->getMockBuilder($this->testClassName)
