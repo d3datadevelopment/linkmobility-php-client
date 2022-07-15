@@ -205,7 +205,7 @@ class ClientTest extends ApiTestCase
             ->disableOriginalConstructor()
             ->getMock();
         $responseMock->expects($this->atLeastOnce())->method('getStatusCode')->willReturn($statusCode);
-        $responseMock->expects($okStatus ? $this->atLeastOnce() : $this->never())
+        $responseMock->expects($this->atLeastOnce())
             ->method('getBody')->willReturn($streamMock);
 
         /** @var GuzzleClient|MockObject $requestClientMock */

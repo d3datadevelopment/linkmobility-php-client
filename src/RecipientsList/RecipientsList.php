@@ -94,12 +94,15 @@ class RecipientsList implements RecipientsListInterface, Iterator
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function getRecipients(): array
     {
         return array_values(
             array_map(
                 function (Recipient $recipient) {
-                    return $recipient->get();
+                    return $recipient->getFormatted();
                 },
                 $this->recipients
             )

@@ -45,7 +45,7 @@ class Sender extends ValueObject
             $phoneUtil = $this->getPhoneNumberUtil();
 
             $phoneNumber = $phoneUtil->parse($number, strtoupper($iso2CountryCode));
-            $number      = ltrim($phoneUtil->format($phoneNumber, PhoneNumberFormat::E164), '+');
+            $number      = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
 
             if (false === $phoneUtil->isValidNumber($phoneNumber)) {
                 throw new RecipientException(ExceptionMessages::INVALID_SENDER);
@@ -65,5 +65,10 @@ class Sender extends ValueObject
     protected function getPhoneNumberUtil(): PhoneNumberUtil
     {
         return PhoneNumberUtil::getInstance();
+    }
+
+    public function getFormatted()
+    {
+        return ltrim(parent::getFormatted(), '+');
     }
 }

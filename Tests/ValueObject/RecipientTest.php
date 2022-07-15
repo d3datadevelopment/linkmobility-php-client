@@ -78,7 +78,7 @@ class RecipientTest extends ApiTestCase
         $recipientMock->__construct($this->phoneNumberFixture, $this->phoneCountryFixture);
 
         $this->assertSame(
-            '491527565839',
+            '+491527565839',
             $this->callMethod(
                 $recipientMock,
                 'get'

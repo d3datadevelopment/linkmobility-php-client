@@ -40,7 +40,7 @@ class Recipient extends StringValueObject
         $phoneUtil = $this->getPhoneNumberUtil();
 
         $phoneNumber = $phoneUtil->parse($number, strtoupper($iso2CountryCode));
-        $number = ltrim($phoneUtil->format($phoneNumber, PhoneNumberFormat::E164), '+');
+        $number = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
 
         parent::__construct($number);
         $this->countryCode = $iso2CountryCode;
@@ -60,5 +60,10 @@ class Recipient extends StringValueObject
     public function getCountryCode(): string
     {
         return $this->countryCode;
+    }
+
+    public function getFormatted()
+    {
+        return ltrim(parent::getFormatted(), '+');
     }
 }
