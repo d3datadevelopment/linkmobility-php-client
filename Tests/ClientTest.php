@@ -255,4 +255,20 @@ class ClientTest extends ApiTestCase
             'NOK status' => [false],
         ];
     }
+
+    /**
+     * @test
+     * @return void
+     * @throws ReflectionException
+     */
+    public function testGetLoggerHandler()
+    {
+        $this->assertInstanceOf(
+            LoggerHandler::class,
+            $this->callMethod(
+                $this->api,
+                'getLoggerHandler'
+            )
+        );
+    }
 }

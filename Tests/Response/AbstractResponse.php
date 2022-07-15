@@ -121,6 +121,15 @@ abstract class AbstractResponse extends ApiTestCase
      * @test
      * @throws ReflectionException
      */
+    public function testGetClientMessageId()
+    {
+        $this->checkProperties('clientMessageId', 'clientMessageId', 'getClientMessageId');
+    }
+
+    /**
+     * @test
+     * @throws ReflectionException
+     */
     public function testGetTransferId()
     {
         $this->checkProperties('transferId', 'transferId', 'getTransferId');

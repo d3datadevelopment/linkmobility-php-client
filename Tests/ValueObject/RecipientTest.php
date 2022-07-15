@@ -143,9 +143,13 @@ class RecipientTest extends ApiTestCase
      */
     public function constructInvalidDataProvider(): array
     {
+        $phoneUtil = PhoneNumberUtil::getInstance();
+        $example = $phoneUtil->getExampleNumberForType($this->phoneCountryFixture, PhoneNumberType::MOBILE);
+        $phoneNumberFixture = $phoneUtil->format($example,  PhoneNumberFormat::NATIONAL);
+
         return [
             'empty number'          => ['', 'DE', true, InvalidArgumentException::class],
-            'invalid country code'  => [$this->phoneNumberFixture, 'DEX', true, InvalidArgumentException::class],
+            'invalid country code'  => [$phoneNumberFixture, 'DEX', true, InvalidArgumentException::class],
             'unparsable'            => ['abc', 'DE', true, NumberParseException::class],
             'invalid number'        => ['abc', 'DE', false, NumberParseException::class]
         ];

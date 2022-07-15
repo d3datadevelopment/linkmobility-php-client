@@ -620,4 +620,31 @@ abstract class AbstractRequest extends ApiTestCase
 
         $this->checkGetterSetter($clientMock, 'setClient', 'getClient');
     }
+
+    /**
+     * @test
+     * @return void
+     * @throws ReflectionException
+     */
+    public function testGetResponseClass()
+    {
+        $className = $this->callMethod(
+            $this->request,
+            'getResponseClass'
+        );
+
+        $this->assertIsString(
+            $className
+        );
+
+        /** @var \D3\LinkmobilityClient\Response\ResponseInterface|MockObject $responseMock */
+        $responseMock = $this->getMockBuilder($className)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->assertInstanceOf(
+            \D3\LinkmobilityClient\Response\ResponseInterface::class,
+            $responseMock
+        );
+    }
 }
