@@ -76,9 +76,9 @@ class RecipientsList implements RecipientsListInterface, Iterator
 
             $this->recipients[ md5(serialize($recipient)) ] = $recipient;
         } catch (NumberParseException $e) {
-            $this->client->getLoggerHandler()->getLogger()->info($e->getMessage());
+            $this->client->getLoggerHandler()->getLogger()->info($e->getMessage(), [$recipient]);
         } catch (RecipientException $e) {
-            $this->client->getLoggerHandler()->getLogger()->info($e->getMessage());
+            $this->client->getLoggerHandler()->getLogger()->info($e->getMessage(), [$recipient]);
         }
 
         return $this;

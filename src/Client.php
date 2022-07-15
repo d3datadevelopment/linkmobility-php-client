@@ -68,7 +68,7 @@ class Client
     {
         $options['headers']['Authorization'] = 'Bearer '.$this->accessToken;
 
-        $this->getLoggerHandler()->getLogger()->debug('request '.$url, $options);
+        $this->getLoggerHandler()->getLogger()->debug('linkmobility request: '.$url, $options);
 
         $response = $this->requestClient->request(
             $method,
@@ -78,7 +78,8 @@ class Client
 
         if ($response->getStatusCode() != 200) {
             $message = sprintf(ExceptionMessages::NOK_REQUEST_RETURN, $url, $response->getStatusCode());
-            $this->getLoggerHandler()->getLogger()->error($message);
+            $response->getBody()->rewind();
+            $this->getLoggerHandler()->getLogger()->error($message, [$response->getBody()->getContents()]);
             throw new ApiException($message);
         }
 
