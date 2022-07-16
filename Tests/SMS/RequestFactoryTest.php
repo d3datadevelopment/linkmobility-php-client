@@ -30,6 +30,7 @@ class RequestFactoryTest extends ApiTestCase
      * @test
      * @return void
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\RequestFactory::__construct
      */
     public function testConstruct()
     {
@@ -59,6 +60,7 @@ class RequestFactoryTest extends ApiTestCase
      * @return void
      * @throws ReflectionException
      * @dataProvider getTextSmsRequestDataProvider
+     * @covers \D3\LinkmobilityClient\SMS\RequestFactory::getSmsRequest
      */
     public function testGetTextSmsRequest($encoding, $expectedClass)
     {
@@ -107,6 +109,7 @@ class RequestFactoryTest extends ApiTestCase
      * @test
      * @return void
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\RequestFactory::getSmsLength
      */
     public function testGetSmsLengthInstance()
     {

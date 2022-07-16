@@ -29,6 +29,9 @@ abstract class AbstractResponse extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\Response::__construct
+     * @covers \D3\LinkmobilityClient\SMS\Response::getRawResponse
+     * @covers \D3\LinkmobilityClient\SMS\Response::getContent
      */
     public function testConstruct()
     {
@@ -102,6 +105,7 @@ abstract class AbstractResponse extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\Response::getInternalStatus
      */
     public function testGetInternalStatus()
     {
@@ -111,6 +115,7 @@ abstract class AbstractResponse extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\Response::getStatusMessage
      */
     public function testGetStatusMessage()
     {
@@ -120,6 +125,7 @@ abstract class AbstractResponse extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\Response::getClientMessageId
      */
     public function testGetClientMessageId()
     {
@@ -129,6 +135,7 @@ abstract class AbstractResponse extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\Response::getTransferId
      */
     public function testGetTransferId()
     {
@@ -138,6 +145,7 @@ abstract class AbstractResponse extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\Response::getSmsCount
      */
     public function testGetSmsCount()
     {
@@ -151,6 +159,7 @@ abstract class AbstractResponse extends ApiTestCase
      *
      * @throws ReflectionException
      * @dataProvider isSuccessfulDataProvider
+     * @covers \D3\LinkmobilityClient\SMS\Response::isSuccessful
      */
     public function testIsSuccessful($statusCode, $expected)
     {
@@ -189,6 +198,7 @@ abstract class AbstractResponse extends ApiTestCase
      *
      * @throws ReflectionException
      * @dataProvider getErrorMessageDataProvider
+     * @covers \D3\LinkmobilityClient\SMS\Response::getErrorMessage
      */
     public function testGetErrorMessage($successful, $expected)
     {

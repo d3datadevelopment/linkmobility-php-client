@@ -45,6 +45,7 @@ class UrlTest extends ApiTestCase
      * @test
      * @return void
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\Url\Url::getBaseUri
      */
     public function testGetBaseUri()
     {
@@ -63,6 +64,7 @@ class UrlTest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\Url\Url::getTextSmsUri
      */
     public function testGetTextSmsUri()
     {
@@ -78,6 +80,7 @@ class UrlTest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\Url\Url::getBinarySmsUri
      */
     public function testGetBinarySmsUri()
     {

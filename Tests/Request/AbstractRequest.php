@@ -65,6 +65,8 @@ abstract class AbstractRequest extends ApiTestCase
      * @test
      * @return void
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::__construct
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::__construct
      */
     public function testConstruct()
     {
@@ -98,6 +100,8 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getUri
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getUri
      */
     public function testGetUri()
     {
@@ -112,6 +116,9 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::validate
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::validate
+     * @covers \D3\LinkmobilityClient\Request\Request::validate
      */
     public function validatePassedTest()
     {
@@ -143,6 +150,8 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::validate
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::validate
      */
     public function validateFailedTest()
     {
@@ -176,6 +185,9 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getRawBody
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getRawBody
+     * @covers \D3\LinkmobilityClient\Request\Request::getRawBody
      */
     public function testGetRawBody()
     {
@@ -200,6 +212,8 @@ abstract class AbstractRequest extends ApiTestCase
      * @test
      * @throws ReflectionException
      * @dataProvider getBodyDataProvider
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getBody
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getBody
      */
     public function testGetBody($contentType, $expected)
     {
@@ -256,6 +270,8 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getOptions
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getOptions
      */
     public function testGetOptions()
     {
@@ -315,6 +331,10 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::setMessage
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::setMessage
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getMessage
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getMessage
      */
     public function setGetMessageTest()
     {
@@ -328,6 +348,10 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::setMethod
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::setMethod
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getMethod
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getMethod
      */
     public function setGetMethodTest()
     {
@@ -337,6 +361,8 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getMethods
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getMethods
      */
     public function getMethodsTest()
     {
@@ -352,6 +378,10 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::setContentType
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::setContentType
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getContentType
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getContentType
      */
     public function setGetContentTypeTest()
     {
@@ -361,6 +391,10 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::setClientMessageId
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::setClientMessageId
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getClientMessageId
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getClientMessageId
      */
     public function setGetClientMessageIdTest()
     {
@@ -370,6 +404,10 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::setContentCategory
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::setContentCategory
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getContentCategory
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getContentCategory
      */
     public function setGetContentCategoryTest()
     {
@@ -379,6 +417,8 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getContentCategories
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getContentCategories
      */
     public function getContentCategoriesTest()
     {
@@ -394,6 +434,10 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::setTestMode
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::setTestMode
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getTestMode
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getTestMode
      */
     public function setGetTestModeTest()
     {
@@ -403,6 +447,10 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::setMaxSmsPerMessage
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::setMaxSmsPerMessage
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getMaxSmsPerMessage
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getMaxSmsPerMessage
      */
     public function setGetMaxSmsPerMessageTest()
     {
@@ -412,6 +460,10 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::setMessageType
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::setMessageType
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getMessageType
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getMessageType
      */
     public function setGetMessageTypeTest()
     {
@@ -421,6 +473,10 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::setNotificationCallbackUrl
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::setNotificationCallbackUrl
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getNotificationCallbackUrl
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getNotificationCallbackUrl
      */
     public function setGetNotificationCallbackUrlTest()
     {
@@ -430,6 +486,10 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::setPriority
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::setPriority
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getPriority
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getPriority
      */
     public function setGetPriorityTest()
     {
@@ -439,6 +499,8 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getRecipientsList
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getRecipientsList
      */
     public function getRecipientsListTest()
     {
@@ -454,6 +516,10 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::sendAsFlashSms
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::sendAsFlashSms
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::doSendAsFlashSms
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::doSendAsFlashSms
      */
     public function setGetFlashSmsTest()
     {
@@ -463,6 +529,10 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::setSenderAddress
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::setSenderAddress
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getSenderAddress
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getSenderAddress
      */
     public function setGetSenderAddressTest()
     {
@@ -477,6 +547,10 @@ abstract class AbstractRequest extends ApiTestCase
      * @test
      * @throws ReflectionException
      * @dataProvider setGetSenderAddressTypeDataProvider
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::setSenderAddressType
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::setSenderAddressType
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getSenderAddressType
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getSenderAddressType
      */
     public function testSetGetSenderAddressType($hasSender, $addressType, $expected)
     {
@@ -530,6 +604,8 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getSenderAddressTypes
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getSenderAddressTypes
      */
     public function getSenderAddressTypesTest()
     {
@@ -545,6 +621,10 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::setValidityPeriode
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::setValidityPeriode
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getValidityPeriode
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getValidityPeriode
      */
     public function setGetValidityPeriodeTest()
     {
@@ -555,6 +635,8 @@ abstract class AbstractRequest extends ApiTestCase
      * @test
      * @throws ReflectionException
      * @dataProvider getResponseInstanceDataProvider
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getResponseInstance
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getResponseInstance
      */
     public function testGetResponseInstance(ResponseInterface $response)
     {
@@ -610,6 +692,10 @@ abstract class AbstractRequest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::setClient
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::setClient
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getClient
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getClient
      */
     public function setGetClientTest()
     {
@@ -625,6 +711,8 @@ abstract class AbstractRequest extends ApiTestCase
      * @test
      * @return void
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::getResponseClass
+     * @covers \D3\LinkmobilityClient\SMS\TextRequest::getResponseClass
      */
     public function testGetResponseClass()
     {

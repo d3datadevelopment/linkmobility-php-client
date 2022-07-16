@@ -42,6 +42,7 @@ class SmsTextMessageTest extends SmsBinaryMessageTest
      * @test
      * @return void
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsTextMessage::__construct
      */
     public function testConstructValid()
     {
@@ -78,6 +79,7 @@ class SmsTextMessageTest extends SmsBinaryMessageTest
      *
      * @throws ReflectionException
      * @dataProvider constructInvalidDataProvider
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsTextMessage::__construct
      */
     public function testConstructInvalid($binaryMessage, $valid, $expectedException)
     {

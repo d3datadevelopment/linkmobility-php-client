@@ -5,7 +5,7 @@
     convertNoticesToExceptions="true"
     convertWarningsToExceptions="true">
 
-    <testsuite name="tankerkoenig">
+    <testsuite name="linkmobility">
         <directory>./Tests</directory>
     </testsuite>
 

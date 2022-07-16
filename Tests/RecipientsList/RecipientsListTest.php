@@ -71,6 +71,7 @@ class RecipientsListTest extends ApiTestCase
     /**
      * @test
      * @return void
+     * @covers \D3\LinkmobilityClient\RecipientsList\RecipientsList::__construct
      */
     public function testConstruct()
     {
@@ -90,6 +91,7 @@ class RecipientsListTest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\RecipientsList\RecipientsList::getPhoneNumberUtil
      */
     public function testGetPhoneNumberUtil()
     {
@@ -105,6 +107,7 @@ class RecipientsListTest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\RecipientsList\RecipientsList::add
      */
     public function testAddValidNumber()
     {
@@ -158,6 +161,7 @@ class RecipientsListTest extends ApiTestCase
      * @test
      * @throws ReflectionException
      * @dataProvider addInvalidNumberDataProvider
+     * @covers \D3\LinkmobilityClient\RecipientsList\RecipientsList::add
      */
     public function testAddInvalidNumber($unparsable, $invalidNumber, $invalidNumberType)
     {
@@ -246,6 +250,8 @@ class RecipientsListTest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\RecipientsList\RecipientsList::clearRecipents
+     * @covers \D3\LinkmobilityClient\RecipientsList\RecipientsList::getRecipientsList
      */
     public function testClearRecipents()
     {
@@ -273,6 +279,7 @@ class RecipientsListTest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\RecipientsList\RecipientsList::getRecipients
      */
     public function testGetRecipients()
     {
@@ -301,6 +308,7 @@ class RecipientsListTest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\RecipientsList\RecipientsList::getRecipientsList
      */
     public function testGetRecipientsList()
     {
@@ -332,6 +340,10 @@ class RecipientsListTest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\RecipientsList\RecipientsList::current
+     * @covers \D3\LinkmobilityClient\RecipientsList\RecipientsList::next
+     * @covers \D3\LinkmobilityClient\RecipientsList\RecipientsList::key
+     * @covers \D3\LinkmobilityClient\RecipientsList\RecipientsList::rewind
      */
     public function testCurrentNextKeyRewind()
     {
@@ -380,6 +392,7 @@ class RecipientsListTest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\RecipientsList\RecipientsList::valid
      */
     public function testValid()
     {
@@ -411,13 +424,15 @@ class RecipientsListTest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\RecipientsList\RecipientsList::setClient
+     * @covers \D3\LinkmobilityClient\RecipientsList\RecipientsList::getClient
      */
     public function testSetGetClient()
     {
         /** @var Client|MockObject $clientMock */
         $clientMock = $this->getMockBuilder(Client::class)
-                           ->disableOriginalConstructor()
-                           ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->assertInstanceOf(
             RecipientsList::class,

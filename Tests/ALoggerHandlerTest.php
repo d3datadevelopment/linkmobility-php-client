@@ -21,8 +21,10 @@ use Psr\Log\AbstractLogger;
 use Psr\Log\LoggerInterface;
 use ReflectionException;
 
-class LoggerHandlerTest extends ApiTestCase
+class ALoggerHandlerTest extends ApiTestCase
 {
+    /** tests must run as first, because of singleton, which must not initialized before */
+
     /** @var LoggerHandler */
     public $loggerHandler;
 
@@ -48,7 +50,28 @@ class LoggerHandlerTest extends ApiTestCase
 
     /**
      * @test
+     * @return void
+     * @covers \D3\LinkmobilityClient\LoggerHandler::getInstance
+     */
+    public function testGetInstance()
+    {
+        // not existing instance
+        $this->assertInstanceOf(
+            LoggerHandler::class,
+            LoggerHandler::getInstance()
+        );
+
+        // existing instance
+        $this->assertInstanceOf(
+            LoggerHandler::class,
+            LoggerHandler::getInstance()
+        );
+    }
+
+    /**
+     * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\LoggerHandler::__construct
      */
     public function testConstruct()
     {
@@ -62,6 +85,8 @@ class LoggerHandlerTest extends ApiTestCase
      * @test
      * @return void
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\LoggerHandler::setLogger
+     * @covers \D3\LinkmobilityClient\LoggerHandler::getLogger
      */
     public function testLogger()
     {

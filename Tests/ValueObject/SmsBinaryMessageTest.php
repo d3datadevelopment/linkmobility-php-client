@@ -53,6 +53,7 @@ class SmsBinaryMessageTest extends ApiTestCase
      * @test
      * @return void
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsBinaryMessage::__construct
      */
     public function testConstructValid()
     {
@@ -89,6 +90,7 @@ class SmsBinaryMessageTest extends ApiTestCase
      *
      * @throws ReflectionException
      * @dataProvider constructInvalidDataProvider
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsBinaryMessage::__construct
      */
     public function testConstructInvalid($binaryMessage, $valid, $expectedException)
     {
@@ -136,6 +138,7 @@ class SmsBinaryMessageTest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsBinaryMessage::getSmsLength
      */
     public function testGetSmsLengthInstance()
     {
@@ -149,7 +152,9 @@ class SmsBinaryMessageTest extends ApiTestCase
     }
 
     /**
+     * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsBinaryMessage::chunkCount
      */
     public function testGetChunkCount()
     {
@@ -180,7 +185,9 @@ class SmsBinaryMessageTest extends ApiTestCase
     }
 
     /**
+     * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsBinaryMessage::length
      */
     public function testGetSize()
     {
@@ -211,7 +218,10 @@ class SmsBinaryMessageTest extends ApiTestCase
     }
 
     /**
+     * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsBinaryMessage::getMessageContent
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsMessageAbstract::getMessageContent
      */
     public function testGetMessageContent()
     {

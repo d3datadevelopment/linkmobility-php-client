@@ -64,6 +64,7 @@ class RecipientTest extends ApiTestCase
      * @return void
      * @throws NumberParseException
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\ValueObject\Recipient::__construct
      */
     public function testConstructValid()
     {
@@ -111,6 +112,7 @@ class RecipientTest extends ApiTestCase
      * @return void
      * @throws NumberParseException
      * @dataProvider constructInvalidDataProvider
+     * @covers \D3\LinkmobilityClient\ValueObject\Recipient::__construct
      */
     public function testConstructInvalid($number, $country, $validNumber, $expectedException)
     {
@@ -158,6 +160,7 @@ class RecipientTest extends ApiTestCase
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\ValueObject\Recipient::getPhoneNumberUtil
      */
     public function testGetPhoneNumberUtil()
     {
@@ -166,6 +169,67 @@ class RecipientTest extends ApiTestCase
             $this->callMethod(
                 $this->recipient,
                 'getPhoneNumberUtil'
+            )
+        );
+    }
+
+    /**
+     * @test
+     * @return void
+     * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\ValueObject\Recipient::getCountryCode
+     */
+    public function testGetCountryCode()
+    {
+        $this->assertSame(
+            $this->phoneCountryFixture,
+            $this->callMethod(
+                $this->recipient,
+                'getCountryCode'
+            )
+        );
+    }
+
+    /**
+     * @test
+     * @return void
+     * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\ValueObject\ValueObject::get
+     * @covers \D3\LinkmobilityClient\ValueObject\StringValueObject::get
+     * @covers \D3\LinkmobilityClient\ValueObject\StringValueObject::__toString
+     * @covers \D3\LinkmobilityClient\ValueObject\Recipient::get
+     */
+    public function testGet()
+    {
+        $this->assertSame(
+            '+4915123456789',
+            (string) $this->recipient
+        );
+
+        $this->assertSame(
+            '+4915123456789',
+            $this->callMethod(
+                $this->recipient,
+                'get'
+            )
+        );
+    }
+
+    /**
+     * @test
+     * @return void
+     * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\ValueObject\ValueObject::getFormatted
+     * @covers \D3\LinkmobilityClient\ValueObject\StringValueObject::getFormatted
+     * @covers \D3\LinkmobilityClient\ValueObject\Recipient::getFormatted
+     */
+    public function testGetFormatted()
+    {
+        $this->assertSame(
+            '4915123456789',
+            $this->callMethod(
+                $this->recipient,
+                'getFormatted'
             )
         );
     }

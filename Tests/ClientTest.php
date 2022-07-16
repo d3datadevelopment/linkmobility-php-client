@@ -68,6 +68,7 @@ class ClientTest extends ApiTestCase
      * @param $apiClient
      * @return void
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\Client::__construct
      */
     public function testConstruct($apiKey, $apiUrl, $apiClient)
     {
@@ -104,6 +105,7 @@ class ClientTest extends ApiTestCase
      * @return void
      * @throws ReflectionException
      * @dataProvider requestPassedDataProvider
+     * @covers \D3\LinkmobilityClient\Client::request
      *
      */
     public function testRequest($requestIsValid)
@@ -175,6 +177,7 @@ class ClientTest extends ApiTestCase
      * @return void
      * @throws ReflectionException
      * @dataProvider rawRequestDataProvider
+     * @covers \D3\LinkmobilityClient\Client::rawRequest
      */
     public function testRawRequest($okStatus)
     {
@@ -260,6 +263,7 @@ class ClientTest extends ApiTestCase
      * @test
      * @return void
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\Client::getLoggerHandler
      */
     public function testGetLoggerHandler()
     {

@@ -35,7 +35,7 @@ class SmsBinaryMessage extends SmsMessageAbstract
     public function getMessageContent()
     {
         return str_split(
-            base64_encode($this->get()),
+            base64_encode(parent::getMessageContent()),
             SmsLength::MAXIMUM_CHARACTERS_UCS2_SINGLE
         );
     }

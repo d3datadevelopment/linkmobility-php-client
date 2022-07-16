@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace D3\LinkmobilityClient\Tests\ValueObject;
 
 use Assert\InvalidArgumentException;
+use D3\LinkmobilityClient\Exceptions\NoSenderDefinedException;
 use D3\LinkmobilityClient\Exceptions\RecipientException;
 use D3\LinkmobilityClient\Tests\ApiTestCase;
 use D3\LinkmobilityClient\ValueObject\Sender;
@@ -48,8 +49,8 @@ class SenderTest extends ApiTestCase
         $example = $phoneUtil->getExampleNumberForType($this->phoneCountryFixture, PhoneNumberType::MOBILE);
         $this->phoneNumberFixture = $phoneUtil->format($example,  PhoneNumberFormat::NATIONAL);
 
+        /** @var Sender|MockObject sender */
         $this->sender = new Sender($this->phoneNumberFixture, $this->phoneCountryFixture);
-
     }
 
     /**
@@ -68,8 +69,10 @@ class SenderTest extends ApiTestCase
      * @throws NumberParseException
      * @throws RecipientException
      * @throws ReflectionException
+     * @dataProvider constructValidDataProvider
+     * @covers \D3\LinkmobilityClient\ValueObject\Sender::__construct
      */
-    public function testConstructValid()
+    public function testConstructValid($number, $country, $hasNumber)
     {
         /** @var PhoneNumberUtil|MockObject $phoneNumberUtilMock */
         $phoneNumberUtilMock = $this->getMockBuilder(PhoneNumberUtil::class)
@@ -86,15 +89,31 @@ class SenderTest extends ApiTestCase
             ->disableOriginalConstructor()
             ->getMock();
         $senderMock->method('getPhoneNumberUtil')->willReturn($phoneNumberUtilMock);
-        $senderMock->__construct($this->phoneNumberFixture, $this->phoneCountryFixture);
+        $senderMock->__construct($number, $country);
 
         $this->assertSame(
-            '4915792300219',
+            $hasNumber,
             $this->callMethod(
                 $senderMock,
                 'get'
-            )
+            ) === '4915792300219'
         );
+    }
+
+    /**
+     * @return array[]
+     */
+    public function constructValidDataProvider(): array
+    {
+        $phoneUtil = PhoneNumberUtil::getInstance();
+        $example = $phoneUtil->getExampleNumberForType($this->phoneCountryFixture, PhoneNumberType::MOBILE);
+        $this->phoneNumberFixture = $phoneUtil->format($example,  PhoneNumberFormat::NATIONAL);
+
+        return [
+            'null number'           => [null, $this->phoneCountryFixture, false],
+            'null country'          => [$this->phoneNumberFixture, null, false],
+            'all values'            => [$this->phoneNumberFixture, $this->phoneCountryFixture, true]
+        ];
     }
 
     /**
@@ -107,6 +126,7 @@ class SenderTest extends ApiTestCase
      * @throws NumberParseException
      * @throws RecipientException
      * @dataProvider constructInvalidDataProvider
+     * @covers \D3\LinkmobilityClient\ValueObject\Sender::__construct
      */
     public function testConstructInvalid($number, $country, $validNumber, $expectedException)
     {
@@ -116,12 +136,14 @@ class SenderTest extends ApiTestCase
             ->disableOriginalConstructor()
             ->getMock();
         if ($number === 'abc') {
-            $phoneNumberUtilMock->method('parse')->willThrowException(new NumberParseException(0, 'message'));
+            $phoneNumberUtilMock->expects($this->exactly((int) ($country !== 'DEX')))->method('parse')
+                ->willThrowException(new NumberParseException(0, 'message'));
         } else {
-            $phoneNumberUtilMock->method('parse')->willReturn(new PhoneNumber());
+            $phoneNumberUtilMock->expects($this->exactly((int) ($country !== 'DEX')))->method('parse')
+                ->willReturn(new PhoneNumber());
         }
         $phoneNumberUtilMock->method('format')->willReturn($number);
-        $phoneNumberUtilMock->method('isValidNumber')->willReturn($validNumber);
+        $phoneNumberUtilMock->method('isValidNumber')->willReturn((bool) $validNumber);
 
         /** @var Sender|MockObject $senderMock */
         $senderMock = $this->getMockBuilder(Sender::class)
@@ -131,7 +153,12 @@ class SenderTest extends ApiTestCase
         $senderMock->method('getPhoneNumberUtil')->willReturn($phoneNumberUtilMock);
 
         $this->expectException($expectedException);
-        $senderMock->__construct($number, $country);
+
+        $this->callMethod(
+            $senderMock,
+            '__construct',
+            [$number, $country]
+        );
     }
 
     /**
@@ -147,13 +174,14 @@ class SenderTest extends ApiTestCase
             'empty number'          => ['', 'DE', true, InvalidArgumentException::class],
             'invalid country code'  => [$phoneNumberFixture, 'DEX', true, InvalidArgumentException::class],
             'unparsable'            => ['abc', 'DE', true, NumberParseException::class],
-            'invalid number'        => ['abc', 'DE', false, NumberParseException::class]
+            'invalid number'        => ['abcd', 'DE', false, RecipientException::class]
         ];
     }
 
     /**
      * @test
      * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\ValueObject\Sender::getPhoneNumberUtil
      */
     public function testGetPhoneNumberUtil()
     {
@@ -162,6 +190,44 @@ class SenderTest extends ApiTestCase
             $this->callMethod(
                 $this->sender,
                 'getPhoneNumberUtil'
+            )
+        );
+    }
+
+    /**
+     * @test
+     * @return void
+     * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\ValueObject\ValueObject::get
+     * @covers \D3\LinkmobilityClient\ValueObject\StringValueObject::get
+     * @covers \D3\LinkmobilityClient\ValueObject\Sender::get
+     */
+    public function testGet()
+    {
+        $this->assertSame(
+            '+4915123456789',
+            $this->callMethod(
+                $this->sender,
+                'get'
+            )
+        );
+    }
+
+    /**
+     * @test
+     * @return void
+     * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\ValueObject\ValueObject::getFormatted
+     * @covers \D3\LinkmobilityClient\ValueObject\StringValueObject::getFormatted
+     * @covers \D3\LinkmobilityClient\ValueObject\Sender::getFormatted
+     */
+    public function testGetFormatted()
+    {
+        $this->assertSame(
+            '4915123456789',
+            $this->callMethod(
+                $this->sender,
+                'getFormatted'
             )
         );
     }
