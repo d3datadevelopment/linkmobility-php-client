@@ -26,6 +26,14 @@ use libphonenumber\PhoneNumberUtil;
 class Recipient extends StringValueObject
 {
     /**
+     * @var array
+     */
+    protected $allowedNumberTypes = [
+        PhoneNumberType::MOBILE,
+        PhoneNumberType::FIXED_LINE_OR_MOBILE
+    ];
+
+    /**
      * @var string
      */
     private $countryCode;
@@ -45,17 +53,14 @@ class Recipient extends StringValueObject
         $phoneUtil = $this->getPhoneNumberUtil();
 
         $phoneNumber = $phoneUtil->parse($number, strtoupper($iso2CountryCode));
-        $number = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
+        $number = $phoneUtil->format( $phoneNumber, PhoneNumberFormat::E164 );
 
         if (false === $phoneUtil->isValidNumber($phoneNumber)) {
             throw new RecipientException(ExceptionMessages::INVALID_RECIPIENT_PHONE);
         } elseif (
             false === in_array(
                 $phoneUtil->getNumberType($phoneNumber),
-                [
-                    PhoneNumberType::MOBILE,
-                    PhoneNumberType::FIXED_LINE_OR_MOBILE
-                ]
+                $this->allowedNumberTypes
             )
         ) {
             throw new RecipientException( ExceptionMessages::NOT_A_MOBILE_NUMBER);
