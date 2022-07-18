@@ -16,13 +16,8 @@ declare(strict_types=1);
 namespace D3\LinkmobilityClient\RecipientsList;
 
 use D3\LinkmobilityClient\Client;
-use D3\LinkmobilityClient\Exceptions\ExceptionMessages;
-use D3\LinkmobilityClient\Exceptions\RecipientException;
 use D3\LinkmobilityClient\ValueObject\Recipient;
 use Iterator;
-use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumberType;
-use libphonenumber\PhoneNumberUtil;
 
 class RecipientsList implements RecipientsListInterface, Iterator
 {
@@ -42,21 +37,12 @@ class RecipientsList implements RecipientsListInterface, Iterator
     }
 
     /**
-     * @return PhoneNumberUtil
-     */
-    protected function getPhoneNumberUtil(): PhoneNumberUtil
-    {
-        return PhoneNumberUtil::getInstance();
-    }
-
-    /**
      * @param Recipient $recipient
      *
      * @return RecipientsListInterface
      */
     public function add(Recipient $recipient): RecipientsListInterface
     {
-        $phoneUtil = $this->getPhoneNumberUtil();
         $this->recipients[ md5(serialize($recipient)) ] = $recipient;
 
         return $this;

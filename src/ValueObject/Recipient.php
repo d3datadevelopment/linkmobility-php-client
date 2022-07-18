@@ -39,6 +39,7 @@ class Recipient extends StringValueObject
      */
     public function __construct(string $number, string $iso2CountryCode)
     {
+        Assert::that($number)->notEmpty();
         Assert::that($iso2CountryCode)->string()->length(2);
 
         $phoneUtil = $this->getPhoneNumberUtil();

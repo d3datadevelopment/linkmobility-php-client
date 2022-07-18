@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace D3\LinkmobilityClient\Tests\ValueObject;
 
 use Assert\InvalidArgumentException;
+use D3\LinkmobilityClient\Exceptions\RecipientException;
 use D3\LinkmobilityClient\Tests\ApiTestCase;
 use D3\LinkmobilityClient\ValueObject\Recipient;
 use libphonenumber\NumberParseException;
@@ -37,6 +38,7 @@ class RecipientTest extends ApiTestCase
     /**
      * @return void
      * @throws NumberParseException
+     * @throws RecipientException
      */
     public function setUp(): void
     {
@@ -63,6 +65,7 @@ class RecipientTest extends ApiTestCase
      * @test
      * @return void
      * @throws NumberParseException
+     * @throws RecipientException
      * @throws ReflectionException
      * @covers \D3\LinkmobilityClient\ValueObject\Recipient::__construct
      */
@@ -70,11 +73,13 @@ class RecipientTest extends ApiTestCase
     {
         /** @var PhoneNumberUtil|MockObject $phoneNumberUtilMock */
         $phoneNumberUtilMock = $this->getMockBuilder(PhoneNumberUtil::class)
-            ->onlyMethods(['parse', 'format'])
+            ->onlyMethods(['parse', 'format', 'isValidNumber', 'getNumberType'])
             ->disableOriginalConstructor()
             ->getMock();
         $phoneNumberUtilMock->method('parse')->willReturn(new PhoneNumber());
         $phoneNumberUtilMock->method('format')->willReturn('+491527565839');
+        $phoneNumberUtilMock->method('isValidNumber')->willReturn(true);
+        $phoneNumberUtilMock->method('getNumberType')->willReturn(PhoneNumberType::MOBILE);
 
         /** @var Recipient|MockObject $recipientMock */
         $recipientMock = $this->getMockBuilder(Recipient::class)
@@ -107,18 +112,20 @@ class RecipientTest extends ApiTestCase
      * @param $number
      * @param $country
      * @param $validNumber
+     * @param $numberType
      * @param $expectedException
      *
      * @return void
      * @throws NumberParseException
+     * @throws RecipientException
      * @dataProvider constructInvalidDataProvider
-     * @covers \D3\LinkmobilityClient\ValueObject\Recipient::__construct
+     * @covers       \D3\LinkmobilityClient\ValueObject\Recipient::__construct
      */
-    public function testConstructInvalid($number, $country, $validNumber, $expectedException)
+    public function testConstructInvalid($number, $country, $validNumber, $numberType, $expectedException)
     {
         /** @var PhoneNumberUtil|MockObject $phoneNumberUtilMock */
         $phoneNumberUtilMock = $this->getMockBuilder(PhoneNumberUtil::class)
-            ->onlyMethods(['parse', 'format', 'isValidNumber'])
+            ->onlyMethods(['parse', 'format', 'isValidNumber', 'getNumberType'])
             ->disableOriginalConstructor()
             ->getMock();
         if ($number === 'abc') {
@@ -128,6 +135,7 @@ class RecipientTest extends ApiTestCase
         }
         $phoneNumberUtilMock->method('format')->willReturn($number);
         $phoneNumberUtilMock->method('isValidNumber')->willReturn($validNumber);
+        $phoneNumberUtilMock->method('getNumberType')->willReturn($numberType);
 
         /** @var Recipient|MockObject $recipientMock */
         $recipientMock = $this->getMockBuilder(Recipient::class)
@@ -150,10 +158,11 @@ class RecipientTest extends ApiTestCase
         $phoneNumberFixture = $phoneUtil->format($example,  PhoneNumberFormat::NATIONAL);
 
         return [
-            'empty number'          => ['', 'DE', true, InvalidArgumentException::class],
-            'invalid country code'  => [$phoneNumberFixture, 'DEX', true, InvalidArgumentException::class],
-            'unparsable'            => ['abc', 'DE', true, NumberParseException::class],
-            'invalid number'        => ['abc', 'DE', false, NumberParseException::class]
+            'empty number'          => ['', 'DE', true, PhoneNumberType::MOBILE, InvalidArgumentException::class],
+            'invalid country code'  => [$phoneNumberFixture, 'DEX', true, PhoneNumberType::MOBILE, InvalidArgumentException::class],
+            'unparsable'            => ['abc', 'DE', true, PhoneNumberType::MOBILE, NumberParseException::class],
+            'invalid number'        => ['abcd', 'DE', false, PhoneNumberType::MOBILE, RecipientException::class],
+            'not mobile number'     => ['abcd', 'DE', false, PhoneNumberType::FIXED_LINE, RecipientException::class]
         ];
     }
 
