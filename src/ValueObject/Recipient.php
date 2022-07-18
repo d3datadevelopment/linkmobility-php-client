@@ -16,8 +16,11 @@ declare(strict_types=1);
 namespace D3\LinkmobilityClient\ValueObject;
 
 use Assert\Assert;
+use D3\LinkmobilityClient\Exceptions\ExceptionMessages;
+use D3\LinkmobilityClient\Exceptions\RecipientException;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberType;
 use libphonenumber\PhoneNumberUtil;
 
 class Recipient extends StringValueObject
@@ -32,6 +35,7 @@ class Recipient extends StringValueObject
      * @param string $iso2CountryCode
      *
      * @throws NumberParseException
+     * @throws RecipientException
      */
     public function __construct(string $number, string $iso2CountryCode)
     {
@@ -42,6 +46,20 @@ class Recipient extends StringValueObject
         $phoneNumber = $phoneUtil->parse($number, strtoupper($iso2CountryCode));
         $number = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
 
+        if (false === $phoneUtil->isValidNumber($phoneNumber)) {
+            throw new RecipientException(ExceptionMessages::INVALID_RECIPIENT_PHONE);
+        } elseif (
+            false === in_array(
+                $phoneUtil->getNumberType($phoneNumber),
+                [
+                    PhoneNumberType::MOBILE,
+                    PhoneNumberType::FIXED_LINE_OR_MOBILE
+                ]
+            )
+        ) {
+            throw new RecipientException( ExceptionMessages::NOT_A_MOBILE_NUMBER);
+        }
+        
         parent::__construct($number);
         $this->countryCode = $iso2CountryCode;
     }
