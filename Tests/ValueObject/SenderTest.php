@@ -47,7 +47,7 @@ class SenderTest extends ApiTestCase
 
         $phoneUtil = PhoneNumberUtil::getInstance();
         $example = $phoneUtil->getExampleNumberForType($this->phoneCountryFixture, PhoneNumberType::MOBILE);
-        $this->phoneNumberFixture = $phoneUtil->format($example,  PhoneNumberFormat::NATIONAL);
+        $this->phoneNumberFixture = $phoneUtil->format($example, PhoneNumberFormat::NATIONAL);
 
         /** @var Sender|MockObject sender */
         $this->sender = new Sender($this->phoneNumberFixture, $this->phoneCountryFixture);
@@ -107,7 +107,7 @@ class SenderTest extends ApiTestCase
     {
         $phoneUtil = PhoneNumberUtil::getInstance();
         $example = $phoneUtil->getExampleNumberForType($this->phoneCountryFixture, PhoneNumberType::MOBILE);
-        $this->phoneNumberFixture = $phoneUtil->format($example,  PhoneNumberFormat::NATIONAL);
+        $this->phoneNumberFixture = $phoneUtil->format($example, PhoneNumberFormat::NATIONAL);
 
         return [
             'null number'           => [null, $this->phoneCountryFixture, false],
@@ -168,7 +168,7 @@ class SenderTest extends ApiTestCase
     {
         $phoneUtil = PhoneNumberUtil::getInstance();
         $example = $phoneUtil->getExampleNumberForType($this->phoneCountryFixture, PhoneNumberType::MOBILE);
-        $phoneNumberFixture = $phoneUtil->format($example,  PhoneNumberFormat::NATIONAL);
+        $phoneNumberFixture = $phoneUtil->format($example, PhoneNumberFormat::NATIONAL);
 
         return [
             'empty number'          => ['', 'DE', true, InvalidArgumentException::class],

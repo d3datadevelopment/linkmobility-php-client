@@ -52,7 +52,7 @@ class ValueObjectTest extends ApiTestCase
     {
         $phoneUtil = PhoneNumberUtil::getInstance();
         $example = $phoneUtil->getExampleNumberForType('DE', PhoneNumberType::MOBILE);
-        $phoneNumberFixture = $phoneUtil->format($example,  PhoneNumberFormat::NATIONAL);
+        $phoneNumberFixture = $phoneUtil->format($example, PhoneNumberFormat::NATIONAL);
 
         $this->callMethod(
             $this->value,

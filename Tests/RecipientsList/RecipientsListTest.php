@@ -50,7 +50,7 @@ class RecipientsListTest extends ApiTestCase
 
         $phoneUtil = PhoneNumberUtil::getInstance();
         $example = $phoneUtil->getExampleNumberForType($this->phoneCountryFixture, PhoneNumberType::MOBILE);
-        $this->phoneNumberFixture = $phoneUtil->format($example,  PhoneNumberFormat::NATIONAL);
+        $this->phoneNumberFixture = $phoneUtil->format($example, PhoneNumberFormat::NATIONAL);
     }
 
     /**

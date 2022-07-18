@@ -124,7 +124,7 @@ abstract class AbstractRequest extends ApiTestCase
     {
         $phoneUtil = PhoneNumberUtil::getInstance();
         $example = $phoneUtil->getExampleNumberForType('DE', PhoneNumberType::MOBILE);
-        $phoneNumberFixture = $phoneUtil->format($example,  PhoneNumberFormat::NATIONAL);
+        $phoneNumberFixture = $phoneUtil->format($example, PhoneNumberFormat::NATIONAL);
 
         $recipient = new Recipient($phoneNumberFixture, 'DE');
 
@@ -157,7 +157,7 @@ abstract class AbstractRequest extends ApiTestCase
     {
         $phoneUtil = PhoneNumberUtil::getInstance();
         $example = $phoneUtil->getExampleNumberForType('DE', PhoneNumberType::MOBILE);
-        $phoneNumberFixture = $phoneUtil->format($example,  PhoneNumberFormat::NATIONAL);
+        $phoneNumberFixture = $phoneUtil->format($example, PhoneNumberFormat::NATIONAL);
 
         $recipient = new Recipient($phoneNumberFixture, 'DE');
 

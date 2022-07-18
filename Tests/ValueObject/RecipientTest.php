@@ -46,7 +46,7 @@ class RecipientTest extends ApiTestCase
 
         $phoneUtil = PhoneNumberUtil::getInstance();
         $example = $phoneUtil->getExampleNumberForType($this->phoneCountryFixture, PhoneNumberType::MOBILE);
-        $this->phoneNumberFixture = $phoneUtil->format($example,  PhoneNumberFormat::NATIONAL);
+        $this->phoneNumberFixture = $phoneUtil->format($example, PhoneNumberFormat::NATIONAL);
 
         $this->recipient = new Recipient($this->phoneNumberFixture, $this->phoneCountryFixture);
     }
@@ -155,7 +155,7 @@ class RecipientTest extends ApiTestCase
     {
         $phoneUtil = PhoneNumberUtil::getInstance();
         $example = $phoneUtil->getExampleNumberForType($this->phoneCountryFixture, PhoneNumberType::MOBILE);
-        $phoneNumberFixture = $phoneUtil->format($example,  PhoneNumberFormat::NATIONAL);
+        $phoneNumberFixture = $phoneUtil->format($example, PhoneNumberFormat::NATIONAL);
 
         return [
             'empty number'          => ['', 'DE', true, PhoneNumberType::MOBILE, InvalidArgumentException::class],
