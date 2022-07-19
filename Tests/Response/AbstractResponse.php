@@ -38,7 +38,7 @@ abstract class AbstractResponse extends ApiTestCase
         /** @var StreamInterface|MockObject $streamMock */
         $streamMock = $this->getMockBuilder(StreamInterface::class)
             ->onlyMethods(['getContents', '__toString', 'close', 'detach', 'getSize', 'tell', 'eof', 'isSeekable',
-                'seek', 'rewind', 'isWritable', 'write', 'isReadable', 'read', 'getMetadata'])
+                'seek', 'rewind', 'isWritable', 'write', 'isReadable', 'read', 'getMetadata', ])
             ->getMock();
         $streamMock->expects($this->atLeastOnce())->method('getContents')->willReturn(
             '{
@@ -53,7 +53,7 @@ abstract class AbstractResponse extends ApiTestCase
             ->onlyMethods([
                 'getBody', 'getStatusCode', 'withStatus', 'getReasonphrase', 'getProtocolVersion',
                 'withProtocolVersion', 'getHeaders', 'hasHeader', 'getHeader', 'getHeaderLine',
-                'withHeader', 'withAddedHeader', 'withoutHeader', 'withBody'])
+                'withHeader', 'withAddedHeader', 'withoutHeader', 'withBody', ])
             ->getMock();
         $rawResponseMock->method('getBody')->willReturn($streamMock);
 
@@ -226,7 +226,7 @@ abstract class AbstractResponse extends ApiTestCase
     {
         return [
             'successful'    => [true, ''],
-            'not successful'=> [false, 'fixtureMessage']
+            'not successful'=> [false, 'fixtureMessage'],
         ];
     }
 }

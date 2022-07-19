@@ -16,7 +16,6 @@ declare(strict_types=1);
 namespace D3\LinkmobilityClient\Tests\ValueObject;
 
 use Assert\InvalidArgumentException;
-use D3\LinkmobilityClient\Exceptions\NoSenderDefinedException;
 use D3\LinkmobilityClient\Exceptions\RecipientException;
 use D3\LinkmobilityClient\Tests\ApiTestCase;
 use D3\LinkmobilityClient\ValueObject\Sender;
@@ -112,7 +111,7 @@ class SenderTest extends ApiTestCase
         return [
             'null number'           => [null, $this->phoneCountryFixture, false],
             'null country'          => [$this->phoneNumberFixture, null, false],
-            'all values'            => [$this->phoneNumberFixture, $this->phoneCountryFixture, true]
+            'all values'            => [$this->phoneNumberFixture, $this->phoneCountryFixture, true],
         ];
     }
 
@@ -122,11 +121,9 @@ class SenderTest extends ApiTestCase
      * @param $country
      * @param $validNumber
      * @param $expectedException
-     *
-     * @throws NumberParseException
-     * @throws RecipientException
+     * @throws ReflectionException
      * @dataProvider constructInvalidDataProvider
-     * @covers \D3\LinkmobilityClient\ValueObject\Sender::__construct
+     * @covers       \D3\LinkmobilityClient\ValueObject\Sender::__construct
      */
     public function testConstructInvalid($number, $country, $validNumber, $expectedException)
     {
@@ -174,7 +171,7 @@ class SenderTest extends ApiTestCase
             'empty number'          => ['', 'DE', true, InvalidArgumentException::class],
             'invalid country code'  => [$phoneNumberFixture, 'DEX', true, InvalidArgumentException::class],
             'unparsable'            => ['abc', 'DE', true, NumberParseException::class],
-            'invalid number'        => ['abcd', 'DE', false, RecipientException::class]
+            'invalid number'        => ['abcd', 'DE', false, RecipientException::class],
         ];
     }
 

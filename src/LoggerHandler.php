@@ -23,7 +23,7 @@ class LoggerHandler
     private static $instance = null;
     private $logger;
 
-    public static function getInstance()
+    public static function getInstance(): ?LoggerHandler
     {
         if (self::$instance === null) {
             self::$instance = new self();

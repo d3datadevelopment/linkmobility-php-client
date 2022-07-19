@@ -169,7 +169,7 @@ abstract class Request implements RequestInterface
             'senderAddress'     => $this->getSenderAddress() ? $this->getSenderAddress()->getFormatted() : null,
             'senderAddressType' => $this->getSenderAddressType(),
             'test'              => $this->getTestMode(),
-            'validityPeriode'   => $this->getValidityPeriode()
+            'validityPeriode'   => $this->getValidityPeriode(),
         ];
     }
 
@@ -200,7 +200,7 @@ abstract class Request implements RequestInterface
                 'headers' => [
                     'Accept'            => $this->contentType,
                     'Content-Type'      => $this->contentType,
-                ]
+                ],
             ],
             $this->getBody()
         );
@@ -280,7 +280,7 @@ abstract class Request implements RequestInterface
         return $this;
     }
 
-    public function getClientMessageId()
+    public function getClientMessageId(): ?string
     {
         return $this->clientMessageId;
     }
@@ -306,7 +306,7 @@ abstract class Request implements RequestInterface
     {
         return [
             RequestInterface::CONTENTCATEGORY_ADVERTISEMENT    => RequestInterface::CONTENTCATEGORY_ADVERTISEMENT,
-            RequestInterface::CONTENTCATEGORY_INFORMATIONAL    => RequestInterface::CONTENTCATEGORY_INFORMATIONAL
+            RequestInterface::CONTENTCATEGORY_INFORMATIONAL    => RequestInterface::CONTENTCATEGORY_INFORMATIONAL,
         ];
     }
 
@@ -376,7 +376,7 @@ abstract class Request implements RequestInterface
     /**
      * @return string|null
      */
-    public function getNotificationCallbackUrl()
+    public function getNotificationCallbackUrl(): ?string
     {
         return $this->notificationCallbackUrl;
     }
@@ -396,7 +396,7 @@ abstract class Request implements RequestInterface
     /**
      * @return int|null
      */
-    public function getPriority()
+    public function getPriority(): ?int
     {
         return $this->priority;
     }
@@ -444,7 +444,7 @@ abstract class Request implements RequestInterface
     /**
      * @return Sender|null
      */
-    public function getSenderAddress()
+    public function getSenderAddress(): ?Sender
     {
         return $this->senderAddress;
     }
@@ -464,7 +464,7 @@ abstract class Request implements RequestInterface
     /**
      * @return string|null
      */
-    public function getSenderAddressType()
+    public function getSenderAddressType(): ?string
     {
         return $this->getSenderAddress() && $this->getSenderAddress()->get() ? $this->senderAddressType : null;
     }
@@ -478,7 +478,7 @@ abstract class Request implements RequestInterface
             RequestInterface::SENDERADDRESSTYPE_ALPHANUMERIC    => RequestInterface::SENDERADDRESSTYPE_ALPHANUMERIC,
             RequestInterface::SENDERADDRESSTYPE_INTERNATIONAL   => RequestInterface::SENDERADDRESSTYPE_INTERNATIONAL,
             RequestInterface::SENDERADDRESSTYPE_NATIONAL        => RequestInterface::SENDERADDRESSTYPE_NATIONAL,
-            RequestInterface::SENDERADDRESSTYPE_SHORTCODE       => RequestInterface::SENDERADDRESSTYPE_SHORTCODE
+            RequestInterface::SENDERADDRESSTYPE_SHORTCODE       => RequestInterface::SENDERADDRESSTYPE_SHORTCODE,
         ];
     }
 
@@ -497,7 +497,7 @@ abstract class Request implements RequestInterface
     /**
      * @return int|null
      */
-    public function getValidityPeriode()
+    public function getValidityPeriode(): ?int
     {
         return $this->validityPeriode;
     }
@@ -523,6 +523,7 @@ abstract class Request implements RequestInterface
 
     /**
      * @param Client $client
+     * @return Request
      */
     public function setClient(Client $client): Request
     {

@@ -17,6 +17,7 @@ namespace D3\LinkmobilityClient\Tests\Request;
 
 use Assert\InvalidArgumentException;
 use D3\LinkmobilityClient\Client;
+use D3\LinkmobilityClient\Exceptions\RecipientException;
 use D3\LinkmobilityClient\RecipientsList\RecipientsListInterface;
 use D3\LinkmobilityClient\Request\Request;
 use D3\LinkmobilityClient\Request\RequestInterface;
@@ -24,6 +25,7 @@ use D3\LinkmobilityClient\SMS\Response;
 use D3\LinkmobilityClient\Tests\ApiTestCase;
 use D3\LinkmobilityClient\ValueObject\Recipient;
 use D3\LinkmobilityClient\ValueObject\Sender;
+use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberType;
 use libphonenumber\PhoneNumberUtil;
@@ -115,10 +117,13 @@ abstract class AbstractRequest extends ApiTestCase
 
     /**
      * @test
-     * @throws ReflectionException
      * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::validate
      * @covers \D3\LinkmobilityClient\SMS\TextRequest::validate
      * @covers \D3\LinkmobilityClient\Request\Request::validate
+     * @return void
+     * @throws ReflectionException
+     * @throws RecipientException
+     * @throws NumberParseException
      */
     public function validatePassedTest()
     {
@@ -149,9 +154,12 @@ abstract class AbstractRequest extends ApiTestCase
 
     /**
      * @test
-     * @throws ReflectionException
      * @covers \D3\LinkmobilityClient\SMS\BinaryRequest::validate
      * @covers \D3\LinkmobilityClient\SMS\TextRequest::validate
+     * @return void
+     * @throws NumberParseException
+     * @throws RecipientException
+     * @throws ReflectionException
      */
     public function validateFailedTest()
     {
@@ -253,17 +261,17 @@ abstract class AbstractRequest extends ApiTestCase
                 ['json' => [
                     'contentCategory' => 'informational',
                     'messageContent' => 'messageContent',
-                    'priority' => 0
-                    ]]
+                    'priority' => 0,
+                    ]],
             ],
             'other' => [
                 'other',
                 [
                     'contentCategory' => 'informational',
                     'messageContent' => 'messageContent',
-                    'priority' => 0
-                ]
-            ]
+                    'priority' => 0,
+                ],
+            ],
         ];
     }
 
@@ -284,20 +292,20 @@ abstract class AbstractRequest extends ApiTestCase
             ['json' => [
                 'contentCategory' => 'informational',
                 'messageContent' => 'messageContent',
-                'priority' => 0
+                'priority' => 0,
             ]]
         );
 
         $this->assertSame(
             ['headers' => [
                 'Accept' => 'application/json',
-                'Content-Type' => 'application/json'
+                'Content-Type' => 'application/json',
             ],
             'json' => [
                 'contentCategory' => 'informational',
                 'messageContent' => 'messageContent',
-                'priority' => 0
-            ]],
+                'priority' => 0,
+            ], ],
             $this->callMethod(
                 $requestMock,
                 'getOptions'
@@ -671,7 +679,7 @@ abstract class AbstractRequest extends ApiTestCase
         /** @var StreamInterface|MockObject $streamMock */
         $streamMock = $this->getMockBuilder(StreamInterface::class)
             ->onlyMethods(['getContents', '__toString', 'close', 'detach', 'getSize', 'tell', 'eof', 'isSeekable',
-                'seek', 'rewind', 'isWritable', 'write', 'isReadable', 'read', 'getMetadata'])
+                'seek', 'rewind', 'isWritable', 'write', 'isReadable', 'read', 'getMetadata', ])
             ->getMock();
         $streamMock->method('getContents')->willReturn('{}');
 
@@ -680,12 +688,12 @@ abstract class AbstractRequest extends ApiTestCase
             ->onlyMethods([
                 'getBody', 'getStatusCode', 'withStatus', 'getReasonphrase', 'getProtocolVersion',
                 'withProtocolVersion', 'getHeaders', 'hasHeader', 'getHeader', 'getHeaderLine',
-                'withHeader', 'withAddedHeader', 'withoutHeader', 'withBody'])
+                'withHeader', 'withAddedHeader', 'withoutHeader', 'withBody', ])
             ->getMock();
         $rawResponseMock->method('getBody')->willReturn($streamMock);
 
         return [
-            'SMS Response'  => [$rawResponseMock]
+            'SMS Response'  => [$rawResponseMock],
         ];
     }
 

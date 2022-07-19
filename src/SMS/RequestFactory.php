@@ -20,21 +20,15 @@ use D3\LinkmobilityClient\ValueObject\SmsBinaryMessage;
 use D3\LinkmobilityClient\ValueObject\SmsTextMessage;
 use Phlib\SmsLength\SmsLength;
 
-class RequestFactory
+class RequestFactory implements RequestFactoryInterface
 {
-    /**
-     * @deprecated is SmsLength constant from version 2.1
-     */
-    public const GSM_7BIT = '7-bit';
-
-    /**
-     * @deprecated is SmsLength constant from version 2.1
-     */
-    public const GSM_UCS2 = 'ucs-2';
-
     protected $message;
     protected $client;
 
+    /**
+     * @param $message
+     * @param Client $client
+     */
     public function __construct($message, Client $client)
     {
         $this->message = $message;
@@ -46,7 +40,7 @@ class RequestFactory
      */
     public function getSmsRequest(): SmsRequestInterface
     {
-        if ($this->getSmsLength()->getEncoding() === self::GSM_7BIT) {
+        if ($this->getSmsLength()->getEncoding() === SmsLength::ENCODING_7BIT) {
             $message = new SmsTextMessage($this->message);
             return new TextRequest($message, $this->client);
         }

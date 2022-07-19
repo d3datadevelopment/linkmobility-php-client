@@ -162,7 +162,7 @@ class RecipientTest extends ApiTestCase
             'invalid country code'  => [$phoneNumberFixture, 'DEX', true, PhoneNumberType::MOBILE, InvalidArgumentException::class],
             'unparsable'            => ['abc', 'DE', true, PhoneNumberType::MOBILE, NumberParseException::class],
             'invalid number'        => ['abcd', 'DE', false, PhoneNumberType::MOBILE, RecipientException::class],
-            'not mobile number'     => ['abcd', 'DE', true, PhoneNumberType::FIXED_LINE, RecipientException::class]
+            'not mobile number'     => ['abcd', 'DE', true, PhoneNumberType::FIXED_LINE, RecipientException::class],
         ];
     }
 

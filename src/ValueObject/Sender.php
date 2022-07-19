@@ -27,11 +27,11 @@ use libphonenumber\PhoneNumberUtil;
 class Sender extends ValueObject
 {
     /**
-     * @param string $number
-     * @param string $iso2CountryCode
+     * @param string|null $number
+     * @param string|null $iso2CountryCode
      *
-     * @throws RecipientException
      * @throws NumberParseException
+     * @throws RecipientException
      */
     public function __construct(string $number = null, string $iso2CountryCode = null)
     {
@@ -67,7 +67,7 @@ class Sender extends ValueObject
         return PhoneNumberUtil::getInstance();
     }
 
-    public function getFormatted()
+    public function getFormatted(): string
     {
         return ltrim(parent::getFormatted(), '+');
     }

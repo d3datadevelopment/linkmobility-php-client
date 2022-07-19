@@ -100,8 +100,8 @@ class RequestFactoryTest extends ApiTestCase
     public function getTextSmsRequestDataProvider(): array
     {
         return [
-            'binary'    => [RequestFactory::GSM_UCS2, BinaryRequest::class],
-            'ascii'     => [RequestFactory::GSM_7BIT, TextRequest::class]
+            'binary'    => [SmsLength::ENCODING_UCS2, BinaryRequest::class],
+            'ascii'     => [SmsLength::ENCODING_7BIT, TextRequest::class],
         ];
     }
 

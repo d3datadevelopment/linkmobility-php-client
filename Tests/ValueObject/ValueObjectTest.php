@@ -16,13 +16,8 @@ declare(strict_types=1);
 namespace D3\LinkmobilityClient\Tests\ValueObject;
 
 use Assert\InvalidArgumentException;
-use D3\LinkmobilityClient\Exceptions\NoSenderDefinedException;
-use D3\LinkmobilityClient\Exceptions\RecipientException;
 use D3\LinkmobilityClient\Tests\ApiTestCase;
-use D3\LinkmobilityClient\ValueObject\Sender;
 use D3\LinkmobilityClient\ValueObject\ValueObject;
-use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberType;
 use libphonenumber\PhoneNumberUtil;

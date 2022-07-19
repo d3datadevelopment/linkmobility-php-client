@@ -33,7 +33,7 @@ abstract class ValueObject
         return $this->value;
     }
 
-    public function getFormatted()
+    public function getFormatted(): string
     {
         return $this->get();
     }

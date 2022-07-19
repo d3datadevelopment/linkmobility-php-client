@@ -72,7 +72,7 @@ abstract class Response implements ResponseInterface
     /**
      * @return string|null
      */
-    public function getClientMessageId()
+    public function getClientMessageId(): ?string
     {
         return $this->getContent()[self::CLIENTMESSAGEID];
     }
@@ -80,13 +80,13 @@ abstract class Response implements ResponseInterface
     /**
      * @return string|null
      */
-    public function getTransferId()
+    public function getTransferId(): ?string
     {
         return $this->getContent()[self::TRANSFERID];
     }
 
     /**
-     * @return string|null
+     * @return int
      */
     public function getSmsCount(): int
     {

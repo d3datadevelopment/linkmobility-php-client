@@ -36,7 +36,7 @@ class BinaryRequest extends Request implements SmsRequestInterface
         return array_merge(
             parent::getRawBody(),
             [
-                'userDataHeaderPresent' => true
+                'userDataHeaderPresent' => true,
             ]
         );
     }

@@ -96,7 +96,7 @@ class ClientTest extends ApiTestCase
         return [
             'api key only'  => ['apiKey', null, null],
             'all without client'  => ['apiKey', new Url(), null],
-            'all arguments'  => ['apiKey', new Url(), new GuzzleClient()]
+            'all arguments'  => ['apiKey', new Url(), new GuzzleClient()],
         ];
     }
 
@@ -167,7 +167,7 @@ class ClientTest extends ApiTestCase
     {
         return [
             'request is valid'      => [true],
-            'request is not valid'  => [false]
+            'request is not valid'  => [false],
         ];
     }
 
@@ -203,7 +203,7 @@ class ClientTest extends ApiTestCase
                 'withHeader',
                 'withAddedHeader',
                 'withoutHeader',
-                'withBody'
+                'withBody',
             ])
             ->disableOriginalConstructor()
             ->getMock();
@@ -232,7 +232,7 @@ class ClientTest extends ApiTestCase
         $clientMock = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
             ->onlyMethods([
-                'getLoggerHandler'
+                'getLoggerHandler',
             ])
             ->getMock();
         $clientMock->expects($this->atLeastOnce())

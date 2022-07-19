@@ -18,4 +18,8 @@ namespace D3\LinkmobilityClient\Url;
 interface UrlInterface
 {
     public function getBaseUri(): string;
+
+    public function getTextSmsUri(): string;
+
+    public function getBinarySmsUri(): string;
 }

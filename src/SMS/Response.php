@@ -15,6 +15,8 @@ declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\SMS;
 
-class Response extends \D3\LinkmobilityClient\Response\Response
+use D3\LinkmobilityClient\Response\Response as BaseResponse;
+
+class Response extends BaseResponse
 {
 }

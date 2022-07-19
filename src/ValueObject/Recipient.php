@@ -30,7 +30,7 @@ class Recipient extends StringValueObject
      */
     protected $allowedNumberTypes = [
         PhoneNumberType::MOBILE,
-        PhoneNumberType::FIXED_LINE_OR_MOBILE
+        PhoneNumberType::FIXED_LINE_OR_MOBILE,
     ];
 
     /**
@@ -86,7 +86,7 @@ class Recipient extends StringValueObject
         return $this->countryCode;
     }
 
-    public function getFormatted()
+    public function getFormatted(): string
     {
         return ltrim(parent::getFormatted(), '+');
     }

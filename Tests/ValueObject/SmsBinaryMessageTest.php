@@ -131,7 +131,7 @@ class SmsBinaryMessageTest extends ApiTestCase
     {
         return [
             'empty message'          => ['', true, InvalidArgumentException::class],
-            'invalid sms message'    => ['abc', false, \Phlib\SmsLength\Exception\InvalidArgumentException::class]
+            'invalid sms message'    => ['abc', false, \Phlib\SmsLength\Exception\InvalidArgumentException::class],
         ];
     }
 

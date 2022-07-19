@@ -167,7 +167,7 @@ class RecipientsListTest extends ApiTestCase
         $this->assertSame(
             [
                 $this->phoneNumberFixture,
-                $this->phoneNumberFixture
+                $this->phoneNumberFixture,
             ],
             $this->callMethod(
                 $this->recipientsList,
@@ -280,7 +280,7 @@ class RecipientsListTest extends ApiTestCase
             $this->recipientsList,
             'recipients',
             [
-                'fixture' => new stdClass()
+                'fixture' => new stdClass(),
             ]
         );
 
@@ -333,11 +333,11 @@ class RecipientsListTest extends ApiTestCase
         $recipientMock = $this->getMockBuilder(Recipient::class)
             ->onlyMethods([
                 'get',
-                'getCountryCode'
+                'getCountryCode',
             ])
             ->setConstructorArgs([
                 $this->phoneNumberFixture,
-                $this->phoneCountryFixture
+                $this->phoneCountryFixture,
             ])
             ->getMock();
         $recipientMock->method('get')->willReturn($this->phoneNumberFixture);
@@ -347,11 +347,11 @@ class RecipientsListTest extends ApiTestCase
         $recipientMock2 = $this->getMockBuilder(Recipient::class)
             ->onlyMethods([
                 'get',
-                'getCountryCode'
+                'getCountryCode',
             ])
             ->setConstructorArgs([
                 $this->phoneNumberFixture,
-                $this->phoneCountryFixture
+                $this->phoneCountryFixture,
             ])
             ->getMock();
         $recipientMock2->method('get')->willReturn($this->phoneNumberFixture);
@@ -359,7 +359,7 @@ class RecipientsListTest extends ApiTestCase
 
         $list = [
             'fixture' => $recipientMock,
-            'fixture2' => $recipientMock2
+            'fixture2' => $recipientMock2,
         ];
 
         $this->setValue(

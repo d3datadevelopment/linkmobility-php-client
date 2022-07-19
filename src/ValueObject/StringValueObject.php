@@ -15,8 +15,6 @@ declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\ValueObject;
 
-use Assert\Assert;
-
 abstract class StringValueObject extends ValueObject
 {
     public function __toString()

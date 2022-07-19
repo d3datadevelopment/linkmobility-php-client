@@ -2,6 +2,12 @@
 
 ---
 
+## 2.0.0.0 (2022-07-19)
+
+- adjust to PHP >= 7.3 and current dependency packages
+
+---
+
 ## 1.3.0.0 (2022-07-18)
 
 - tests use generated example phone numbers

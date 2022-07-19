@@ -30,7 +30,7 @@ class Url implements UrlInterface
     /**
      * @return string
      */
-    public function getTextSmsUri()
+    public function getTextSmsUri(): string
     {
         return '/rest/smsmessaging/text';
     }
@@ -38,7 +38,7 @@ class Url implements UrlInterface
     /**
      * @return string
      */
-    public function getBinarySmsUri()
+    public function getBinarySmsUri(): string
     {
         return '/rest/smsmessaging/binary';
     }
