@@ -29,7 +29,7 @@ use ReflectionException;
 
 class SenderTest extends ApiTestCase
 {
-    /** @var Sender */
+    /** @var Sender|MockObject */
     public $sender;
 
     private $phoneNumberFixture;
@@ -48,7 +48,6 @@ class SenderTest extends ApiTestCase
         $example = $phoneUtil->getExampleNumberForType($this->phoneCountryFixture, PhoneNumberType::MOBILE);
         $this->phoneNumberFixture = $phoneUtil->format($example, PhoneNumberFormat::NATIONAL);
 
-        /** @var Sender|MockObject sender */
         $this->sender = new Sender($this->phoneNumberFixture, $this->phoneCountryFixture);
     }
 

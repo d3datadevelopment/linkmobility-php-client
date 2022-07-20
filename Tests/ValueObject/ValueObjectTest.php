@@ -26,11 +26,13 @@ use ReflectionException;
 
 class ValueObjectTest extends ApiTestCase
 {
+    /** @var ValueObject|MockObject */
+    public $value;
+
     public function setUp(): void
     {
         parent::setUp();
 
-        /** @var ValueObject|MockObject value */
         $this->value = $this->getMockBuilder(ValueObject::class)
             ->disableOriginalConstructor()
             ->getMock();

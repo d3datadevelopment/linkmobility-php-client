@@ -86,7 +86,7 @@ abstract class AbstractResponse extends ApiTestCase
      */
     protected function checkProperties($expected, $propertyName, $methodName)
     {
-        /** @var Response $response */
+        /** @var Response|MockObject $responseMock */
         $responseMock = $this->getMockBuilder($this->testClassName)
             ->disableOriginalConstructor()
             ->onlyMethods(['getContent'])

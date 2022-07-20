@@ -422,7 +422,7 @@ abstract class Request implements RequestInterface
     }
 
     /**
-     * @return bool|null
+     * @return bool
      */
     public function doSendAsFlashSms(): bool
     {

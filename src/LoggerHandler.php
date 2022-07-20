@@ -38,7 +38,7 @@ class LoggerHandler
     }
 
     /**
-     * @param mixed $logger
+     * @param LoggerInterface $logger
      */
     public function setLogger(LoggerInterface $logger)
     {
