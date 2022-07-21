@@ -42,8 +42,9 @@
         }
     },
     "scripts": {
-        "test": "phpunit",
+        "test": "./vendor/bin/phpunit",
         "check-style": "./vendor/bin/php-cs-fixer fix --verbose --dry-run",
-        "fix-style": "./vendor/bin/php-cs-fixer fix --verbose"
+        "fix-style": "./vendor/bin/php-cs-fixer fix --verbose",
+        "check-code": "./vendor/bin/phpstan -c phpstan.neon --no-progress --ansi"
     }
 }
