@@ -2,5 +2,5 @@ parameters:
     paths:
         - src
         - Tests
-    level: 2
+    level: 5
     phpVersion: 70300

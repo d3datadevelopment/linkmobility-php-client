@@ -21,7 +21,7 @@ use Phlib\SmsLength\SmsLength;
 use PHPUnit\Framework\MockObject\MockObject;
 use ReflectionException;
 
-class SmsTextMessageTest extends SmsBinaryMessageTest
+class SmsTextMessageTest extends SmsMessageAbstractTest
 {
     /** @var SmsTextMessage */
     public $message;
@@ -43,6 +43,7 @@ class SmsTextMessageTest extends SmsBinaryMessageTest
      * @return void
      * @throws ReflectionException
      * @covers \D3\LinkmobilityClient\ValueObject\SmsTextMessage::__construct
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsMessageAbstract::__construct
      */
     public function testConstructValid()
     {
@@ -80,6 +81,7 @@ class SmsTextMessageTest extends SmsBinaryMessageTest
      * @throws ReflectionException
      * @dataProvider constructInvalidDataProvider
      * @covers \D3\LinkmobilityClient\ValueObject\SmsTextMessage::__construct
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsMessageAbstract::__construct
      */
     public function testConstructInvalid($binaryMessage, $valid, $expectedException)
     {
@@ -109,6 +111,106 @@ class SmsTextMessageTest extends SmsBinaryMessageTest
             $this->callMethod(
                 $message,
                 'get'
+            )
+        );
+    }
+
+    /**
+     * @test
+     * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsTextMessage::chunkCount
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsMessageAbstract::chunkCount
+     */
+    public function testGetChunkCount()
+    {
+        $expected = 2;
+
+        /** @var SmsLength|MockObject $smsLengthMock */
+        $smsLengthMock = $this->getMockBuilder(SmsLength::class)
+            ->onlyMethods(['getMessageCount', 'validate'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $smsLengthMock->expects($this->once())->method('getMessageCount')->willReturn($expected);
+        $smsLengthMock->method('validate')->willReturn(true);
+
+        /** @var SmsTextMessage|MockObject $message */
+        $message = $this->getMockBuilder(SmsTextMessage::class)
+            ->onlyMethods(['getSmsLength'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $message->method('getSmsLength')->willReturn($smsLengthMock);
+
+        $this->assertSame(
+            $expected,
+            $this->callMethod(
+                $message,
+                'chunkCount'
+            )
+        );
+    }
+
+    /**
+     * @test
+     * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsTextMessage::length
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsMessageAbstract::length
+     */
+    public function testGetSize()
+    {
+        $expected = 55;
+
+        /** @var SmsLength|MockObject $smsLengthMock */
+        $smsLengthMock = $this->getMockBuilder(SmsLength::class)
+            ->onlyMethods(['getSize', 'validate'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $smsLengthMock->expects($this->once())->method('getSize')->willReturn($expected);
+        $smsLengthMock->method('validate')->willReturn(true);
+
+        /** @var SmsTextMessage|MockObject $message */
+        $message = $this->getMockBuilder(SmsTextMessage::class)
+            ->onlyMethods(['getSmsLength'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $message->method('getSmsLength')->willReturn($smsLengthMock);
+
+        $this->assertSame(
+            $expected,
+            $this->callMethod(
+                $message,
+                'length'
+            )
+        );
+    }
+
+    /**
+     * @test
+     * @throws ReflectionException
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsTextMessage::getMessageContent
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsMessageAbstract::getMessageContent
+     */
+    public function testGetMessageContent()
+    {
+        /** @var SmsLength|MockObject $smsLengthMock */
+        $smsLengthMock = $this->getMockBuilder(SmsLength::class)
+            ->onlyMethods(['validate'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $smsLengthMock->method('validate')->willReturn(true);
+
+        /** @var SmsTextMessage|MockObject $message */
+        $message = $this->getMockBuilder(SmsTextMessage::class)
+            ->onlyMethods(['getSmsLength'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $message->method('getSmsLength')->willReturn($smsLengthMock);
+        $message->__construct($this->messageFixture);
+
+        $this->assertSame(
+            'testMessage',
+            $this->callMethod(
+                $message,
+                'getMessageContent'
             )
         );
     }

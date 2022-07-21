@@ -149,7 +149,7 @@ class RecipientTest extends ApiTestCase
     }
 
     /**
-     * @return string[][]
+     * @return array[]
      */
     public function constructInvalidDataProvider(): array
     {

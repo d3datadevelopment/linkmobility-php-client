@@ -107,7 +107,7 @@ abstract class Request implements RequestInterface
     private $test = false;
 
     /**
-     * @var bool
+     * @var int
      */
     private $maxSmsPerMessage = 0;
 
@@ -119,8 +119,6 @@ abstract class Request implements RequestInterface
         $this->recipientsList = new RecipientsList($client);
         $this->setMessage($message);
         $this->setClient($client);
-
-        return $this;
     }
 
     /**
@@ -207,11 +205,11 @@ abstract class Request implements RequestInterface
     }
 
     /**
-     * @param StringValueObject $message
+     * @param SmsMessageInterface $message
      *
      * @return $this
      */
-    public function setMessage(StringValueObject $message): Request
+    public function setMessage(SmsMessageInterface $message): Request
     {
         $this->message = $message;
 

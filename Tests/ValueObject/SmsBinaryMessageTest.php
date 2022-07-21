@@ -22,7 +22,7 @@ use Phlib\SmsLength\SmsLength;
 use PHPUnit\Framework\MockObject\MockObject;
 use ReflectionException;
 
-class SmsBinaryMessageTest extends ApiTestCase
+class SmsBinaryMessageTest extends SmsMessageAbstractTest
 {
     /** @var SmsBinaryMessage */
     public $message;
@@ -40,20 +40,11 @@ class SmsBinaryMessageTest extends ApiTestCase
     }
 
     /**
-     * @return void
-     */
-    public function tearDown(): void
-    {
-        parent::tearDown();
-
-        unset($this->message);
-    }
-
-    /**
      * @test
      * @return void
      * @throws ReflectionException
      * @covers \D3\LinkmobilityClient\ValueObject\SmsBinaryMessage::__construct
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsMessageAbstract::__construct
      */
     public function testConstructValid()
     {
@@ -91,6 +82,7 @@ class SmsBinaryMessageTest extends ApiTestCase
      * @throws ReflectionException
      * @dataProvider constructInvalidDataProvider
      * @covers \D3\LinkmobilityClient\ValueObject\SmsBinaryMessage::__construct
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsMessageAbstract::__construct
      */
     public function testConstructInvalid($binaryMessage, $valid, $expectedException)
     {
@@ -125,36 +117,10 @@ class SmsBinaryMessageTest extends ApiTestCase
     }
 
     /**
-     * @return string[][]
-     */
-    public function constructInvalidDataProvider(): array
-    {
-        return [
-            'empty message'          => ['', true, InvalidArgumentException::class],
-            'invalid sms message'    => ['abc', false, \Phlib\SmsLength\Exception\InvalidArgumentException::class],
-        ];
-    }
-
-    /**
-     * @test
-     * @throws ReflectionException
-     * @covers \D3\LinkmobilityClient\ValueObject\SmsBinaryMessage::getSmsLength
-     */
-    public function testGetSmsLengthInstance()
-    {
-        $this->assertInstanceOf(
-            SmsLength::class,
-            $this->callMethod(
-                $this->message,
-                'getSmsLength'
-            )
-        );
-    }
-
-    /**
      * @test
      * @throws ReflectionException
      * @covers \D3\LinkmobilityClient\ValueObject\SmsBinaryMessage::chunkCount
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsMessageAbstract::chunkCount
      */
     public function testGetChunkCount()
     {
@@ -170,9 +136,9 @@ class SmsBinaryMessageTest extends ApiTestCase
 
         /** @var SmsBinaryMessage|MockObject $message */
         $message = $this->getMockBuilder(SmsBinaryMessage::class)
-                        ->onlyMethods(['getSmsLength'])
-                        ->disableOriginalConstructor()
-                        ->getMock();
+            ->onlyMethods(['getSmsLength'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $message->method('getSmsLength')->willReturn($smsLengthMock);
 
         $this->assertSame(
@@ -188,6 +154,7 @@ class SmsBinaryMessageTest extends ApiTestCase
      * @test
      * @throws ReflectionException
      * @covers \D3\LinkmobilityClient\ValueObject\SmsBinaryMessage::length
+     * @covers \D3\LinkmobilityClient\ValueObject\SmsMessageAbstract::length
      */
     public function testGetSize()
     {

@@ -89,13 +89,10 @@ abstract class AbstractRequest extends ApiTestCase
         $requestMock->expects($this->atLeastOnce())->method('setMessage')->with($this->equalTo($messageMock))->willReturnSelf();
         $requestMock->expects($this->atLeastOnce())->method('setClient')->with($this->equalTo($clientMock))->willReturnSelf();
 
-        $this->assertInstanceOf(
-            Request::class,
-            $this->callMethod(
-                $requestMock,
-                '__construct',
-                [$messageMock, $clientMock]
-            )
+        $this->callMethod(
+            $requestMock,
+            '__construct',
+            [$messageMock, $clientMock]
         );
     }
 
