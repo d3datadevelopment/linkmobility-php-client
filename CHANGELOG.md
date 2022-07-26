@@ -1,42 +1,51 @@
 # Changelog
+All notable changes to this project will be documented in this file.
 
----
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 1.3.0.0 (2022-07-18)
+## [Unreleased]
 
-- tests use generated example phone numbers
-- move recipient checks from list to recipient itself
+## [1.3.0] - 2022-07-18
+### Added
 - tests added
 
----
+### Changed
+- tests use generated example phone numbers
+- move recipient checks from list to recipient itself
 
-## 1.2.1.0 (2022-07-15)
-
+## [1.2.1] - 2022-07-15
+### Changed
 - extend log messages
 - sanitize special phone number format before request
 
----
-
-## 1.2.0.0 (2022-07-14)
-
-- make sender number optional
-- assign sender address type only if sender is set
+## [1.2.0] - 2022-07-14
+### Added
 - collect exception messages in a class
 - collect URI parts in a class
+
+### Changed
+- make sender number optional
+- assign sender address type only if sender is set
 - extract logger handler from client
 
----
-
-## 1.1.0.0 (2022-07-13)
-
+## [1.1.0] - 2022-07-13
+### Added
 - make installable in PHP 8
+
+### Removed
 - remove unused dependency
 
----
-
-## 1.0.0.0 (2022-07-13)
-
+## [1.0.0] - 2022-07-13
+### Added
 - initial implementation
   - SMS requests (text or binary)
   - SMS responses
   - recipient managing
+
+[Unreleased]: https://git.d3data.de/D3Private/linkmobility-php-client/compare/1.3.0...HEAD
+[1.3.0]: https://git.d3data.de/D3Private/linkmobility-php-client/compare/1.2.1...1.3.0
+[1.2.1]: https://git.d3data.de/D3Private/linkmobility-php-client/compare/1.2.0...1.2.1
+[1.2.0]: https://git.d3data.de/D3Private/linkmobility-php-client/compare/1.1.0...1.2.0
+[1.1.0]: https://git.d3data.de/D3Private/linkmobility-php-client/compare/1.0.0...1.1.0
+[1.0.0]: https://git.d3data.de/D3Private/linkmobility-php-client/releases/tag/1.0.0  
