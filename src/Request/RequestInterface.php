@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace D3\LinkmobilityClient\Request;
 
 use D3\LinkmobilityClient\Client;
+use D3\LinkmobilityClient\RecipientsList\RecipientsListInterface;
 use D3\LinkmobilityClient\ValueObject\SmsMessageInterface;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
@@ -42,9 +43,18 @@ interface RequestInterface
     public const SENDERADDRESSTYPE_ALPHANUMERIC = 'alphanumeric';
     public const SENDERADDRESSTYPE_SHORTCODE = 'shortcode';
 
+    /**
+     * @param SmsMessageInterface $message
+     * @param Client              $client
+     */
     public function __construct(SmsMessageInterface $message, Client $client);
 
-    public function setMethod(string $method);
+    /**
+     * @param string $method
+     *
+     * @return Request
+     */
+    public function setMethod(string $method): Request;
 
     /**
      * Must return the HTTP verb for this request, i.e. GET, POST, PUT
@@ -52,6 +62,18 @@ interface RequestInterface
      * @return string
      */
     public function getMethod(): string;
+
+    /**
+     * @param bool $test
+     *
+     * @return Request
+     */
+    public function setTestMode(bool $test): Request;
+
+    /**
+     * @return bool
+     */
+    public function getTestMode(): bool;
 
     /**
      * Must return the URI for the request with a leading slash, i.e. /messages.json
@@ -80,6 +102,11 @@ interface RequestInterface
      * @return LMResponseInterface
      */
     public function getResponseInstance(PsrResponseInterface $rawResponse): LMResponseInterface;
+
+    /**
+     * @return RecipientsListInterface
+     */
+    public function getRecipientsList(): RecipientsListInterface;
 
     /**
      * Must return the options for this request. If there are none, return [] (empty array)
