@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - adjust to PHP >= 7.3 and current dependency packages
 
+## [1.3.1](https://git.d3data.de/D3Private/linkmobility-php-client/compare/1.3.0...1.3.1) - 2022-07-28
+### Changed
+- improve code quality
+
+### Fixed
+- wrong return type of LoggerHandler::getInstance
+
 ## [1.3.0](https://git.d3data.de/D3Private/linkmobility-php-client/compare/1.2.1...1.3.0) - 2022-07-18
 ### Added
 - tests added
