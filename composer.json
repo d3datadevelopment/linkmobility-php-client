@@ -1,7 +1,7 @@
 {
     "name": "d3/linkmobility-php-client",
     "type": "library",
-    "description": "PHP client for LINK Mobility Austria API",
+    "description": "PHP client for LINK Mobility API",
     "keywords": [
         "LINK Mobility",
         "php",
