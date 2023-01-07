@@ -20,6 +20,10 @@ use D3\LinkmobilityClient\ValueObject\Recipient;
 
 interface RecipientsListInterface
 {
+    /**
+     * @deprecated unused client parameter will removed
+     * @param Client $client
+     */
     public function __construct(Client $client);
 
     public function add(Recipient $recipient): RecipientsListInterface;

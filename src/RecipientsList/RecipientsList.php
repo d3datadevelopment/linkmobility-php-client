@@ -31,6 +31,10 @@ class RecipientsList implements RecipientsListInterface, Iterator
      */
     private $recipients = [];
 
+    /**
+     * @deprecated unused client parameter will removed
+     * @param Client $client
+     */
     public function __construct(Client $client)
     {
         $this->setClient($client);
@@ -113,6 +117,7 @@ class RecipientsList implements RecipientsListInterface, Iterator
     }
 
     /**
+     * @deprecated
      * @return Client
      */
     public function getClient(): Client
@@ -121,6 +126,7 @@ class RecipientsList implements RecipientsListInterface, Iterator
     }
 
     /**
+     * @deprecated
      * @param Client $client
      *
      * @return RecipientsList
