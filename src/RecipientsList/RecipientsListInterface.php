@@ -31,4 +31,6 @@ interface RecipientsListInterface
     public function clearRecipents(): RecipientsListInterface;
 
     public function getRecipients(): array;
+
+    public function getRecipientsList(): array;
 }
