@@ -24,6 +24,7 @@ use D3\LinkmobilityClient\Response\ResponseInterface as LMResponseInterface;
 
 interface RequestInterface
 {
+    // @codeCoverageIgnoreStart
     public const METHOD_GET = 'GET';
     public const METHOD_POST = 'POST';
     public const METHOD_PUT = 'PUT';
@@ -42,6 +43,7 @@ interface RequestInterface
     public const SENDERADDRESSTYPE_INTERNATIONAL = 'international';
     public const SENDERADDRESSTYPE_ALPHANUMERIC = 'alphanumeric';
     public const SENDERADDRESSTYPE_SHORTCODE = 'shortcode';
+    // @codeCoverageIgnoreEnd
 
     /**
      * @param SmsMessageInterface $message

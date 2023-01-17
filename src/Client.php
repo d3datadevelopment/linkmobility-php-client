@@ -20,8 +20,12 @@ use D3\LinkmobilityClient\Exceptions\ExceptionMessages;
 use D3\LinkmobilityClient\Request\RequestInterface;
 use D3\LinkmobilityClient\Url\Url;
 use D3\LinkmobilityClient\Url\UrlInterface;
+use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\MessageFormatter;
+use GuzzleHttp\Middleware;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 
@@ -35,7 +39,26 @@ class Client
     {
         $this->accessToken = $accessToken;
         $this->apiUrl = $apiUrl ?: new Url();
-        $this->requestClient = $client ?: new \GuzzleHttp\Client([ 'base_uri' => $this->apiUrl->getBaseUri() ]);
+        $this->requestClient = $client ?: $this->getDefaultClient();
+    }
+
+    /**
+     * @return GuzzleClient
+     */
+    protected function getDefaultClient(): GuzzleClient
+    {
+        $logger  =  Middleware::log(
+            $this->getLoggerHandler()->getLogger(),
+            new MessageFormatter(MessageFormatter::DEBUG),
+            'debug'
+        );
+        $handlerStack = HandlerStack::create();
+        $handlerStack->push($logger);
+
+        return new GuzzleClient( [
+            'base_uri'  => $this->apiUrl->getBaseUri(),
+            'handler'   => $handlerStack
+        ]);
     }
 
     /**
@@ -68,8 +91,6 @@ class Client
     {
         $options['headers']['Authorization'] = 'Bearer '.$this->accessToken;
 
-        $this->getLoggerHandler()->getLogger()->debug('linkmobility request: '.$url, $options);
-
         $response = $this->requestClient->request(
             $method,
             $url,
@@ -79,12 +100,11 @@ class Client
         if ($response->getStatusCode() != 200) {
             $message = sprintf(ExceptionMessages::NOK_REQUEST_RETURN, $url, $response->getStatusCode());
             $response->getBody()->rewind();
-            $this->getLoggerHandler()->getLogger()->error($message, [$response->getBody()->getContents()]);
+            $this->getLoggerHandler()->getLogger()->error('linkmobility error: '.$message, [$response->getBody()->getContents()]);
             throw new ApiException($message);
         }
 
         $response->getBody()->rewind();
-        $this->getLoggerHandler()->getLogger()->debug('response', [$response->getBody()->getContents()]);
 
         return $response;
     }

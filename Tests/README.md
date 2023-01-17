@@ -7,5 +7,5 @@ composer create-project -s dev --prefer-source [--repository '{"type": "vcs", "u
 # Run tests
 
 ```
-./vendor/bin/phpunit [--no-coverage]
+./vendor/bin/phpunit [--no-coverage] [--coverage-html=cov]
 ```

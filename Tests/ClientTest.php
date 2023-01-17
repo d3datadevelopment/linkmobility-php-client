@@ -102,6 +102,28 @@ class ClientTest extends ApiTestCase
 
     /**
      * @test
+     * @throws ReflectionException
+     * @return void
+     * @covers \D3\LinkmobilityClient\Client::getDefaultClient
+     */
+    public function testGetDefaultClient()
+    {
+        /** @var Client|MockObject $sut */
+        $sut = $this->getMockBuilder(Client::class)
+            ->setConstructorArgs(['accessTokenFixture'])
+            ->getMock();
+
+        $this->assertInstanceOf(
+            GuzzleClient::class,
+            $this->callMethod(
+                $sut,
+                'getDefaultClient'
+            )
+        );
+    }
+
+    /**
+     * @test
      * @return void
      * @throws ReflectionException
      * @dataProvider requestPassedDataProvider
@@ -179,7 +201,7 @@ class ClientTest extends ApiTestCase
      * @dataProvider rawRequestDataProvider
      * @covers \D3\LinkmobilityClient\Client::rawRequest
      */
-    public function testRawRequest($okStatus)
+    public function testRawRequest($okStatus, $logInvocationCount)
     {
         $statusCode = $okStatus ? '200' : '301';
 
@@ -235,7 +257,7 @@ class ClientTest extends ApiTestCase
                 'getLoggerHandler',
             ])
             ->getMock();
-        $clientMock->expects($this->atLeastOnce())
+        $clientMock->expects($logInvocationCount)
             ->method('getLoggerHandler')->willReturn($loggerHandlerMock);
         $this->setValue($clientMock, 'requestClient', $requestClientMock);
 
@@ -254,8 +276,8 @@ class ClientTest extends ApiTestCase
     public function rawRequestDataProvider(): array
     {
         return [
-            'OK status' => [true],
-            'NOK status' => [false],
+            'OK status' => [true, $this->never()],
+            'NOK status' => [false, $this->once()],
         ];
     }
 
