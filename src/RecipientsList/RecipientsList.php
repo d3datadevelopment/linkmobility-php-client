@@ -32,12 +32,14 @@ class RecipientsList implements RecipientsListInterface, Iterator
     private $recipients = [];
 
     /**
-     * @deprecated unused client parameter will removed
-     * @param Client $client
+     * @deprecated unused client parameter will remove
+     * @param Client|null $client
      */
-    public function __construct(Client $client)
+    public function __construct(Client $client = null)
     {
-        $this->setClient($client);
+        if ($client) {
+            $this->setClient( $client );
+        }
     }
 
     /**

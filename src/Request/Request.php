@@ -25,7 +25,6 @@ use D3\LinkmobilityClient\ValueObject\Recipient;
 use D3\LinkmobilityClient\ValueObject\Sender;
 use D3\LinkmobilityClient\ValueObject\SmsMessageAbstract;
 use D3\LinkmobilityClient\ValueObject\SmsMessageInterface;
-use D3\LinkmobilityClient\ValueObject\StringValueObject;
 use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 

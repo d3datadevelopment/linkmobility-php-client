@@ -21,7 +21,7 @@ use D3\LinkmobilityClient\ValueObject\Recipient;
 interface RecipientsListInterface
 {
     /**
-     * @deprecated unused client parameter will removed
+     * @deprecated unused client parameter will remove
      * @param Client $client
      */
     public function __construct(Client $client);

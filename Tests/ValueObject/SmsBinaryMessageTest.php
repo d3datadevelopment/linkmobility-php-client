@@ -15,9 +15,8 @@ declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\Tests\ValueObject;
 
-use Assert\InvalidArgumentException;
-use D3\LinkmobilityClient\Tests\ApiTestCase;
 use D3\LinkmobilityClient\ValueObject\SmsBinaryMessage;
+use Phlib\SmsLength\Exception\InvalidArgumentException;
 use Phlib\SmsLength\SmsLength;
 use PHPUnit\Framework\MockObject\MockObject;
 use ReflectionException;
@@ -94,7 +93,7 @@ class SmsBinaryMessageTest extends SmsMessageAbstractTest
         if ($valid) {
             $smsLengthMock->expects($this->never())->method('validate')->willReturn(true);
         } else {
-            $smsLengthMock->expects($this->atLeastOnce())->method('validate')->willThrowException(new \Phlib\SmsLength\Exception\InvalidArgumentException());
+            $smsLengthMock->expects($this->atLeastOnce())->method('validate')->willThrowException(new InvalidArgumentException());
         }
 
         /** @var SmsBinaryMessage|MockObject $message */
