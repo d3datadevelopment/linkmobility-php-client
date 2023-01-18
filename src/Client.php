@@ -24,6 +24,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
+use GuzzleRetry\GuzzleRetryMiddleware;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 
@@ -45,13 +46,9 @@ class Client
      */
     protected function getDefaultClient(): GuzzleClient
     {
-        $logger  =  Middleware::log(
-            $this->getLoggerHandler()->getLogger(),
-            new MessageFormatter(MessageFormatter::DEBUG),
-            'debug'
-        );
         $handlerStack = HandlerStack::create();
-        $handlerStack->push($logger);
+        $handlerStack->push($this->getLoggerMiddleware());
+        $handlerStack->push($this->getRetryMiddleware());
 
         return new GuzzleClient( [
             'base_uri'  => $this->apiUrl->getBaseUri(),
@@ -99,5 +96,29 @@ class Client
     public function getLoggerHandler(): LoggerHandler
     {
         return LoggerHandler::getInstance();
+    }
+
+    /**
+     * @param string $loglevel
+     *
+     * @return callable
+     */
+    protected function getLoggerMiddleware(string $loglevel = 'debug'): callable
+    {
+        return Middleware::log(
+            $this->getLoggerHandler()->getLogger(),
+            new MessageFormatter(MessageFormatter::DEBUG),
+            $loglevel
+        );
+    }
+
+    /**
+     * @return callable
+     */
+    protected function getRetryMiddleware(): callable
+    {
+        return GuzzleRetryMiddleware::factory([
+            'max_retry_attempts' => 3
+        ]);
     }
 }

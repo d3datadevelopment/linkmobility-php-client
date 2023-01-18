@@ -27,6 +27,7 @@
         "psr/http-message": "~1.0",
         "phlib/sms-length": "^2.0",
         "giggsey/libphonenumber-for-php": "^8.12.50",
+        "caseyamcl/guzzle_retry_middleware": "^2.8",
         "ext-json": "*"
     },
     "require-dev": {

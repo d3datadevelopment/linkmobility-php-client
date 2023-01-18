@@ -246,4 +246,38 @@ class ClientTest extends ApiTestCase
             )
         );
     }
+
+    /**
+     * @test
+     * @return void
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @covers \D3\LinkmobilityClient\Client::getLoggerMiddleware
+     */
+    public function testGetLoggerMiddleware()
+    {
+        $this->assertIsCallable(
+            $this->callMethod(
+                $this->api,
+                'getLoggerMiddleware'
+            )
+        );
+    }
+
+    /**
+     * @test
+     * @return void
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @covers \D3\LinkmobilityClient\Client::getRetryMiddleware
+     */
+    public function testGetRetryMiddleware()
+    {
+        $this->assertIsCallable(
+            $this->callMethod(
+                $this->api,
+                'getRetryMiddleware'
+            )
+        );
+    }
 }
