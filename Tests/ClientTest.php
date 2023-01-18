@@ -17,7 +17,6 @@ namespace D3\LinkmobilityClient\Tests;
 
 use Assert\InvalidArgumentException;
 use D3\LinkmobilityClient\Client;
-use D3\LinkmobilityClient\Exceptions\ApiException;
 use D3\LinkmobilityClient\LoggerHandler;
 use D3\LinkmobilityClient\Request\RequestInterface;
 use D3\LinkmobilityClient\Response\Response;
@@ -27,11 +26,9 @@ use D3\LinkmobilityClient\Url\Url;
 use D3\LinkmobilityClient\Url\UrlInterface;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Http\Message\ResponseInterface as MessageResponseInterface;
 use Psr\Http\Message\StreamInterface;
-use Psr\Log\AbstractLogger;
-use Psr\Log\LoggerInterface;
 use ReflectionException;
 
 class ClientTest extends ApiTestCase
@@ -195,41 +192,20 @@ class ClientTest extends ApiTestCase
 
     /**
      * @test
-     * @param $okStatus
      * @return void
      * @throws ReflectionException
-     * @dataProvider rawRequestDataProvider
      * @covers \D3\LinkmobilityClient\Client::rawRequest
      */
-    public function testRawRequest($okStatus, $logInvocationCount)
+    public function testRawRequest()
     {
-        $statusCode = $okStatus ? '200' : '301';
-
         /** @var StreamInterface|MockObject $streamMock */
         $streamMock = $this->getMockBuilder(StreamInterface::class)
             ->getMock();
 
-        /** @var MessageResponseInterface|MockObject $responseMock */
-        $responseMock = $this->getMockBuilder(MessageResponseInterface::class)
-            ->onlyMethods([
-                'getStatusCode',
-                'getBody',
-                'withStatus',
-                'getReasonPhrase',
-                'getProtocolVersion',
-                'withProtocolVersion',
-                'getHeaders',
-                'hasHeader',
-                'getHeader',
-                'getHeaderLine',
-                'withHeader',
-                'withAddedHeader',
-                'withoutHeader',
-                'withBody',
-            ])
+        /** @var GuzzleResponse|MockObject $responseMock */
+        $responseMock = $this->getMockBuilder( GuzzleResponse::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $responseMock->expects($this->atLeastOnce())->method('getStatusCode')->willReturn($statusCode);
         $responseMock->expects($this->atLeastOnce())
             ->method('getBody')->willReturn($streamMock);
 
@@ -239,17 +215,6 @@ class ClientTest extends ApiTestCase
             ->getMock();
         $requestClientMock->expects($this->once())->method('request')->willReturn($responseMock);
 
-        /** @var LoggerInterface|MockObject $loggerMock */
-        $loggerMock = $this->getMockBuilder(AbstractLogger::class)
-            ->onlyMethods(['debug', 'error', 'log'])
-            ->getMock();
-
-        /** @var LoggerHandler|MockObject $loggerHandlerMock */
-        $loggerHandlerMock = $this->getMockBuilder(LoggerHandler::class)
-            ->onlyMethods(['getLogger'])
-            ->getMock();
-        $loggerHandlerMock->method('getLogger')->willReturn($loggerMock);
-
         /** @var Client|MockObject $clientMock */
         $clientMock = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
@@ -257,28 +222,12 @@ class ClientTest extends ApiTestCase
                 'getLoggerHandler',
             ])
             ->getMock();
-        $clientMock->expects($logInvocationCount)
-            ->method('getLoggerHandler')->willReturn($loggerHandlerMock);
         $this->setValue($clientMock, 'requestClient', $requestClientMock);
 
-        if (false === $okStatus) {
-            $this->expectException(ApiException::class);
-        }
         $this->assertSame(
             $responseMock,
             $this->callMethod($clientMock, 'rawRequest', ['myUrl'])
         );
-    }
-
-    /**
-     * @return array
-     */
-    public function rawRequestDataProvider(): array
-    {
-        return [
-            'OK status' => [true, $this->never()],
-            'NOK status' => [false, $this->once()],
-        ];
     }
 
     /**

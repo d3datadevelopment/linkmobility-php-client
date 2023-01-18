@@ -15,8 +15,6 @@ declare(strict_types=1);
 
 namespace D3\LinkmobilityClient;
 
-use D3\LinkmobilityClient\Exceptions\ApiException;
-use D3\LinkmobilityClient\Exceptions\ExceptionMessages;
 use D3\LinkmobilityClient\Request\RequestInterface;
 use D3\LinkmobilityClient\Url\Url;
 use D3\LinkmobilityClient\Url\UrlInterface;
@@ -65,7 +63,6 @@ class Client
      * @param RequestInterface $request
      *
      * @return Response\ResponseInterface
-     * @throws ApiException
      * @throws GuzzleException
      * @throws InvalidArgumentException
      */
@@ -84,26 +81,13 @@ class Client
      * @param array  $options
      *
      * @return ResponseInterface
-     * @throws ApiException
      * @throws GuzzleException
      */
     protected function rawRequest($url, string $method = RequestInterface::METHOD_GET, array $options = []): ResponseInterface
     {
         $options['headers']['Authorization'] = 'Bearer '.$this->accessToken;
 
-        $response = $this->requestClient->request(
-            $method,
-            $url,
-            $options
-        );
-
-        if ($response->getStatusCode() != 200) {
-            $message = sprintf(ExceptionMessages::NOK_REQUEST_RETURN, $url, $response->getStatusCode());
-            $response->getBody()->rewind();
-            $this->getLoggerHandler()->getLogger()->error('linkmobility error: '.$message, [$response->getBody()->getContents()]);
-            throw new ApiException($message);
-        }
-
+        $response = $this->requestClient->request($method, $url, $options);
         $response->getBody()->rewind();
 
         return $response;
