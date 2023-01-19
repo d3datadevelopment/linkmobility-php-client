@@ -18,8 +18,8 @@ composer require d3/linkmobility-php-client
 ```
 
 ```
-$client = new Client('personal accesstoken');
-$client->setLogger($logger);  // optional
+$client = new \D3\LinkmobilityClient\Client('personal accesstoken');
+\D3\LinkmobilityClient\LoggerHandler::getInstance()->setLogger($logger);  // optional
 $request = new D3\LinkmobilityClient\SMS\RequestFactory($message, $client)->getSmsRequest())
     ->addRecipient(new D3\LinkmobilityClient\ValueObject\Recipient('recipient number', 'DE'));
 $response = $client->request($request)
