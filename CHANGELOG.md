@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://git.d3data.de/D3Public/linkmobility-php-client/compare/2.1.0...rel_2.x)
 
-## [2.1.0](https://git.d3data.de/D3Public/linkmobility-php-client/compare/2.0.3...2.1.0) - 2022-12-26
+## [2.1.0](https://git.d3data.de/D3Public/linkmobility-php-client/compare/2.0.3...2.1.0) - 2023-01-20
 ### Added
 - installable in PHP > 8.0
 - debug logger to log all comunications in debug mode (default Guzzle client only)
