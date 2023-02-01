@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace D3\LinkmobilityClient\ValueObject;
 
 use Assert\Assert;
+use Assert\InvalidArgumentException;
 use D3\LinkmobilityClient\Exceptions\ExceptionMessages;
 use D3\LinkmobilityClient\Exceptions\RecipientException;
 use libphonenumber\NumberParseException;
@@ -44,6 +45,7 @@ class Recipient extends StringValueObject
      *
      * @throws NumberParseException
      * @throws RecipientException
+     * @throws InvalidArgumentException
      */
     public function __construct(string $number, string $iso2CountryCode)
     {

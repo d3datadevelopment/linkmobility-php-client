@@ -15,7 +15,7 @@ declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\ValueObject;
 
-use InvalidArgumentException;
+use Assert\InvalidArgumentException;
 
 class SmsTextMessage extends SmsMessageAbstract
 {

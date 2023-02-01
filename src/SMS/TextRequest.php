@@ -16,10 +16,10 @@ declare(strict_types=1);
 namespace D3\LinkmobilityClient\SMS;
 
 use Assert\Assert;
+use Assert\InvalidArgumentException;
 use D3\LinkmobilityClient\Request\Request;
 use D3\LinkmobilityClient\Url\Url;
 use D3\LinkmobilityClient\ValueObject\SmsTextMessage;
-use InvalidArgumentException;
 
 class TextRequest extends Request implements SmsRequestInterface
 {

@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace D3\LinkmobilityClient;
 
+use Assert\InvalidArgumentException;
 use D3\LinkmobilityClient\Request\RequestInterface;
 use D3\LinkmobilityClient\Url\Url;
 use D3\LinkmobilityClient\Url\UrlInterface;
@@ -25,7 +26,6 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
 use GuzzleRetry\GuzzleRetryMiddleware;
-use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 
 class Client

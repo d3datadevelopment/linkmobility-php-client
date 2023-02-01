@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace D3\LinkmobilityClient\Request;
 
 use Assert\Assert;
+use Assert\InvalidArgumentException;
 use D3\LinkmobilityClient\Client;
 use D3\LinkmobilityClient\Exceptions\ExceptionMessages;
 use D3\LinkmobilityClient\RecipientsList\RecipientsList;
@@ -26,7 +27,6 @@ use D3\LinkmobilityClient\ValueObject\Sender;
 use D3\LinkmobilityClient\ValueObject\SmsMessageAbstract;
 use D3\LinkmobilityClient\ValueObject\SmsMessageInterface;
 use GuzzleHttp\RequestOptions;
-use InvalidArgumentException;
 
 abstract class Request implements RequestInterface
 {

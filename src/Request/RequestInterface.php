@@ -15,10 +15,10 @@ declare(strict_types=1);
 
 namespace D3\LinkmobilityClient\Request;
 
+use Assert\InvalidArgumentException;
 use D3\LinkmobilityClient\Client;
 use D3\LinkmobilityClient\RecipientsList\RecipientsListInterface;
 use D3\LinkmobilityClient\ValueObject\SmsMessageInterface;
-use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 use D3\LinkmobilityClient\Response\ResponseInterface as LMResponseInterface;
 

@@ -16,11 +16,16 @@ declare(strict_types=1);
 namespace D3\LinkmobilityClient\ValueObject;
 
 use Assert\Assert;
+use Assert\InvalidArgumentException;
 
 abstract class ValueObject
 {
     protected $value;
 
+    /**
+     * @param string $number
+     * @throws InvalidArgumentException
+     */
     public function __construct(string $number)
     {
         Assert::that($number)->notEmpty();

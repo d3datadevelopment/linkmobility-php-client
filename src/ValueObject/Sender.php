@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace D3\LinkmobilityClient\ValueObject;
 
 use Assert\Assert;
+use Assert\InvalidArgumentException;
 use D3\LinkmobilityClient\Exceptions\ExceptionMessages;
 use D3\LinkmobilityClient\Exceptions\NoSenderDefinedException;
 use D3\LinkmobilityClient\Exceptions\RecipientException;
@@ -32,6 +33,7 @@ class Sender extends ValueObject
      *
      * @throws NumberParseException
      * @throws RecipientException
+     * @throws InvalidArgumentException
      */
     public function __construct(string $number = null, string $iso2CountryCode = null)
     {
