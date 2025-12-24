@@ -39,9 +39,8 @@ jobs:
       - name: PHP Syntax Check
         run: find src Tests -name "*.php" -print0 | xargs -0 -n1 php -l
 
-
-      - name: PHPUnit
-        run: vendor/bin/phpunit --fail-on-risky --fail-on-warning
+      - name: run unit tests
+        run: vendor/bin/phpunit --fail-on-risky --fail-on-warning --no-coverage --testsuite linkmobility
 
   report-to-gitea:
     runs-on: ubuntu-latest
