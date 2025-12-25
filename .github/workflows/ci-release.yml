@@ -8,7 +8,7 @@ on:
       - 'master'
 
 jobs:
-  test:
+  package-tests:
     runs-on: ubuntu-latest
 
     strategy:
@@ -29,48 +29,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: shivammathur/setup-php@v2
+      - name: Run package tests
+        uses: d3datadevelopment/ci-actions/composer-package-test@v1
         with:
-          php-version: ${{ matrix.php-version }}
-          tools: composer
+          php_version: ${{ matrix.php-version }}
+          syntax_check_paths: "src,Tests"
+          test_suites: "linkmobility"
 
-      - run: composer install --no-interaction --prefer-dist
-
-      - name: PHP Syntax Check
-        run: find src Tests -name "*.php" -print0 | xargs -0 -n1 php -l
-
-      - name: run unit tests
-        run: vendor/bin/phpunit --fail-on-risky --fail-on-warning --no-coverage --testsuite linkmobility
-
-  report-to-gitea:
+  report-status:
     runs-on: ubuntu-latest
-    needs: test
+    needs: package-tests
     if: always()
     steps:
-      - name: Report SUCCESS to Gitea
-        if: needs.test.result == 'success'
-        run: |
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.GITEA_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "state": "success",
-              "context": "ci/github",
-              "description": "CI passed (all matrix jobs)",
-              "target_url": "'"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"'"
-            }' \
-            ${{ vars.GITEA_API }}statuses/${{ github.sha }}
-
-      - name: Report FAILURE to Gitea
-        if: needs.test.result != 'success'
-        run: |
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.GITEA_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "state": "failure",
-              "context": "ci/github",
-              "description": "CI failed (one or more matrix jobs)",
-              "target_url": "'"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"'"
-            }' \
-            ${{ vars.GITEA_API }}statuses/${{ github.sha }}
+      - name: Report CI status
+        uses: d3datadevelopment/ci-actions/status-reporter@v1
+        with:
+          api_status_endpoint: "${{ vars.GITEA_API }}${{ github.sha }}"
+          auth_token: ${{ secrets.GITEA_TOKEN }}
+          state: ${{ needs.package-tests.result }}
+          description: "CI result: ${{ needs.package-tests.result }}"
+          target_url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
